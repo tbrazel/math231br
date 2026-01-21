@@ -18,3 +18,6 @@ Give an overview of Rokhlin's result that the cobordism group of oriented 3-mani
 
 ## The $\widehat{A}$-genus
 Discuss the $\widehat{A}$-genus and its connection to spin bordism.
+
+## The Hodge-de Rham spectral sequence
+Explain the spectral sequence $H^p(X,\Omega^q) \Rightarrow H^{p+q}(X,\mathbb{C})$ valid for complex manifolds, following Deligne, Fröhlicher, and others. Explain why it degenerates for compact Kähler manifolds, and give examples of the failure of degeneration in other settings.
