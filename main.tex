@@ -1,0 +1,297 @@
+\documentclass[11pt]{amsart}
+\input{commands.tex}
+\usepackage[textsize=tiny]{todonotes}
+\title{The topology of algebraic manifolds}
+\author{Thomas Brazelton}
+\date{Last compiled: \today}
+\begin{document}
+
+\begin{abstract}
+Course notes from MATH231b: algebraic topology II, taught at Harvard in Spring 2026.
+\end{abstract}
+
+\maketitle
+
+\setcounter{section}{-1}
+\section{About}
+
+These notes are from a MATH213BR, a second-semester graduate algebraic topology class with a free-floating curriculum taught at Harvard in spring of 2026. This particular course is modeled off of Hirzebruch's amazing 1962 text \emph{Neue topologische Methoden in der algebraischen Geometrie}. Theorem counters and page references refer to the 1995 reprinting in English \cite{Hirzebruch}.
+
+\subsection{Overview}
+
+\textbf{Part 1}: We begin with the theory of sheaves of sets and discrete groups on topological spaces, developing their cohomology and comparing it with singular and de Rham cohomology. We continue with sheaves of topological groups (aka fiber bundles) and develop their basic theory. We then discuss vector bundle theory and Chern and Pontryagin classes. 
+
+\textbf{Part 2}: We develop the ideas of oriented cobordism and basic index theory.
+
+%\textbf{Part 3}: We discuss basic Hodge theory, Bertini's theorem, K\"{a}hler manifolds, and Kodaira vanishing. We end by proving Riemann-Roch for algebraic manifolds.
+
+\subsection{References}
+Aside from the main text, which we deviate from at various points, some other references which have informed the presentation here include:
+\begin{itemize}
+    \item \emph{sheaf theory}: Godement's original work \cite{godementTopologieAlgebriqueTheorie1958}, and of course Serre's \cite{FAC}
+    \item \emph{fiber bundles}: Steenrod's 1951 printing \cite{Steenrod-fibre-bundles}
+    \item \emph{K\"{a}hler manifolds}: Michael Wong's 2013 \href{https://wiki.epfl.ch/kaehler2013/notesexercises}{course notes}
+    \item \emph{cobordism}: Dan Freed's notes \cite{Freed-cobordism} and Haynes Miller's notes \cite{millerNotesCobordism}
+    \item \emph{genera}: Hirzebruch's book \cite{MMF}
+    \item \emph{complex manifolds}: Griffiths and Harris \cite{griffithsPrinciplesAlgebraicGeometry1978}
+\end{itemize}
+
+
+\section{Sheaves}
+
+The definition of a \emph{sheaf} in Hirzebruch is perhaps a bit different from what we're used to. He wants to think of sheaves as \emph{living over} a space $X$, whereas we might be comfortable thinking about sheaves as local data across a space. We'll see how these perspectives are equivalent.
+
+\begin{definition} A \emph{sheaf of abelian groups} over a topological space $X$ is the data of a surjective continuous map $\pi \colon S \to X$, for which
+\begin{itemize}
+    \item $\pi$ is a \emph{local homeomorphism}, meaning for every point $s\in S$ there is an open neighborhood $U\ni s$ for which
+    \begin{align*}
+        \pi_{|U} \colon U \to \pi(U)
+    \end{align*}
+    is a homeomorphism
+    \item for every $x\in X$, the \emph{stalk} $S_x := \pi^{-1}(x)$ has the structure of an \emph{abelian groups}
+    \item the abelian group structure on $S_x$ is \emph{continuous in $x$}. Precisely, forming inverses defines a continuous function:
+    \begin{align*}
+        S &\to S \\
+        (\beta,x) &\mapsto (-\beta,x),
+    \end{align*}    
+and if we denote by $S \times_X S$ the subspace
+    \begin{align*}
+        S \times_X S := \left\{ (s_1,s_2) \in S \times S \colon \pi(s_1)=\pi(s_2) \right\} \subseteq S \times S,
+    \end{align*}
+    then the addition is a continuous function:
+    \begin{align*}
+        S \times_X S &\to S \\
+        \left( (\alpha,x), (\beta,x) \right) &\mapsto (\alpha + \beta,x).
+    \end{align*}
+\end{itemize}
+\end{definition}
+
+We should think about a sheaf of abelian groups as being a space where we can do abelian group operations (addition, subtraction), but where the abelian group in which we're working is \emph{changing} according to the topology of $X$.
+
+\begin{example}[Zero sheaf] The identity map $X \to X$ can be considered a sheaf, where the abelian group structure on each stalk is just the trivial group with one element.
+\end{example}
+
+
+\begin{example}[Constant sheaves]
+For any abelian group $A$ and any space $X$, we get a \emph{constant sheaf}
+\begin{align*}
+    X \times A \to X,
+\end{align*}
+where $\pi$ is the projection onto $X$. When $A = \left\{ 0 \right\}$ this recovers the zero sheaf above.
+\end{example}
+
+\begin{example}[Skyscraper sheaves]
+\label{exa:skyscraper-sheaves}
+If we want build a sheaf with some \emph{prescribed} fiber $A$ over a point $x\in X$ (we want a name for the map of the inclusion of a point, so let's call it $i \colon \{x\} \to X$), we have an nice way to do this -- namely, we can take the discrete set underlying the abelian group $A$, and build the space which we call $i_\ast A$, defined as
+\begin{align*}
+    i_\ast A = \frac{X \times A}{(y,a_1)\sim (y,a_2)\text{ for }y\ne x}.
+\end{align*}
+That is, we glue all the points of $A$ together over every point in $X$ \emph{except} our specified point $x$. We call it a \emph{skyscraper sheaf} because it has this big tall stalk at $x$ and is flat everywhere else. This space comes equipped with a projection back to $X$ which is a continuous local homeomorphism, and the abelian group structure on the stalks over points other than $x$ are just the structure on the one-element group. Note that this resulting space $i_\ast A$ is very much not Hausdorff.
+\end{example}
+
+
+\begin{example}[{c.f.~\cite[1.3]{Bredon-sheaf}}] The \emph{line with doubled origin} is the skyscraper sheaf over $\R$ defined by $i_\ast (\Z/2)$, where $i \colon \{0\}\hookto \R$ is the inclusion of the origin.
+\end{example}
+
+
+\begin{notation} For any sheaf of abelian groups $\pi \colon S \to X$, we have the so-called \emph{zero section}
+\begin{align*}
+    z \colon X &\to S \\
+    x &\mapsto (0,x)
+\end{align*}
+sending each point to the additive identity in its stalk. This map is continuous, and has the property that
+\begin{align*}
+    \pi\circ z = \id_X.
+\end{align*}
+\end{notation}
+
+\begin{exercise}\label{exer:image-zero-section-is-open} Let $\pi \colon X \to S$ be any sheaf and $z \colon X \to S$ the zero section. Then $\im(z) \subseteq S$ is open.
+\end{exercise}
+
+
+\begin{example} The projection $\R \to S^1$ cannot be given the structure of a sheaf of abelian groups.
+\end{example}
+\begin{proof} We're tempted to say it looks like a sheaf, since each fiber looks like $\Z$, however it turns out there is no way to endow these fibers simultaneously with the additive structure of the integers. Suppose towards a contradiction there was. Then composing with the zero section, we get a composite which is the identity:
+\begin{align*}
+    S^1 \xto{z} \R \xto{\pi} S^1.
+\end{align*}
+Applying $\pi_1$ or $H_1$ for instance, we have that the identity on $\Z$ factors through zero, which is a contradiction.
+\end{proof}
+
+\begin{remark} Just as we have a sheaf of abelian groups, we can have a sheaf with other structures as well --- we could have a sheaf of $R$-modules for instance. All that's important is that:
+\begin{enumerate}
+    \item our structure is a set with extra data
+    \item we have that data in every stalk
+    \item the data varies continuously in the stalks
+\end{enumerate}
+\end{remark}
+
+\begin{definition} A \emph{morphism of sheaves} between $\pi \colon S\to X$ and $\til{\pi} \colon \til{S} \to X$ is a continuous map $f \colon S \to \til{S}$ satisfying the following properties:
+\begin{itemize}
+    \item $\til{\pi}f = \pi$, that is, we have a commutative diagram
+\[ \begin{tikzcd}
+    S\ar[dr,"\pi" below left]\ar[rr,"f"] &  & \til{S}\ar[dl,"\til{\pi}" below right]\\
+     & X & 
+\end{tikzcd} \]
+    note this implies that $f$ restricts to a map on each stalk, that is, we get maps $f_x \colon S_x \to \til{S}_x$ for each $x\in X$
+    \item for each $x\in X$, the induced map on stalks
+    \begin{align*}
+        f_x \colon S_x \to \til{S}_x
+    \end{align*}
+    is an abelian group homomorphism.
+\end{itemize}
+\end{definition}
+
+\begin{exercise} Show that every morphism between sheaves of abelian groups is a local homeomorphism.
+\end{exercise}
+
+% The opposite of the zero section, in some sense, is a section which is nowhere zero.
+% \begin{definition} A \emph{nonvanishing global section} of a sheaf $\pi \colon S \to X$ is a section $s \colon X \to E$.....\todo{need a point to this. can we say anything interesting about the existence or non-existence of nonvanishing global sections? I want to use the existence of one to make an isomorphism with another sheaf. idk how to do this immediately though}
+% \end{definition}
+
+
+\begin{definition} We say a morphism of sheaves $f \colon S \to \til{S}$ is:
+\begin{enumerate}
+    \item \emph{injective} if each $f_x$ is injective
+    \item \textit{surjective} if each $f_x$ is surjective.
+\end{enumerate}
+We say a sequence of maps of sheaves
+\begin{align*}
+    S \xto{f} T \xto{g} U
+\end{align*}
+is \emph{short exact} if $S_x \xto{f_x} T_x \xto{g_x} U_x$ is a short exact sequence of abelian groups for every $x\in X$.
+\end{definition}
+
+
+\subsection{Sheaves and presheaves}
+
+Given any sheaf $S\to X$, we can ask when we have \emph{sections}, which are maps $X \to S$ that are right inverses to the projection map $\pi$.
+
+\begin{definition} We define the set of \emph{sections} by
+\begin{align*}
+    \Gamma(X,S) := \left\{ s \colon X \to S \text{ continuous} \mid \pi\circ s = \id_X \right\}.
+\end{align*}
+Note that $\Gamma(X,S)$ is an abelian group by adding sections pointwise. The zero element of $\Gamma(X,S)$ is the zero section.
+\end{definition}
+
+Note that we don't need sections to be defined on all of $X$ --- we could look at sections defined on subspaces. For instance if $U \subseteq X$ is an open subspace, we can define
+\begin{align*}
+    \Gamma(U,S) := \left\{ s \colon U \to S \mid \pi\circ s = \id_U \right\}.
+\end{align*}
+%
+If $V \subseteq U$ is an open subspace, there is a natural \emph{restriction} map
+\begin{align*}
+    \res_V^U \colon \Gamma(U,S) &\to \Gamma(V,S) \\
+    s &\mapsto s_{|V}.
+\end{align*}
+%
+\begin{notation} For $X$ a topological space, we denote by $\Open(X)$ the category whose objects are open subspaces of $X$ and whose morphisms are inclusions. Then the constructions above tell us that $\Gamma(-,S)$ defines a functor
+\begin{align*}
+    \Gamma(-,S) \colon \Open(X)^\op \to \Ab.
+\end{align*}
+This is called the \emph{presheaf} associated to $S$.
+\end{notation}
+
+Let's think about what structures of $S$ we can recover from its presheaf.
+
+\begin{question} Can we recover the stalk $S_x$ from the presheaf $\Gamma(-,S)$?
+\end{question}
+
+We can't just take $\Gamma$ and evaluate it on the one-point set $\left\{ x \right\}$ since this won't be open in most reasonable topological spaces. Instead, we can take elements in $\Gamma(U,S)$ for any $U \ni x$, and glue sections together along restriction of open sets containing $x$. This is called a \emph{colimit} (in classical terminology, a \emph{direct limit}):
+\begin{align*}
+    \colim_{U\ni s}\Gamma(U,S).
+\end{align*}
+%
+\begin{proposition}\label{prop:colimit-sections-is-stalk}
+For every sheaf of abelian groups $S \to X$ and every $x\in X$ the canonical ``evaluation at $x$'' map
+\begin{align*}
+    \ev_x \colon \colim_{U\ni s} \Gamma(U,S) \to S_x
+\end{align*}
+is an isomorphism of abelian groups.
+\end{proposition}
+\begin{proof} If $s_1(x) = s_2(x) = a$, then since $\pi$ is a local homeomorphism, there is some small neighborhood $V \ni a$ on which $\pi_{|V} \colon V \to \pi(V)$ is a local homeomorphism. In particular since $s_{1|\pi(V)}$ and $s_{2|\pi(V)}$ are both sections (right inverses) of $\pi_{|V}$ they must agree. Since they agree on a sufficiently small open neighborhood around $x$, they agree in the colimit. This establishes injectivity.
+
+To see surjectivity, if $a\in S_x$, we want to create a section $s$ defined in a neighborhood $U$ of $x$ for which $s(x) = a$. We again leverage the fact that $\pi$ is a local homeomorphism to find some neighborhood $V \ni a$ for which $\pi \colon V \xto{\sim} \pi(V)$ is a homeomorphism. Then the inverse to this map satisfies $\pi^{-1}(x) = a$.
+\end{proof}
+This gives us an alternative way to look at stalks. Now we know we can recover stalks from the underlying presheaf.
+
+\begin{question}\label{ques:recover-sheaf-from-presheaf} 
+Can we recover the sheaf $S$ from the presheaf $\Gamma(-,S)$?
+\end{question}
+
+That is, suppose someone hands you a functor
+\begin{align*}
+    F \colon \Open(X)^\op \to \Ab,
+\end{align*}
+and tells you it is of the form $\Gamma(-,S)$ for some sheaf $S$, but they don't tell you what $S$ is. Can you rebuild $S$? Let's denote by
+\begin{align*}
+    F_x := \colim_{U\ni x} F(U)
+\end{align*}
+the stalk at a point $x\in X$. Then we know how to construct the sheaf as a \emph{set}, namely it is
+\begin{align*}
+    \amalg_{x\in X} F_x \to X.
+\end{align*}
+The question then becomes how to topologize the thing on the left. Each $F_x$ has the discrete topology as an abelian group, and the disjoint union has the discrete topology a priori -- but if we accept this topology, then in general we won't have the property that the projection map is a local homeomorphism. So we need to hunt for a different topological structure. The trick to finding it is that we know how to write down sections, and we want to \emph{force sections to be continuous}.
+
+We denote by
+\begin{align*}
+    \germ_x \colon F(U) \to F_x
+\end{align*}
+the structure map (part of the data of the colimit) to the stalk (c.f.~\Cref{prop:colimit-sections-is-stalk}; we called this an evaluation map earlier when we knew $F(U)$ was comprised of actual sections. We don't know that a priori now). For any $s\in F(U)$, we then get a composite
+\begin{align*}
+    U &\to \amalg_x F_x \\
+    x &\mapsto \germ_x(s).
+\end{align*}
+This should be like a section of the sheaf, so we want it to be continuous. We want the preimage of opens to be open, and since $U$ is indeed open, an easy way to try to force continuity is to ask for the image of this map above to be open.
+
+\begin{definition}\label{def:basis-for-topology-on-espace-etale} 
+We define a \emph{basis}\footnote{See \cite[II\S13]{Munkres} if this is an unfamiliar term.} for a topology on $\amalg_x F_x$ by
+\begin{align*}
+    [(s,U)] := \left\{ \germ_x(s) \mid x\in U \right\}
+\end{align*}
+for any $s\in F(U)$.
+\end{definition}
+
+It now suffices to verify that this satisfies the axioms for a basis:
+\begin{itemize}
+    \item[\textbf{B1}] \emph{The basis elements cover our space}: Take some $x\in X$ and $a\in F_x$. We want to argue there is a basis element containing it. By the construction of $F_x$ as a colimit of abelian groups, there is some $V \in \Open(X)$ and some $s\in F(V)$ for which $\germ_x(s) = a$. That is, by definition, $a\in \left[ (s,V) \right]$.
+    \item[\textbf{B2}] \emph{Common refinement}: Suppose we have $[(s_1,U_1)]$ and $[(s_2,U_2)]$ and $a\in \left[ (s_1,U_1) \right] \cap \left[ (s_2,U_2) \right]$. Then we want to find another basis element contained in the intersection of these two and containing $a$. Let $x = \pi(a)$, then $x\in U_1 \cap U_2$ by definition. So we can look in $F(U_1\cap U_2)$. By the construction of the colimit, since we have a commutative diagram
+\[ \begin{tikzcd}
+    F(U_1)\ar[dr]\ar[drr] &  & \\
+     & F(U_1\cap U_2)\rar & F_x\\
+    F(U_2)\ar[ur]\ar[urr] &  & 
+\end{tikzcd} \]
+since $\germ_x(s_1) = \germ_x(s_2)$, their images in $F(U_1\cap U_2)$ agree. Call that image $s$. Then we have that
+\begin{align*}
+    a\in \left[ (s,U_1\cap U_2) \right] \subseteq \left[ (s_1,U_1) \right]\cap \left[ (s_2,U_2) \right] \subseteq \amalg_{x\in X}F_x.
+\end{align*}
+\end{itemize}
+So we've checked that we get a basis for a topology.
+
+\begin{remark} In general, the sheaf $\amalg_{x\in X}F_x$ constructed in this way will be very far from being Hausdorff (\cite[p.~3]{Bredon-sheaf}, \cite{FAC}).
+\end{remark}
+
+It turns out we have in fact built a sheaf! That is, the projection map will be a local homeomorphism.
+
+\begin{lemma} Let $F \colon \Open(X)^\op \to \Ab$ be a presheaf, and topologize $\amalg_{x\in X} F_x$ by giving it the basis of \Cref{def:basis-for-topology-on-espace-etale}. Then the natural projection
+\begin{align*}
+    \pi \colon \amalg_{x\in X} F_x \to X
+\end{align*}
+is a local homeomorphism.
+\end{lemma}
+\begin{proof} Pick any $a\in F_x$. Then by construction, there exists some open set $U$ and some $s\in F(U)$ so that $\germ_x(s) = a$. In particular, we claim the map
+\begin{align*}
+    \pi_{|[(s,U)]} \colon [(s,U)] &\to U
+\end{align*}
+is a local homeomorphism. It is clearly continuous, and it admits a continuous inverse given by $s \colon U \to F(U) \to [(s,U)]$ by construction.
+\end{proof}
+
+We now have a way to build a sheaf out of a presheaf! So we have a way to go from presheaves to sheaves. I think we've answered \Cref{ques:recover-sheaf-from-presheaf}, which was if someone hands you a presheaf $F \colon \Open(X)^\op \to \Ab$, and tells you it is of the form $\Gamma(-,S)$ for some sheaf $S$, then we can reconstruct $S$.
+
+Let's now give a slightly different question pandering to a more cynical worldview. Suppose someone hands you a presheaf $F \colon \Open(X)^\op \to \Ab$ and tells you it is the presheaf of sections attached to some sheaf, but we don't believe them. How might we argue that this cannot come from any sheaf?
+
+
+
+\bibliography{zbib.bib}
+\bibliographystyle{amsalpha}
+\end{document}

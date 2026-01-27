@@ -1,0 +1,218 @@
+\usepackage{%
+  mathtools,  % math extensions and fixes; loads amsmath
+  amssymb,    % extra math symbols
+  amsthm,     % enhanced theorem environments
+  amsfonts,   % additional math fonts
+  thmtools,   % customization tools for theorems
+  graphicx,
+  float,
+  color,
+  xcolor,
+  tikz,
+  tikz-cd,
+  mathrsfs,   % for script letters
+  etoolbox    % for csvlist
+}
+
+% Colors
+\definecolor{darkred}{rgb}{0.75,0,0}
+% Citation colors
+\def\customcitecolor{darkred}
+\def\customlinkcolor{darkred}
+
+% Hyperref settings
+\usepackage[%
+    colorlinks,
+    citecolor=\customcitecolor,%
+    linkcolor=\customlinkcolor,%
+    urlcolor=\customlinkcolor%
+]{hyperref}
+
+\usetikzlibrary{decorations.pathreplacing}
+
+
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+\usepackage[margin=1in]{geometry}
+
+% Avoid footnote patch error
+\usepackage[final,nopatch=footnote]{microtype}
+
+%%%%%%%%%%%%%%% Theorems
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\numberwithin{theorem}{section} % important bit
+\numberwithin{equation}{section} % number equations like (1.1), (1.2), etc.
+
+% Macro to capitalize input
+\usepackage{mfirstuc}
+\newcommand{\capitalizename}[1]{\makefirstuc{#1}}
+
+% Define a theorem following the theorem counter
+\newcommand{\defthm}[1]{%
+  \newtheorem{#1}[theorem]{\capitalizename{#1}}%
+}
+
+% Iterate the defthm command over a csv
+\newcommand{\defthms}[1]{%
+  \forcsvlist{\defthm}{#1}%
+}
+
+% Define theorems
+\defthms{%
+  answer,assumption,claim,conjecture,construction,corollary,
+  counterexample,definition,digression,discussion,example,
+  examples,exercise,fact,goal,idea,intuition,lemma,
+  motivation,notation,note,proposition,question,remark,setup,
+  slogan,strategy,terminology,upshot,warning%
+}
+
+\Crefname{construction}{Construction}{Constructions}
+\Crefname{question}{Question}{Questions}
+
+%%%%%%%%%%%%%%% Text commands and categories
+\newcommand{\deftextcommand}[1]{%
+  \expandafter\providecommand\csname #1\endcsname{\mathrm{#1}}%
+}
+\newcommand{\deftextcommands}[1]{%
+    \forcsvlist{\deftextcommand}{#1}%
+}
+
+% Text commands
+\deftextcommands{ab,alg,an,ann,Aut,BG,BGL,Bl,BO,BP,BSL,BSO,BSp,BSU,BU,can,cd,cdh,ch,cl,coBar,codim,codom,coeq,coev,cof,cofib,coker,colim,coim,cone,conj,const,coTor,cyc,diag,Desc,dg,Disc,disc,Div,dR,dual,eff,EKL,End,eq,ess,et,Et,EU,ev,Ex,ex,Exc,Ext,fib,Fix,Fl,fppf,fpqc,Frac,Frob,Fun,Gal,gen,germ,GL,gp,Gr,gr,GW,Her,Ho,hocofib,hocolim,hofib,holim,Hom,id,Idem,im,incl,Ind,ind,inj,Inn,Inv,inv,iso,Jac,KGL,kgl,KH,KO,ko,KQ,kq,KR,KSp,KU,ku,Lan,Map,map,MGL,MO,Mor,mor,MSL,MSO,MSp,MSU,MU,mult,MUP,Nm,ob,obj,op,Orb,ord,Out,perf,Perm,PGL,pr,pre,Prin,Proj,proj,prom,PSL,quot,Ran,rank,Res,res,RO,Sec,sep,sgn,SH,sig,Sing,SL,SO,soc,Sp,Span,Spec,Spin,spn,Sq,st,Stab,SU,supp,Supp,Syl,syl,Sym,syn,SYT,TC,td,Th,THH,Tor,Tot,TP,TR,Tr,tr,triv,univ,var,veff,vol,Wel,Wr}
+
+% Categories
+\deftextcommands{Ab,Aff,Alg,Ani,Bimod,CAlg,Cat,CDGA,CG,CGWH,Ch,CMon,coAlg,Coh,CommRing,ConjSub,coMod,Cor,Corr,CoSh,Cov,CRing,CW,Field,Fin,FinSet,Gpd,Grp,Grpd,Grph,Kan,Kar,LMod,Mfld,Mod,NAlg,Open,Ouv,Perf,Poset,Pr,Pre,PSh,PShv,qCat,QCoh,Rep,Ring,RMod,sAb,Set,SH,Sh,Shv,Sm,Sp,Spc,Spectra,sPre,sSet,sShv,Stack,Sub,Top,Tors,Var,Vect}
+
+%%%%%%%%%%%%%%% Blackboard letters
+\newcommand{\defblackboardletter}[1]{%
+  \expandafter\providecommand\csname #1\endcsname{\mathbb{#1}}
+}
+\newcommand{\defblackboardletters}[1]{%
+  \forcsvlist{\defblackboardletter}{#1}%
+}
+
+\defblackboardletters{A,C,F,P,Q,R,Z}
+
+%%%%%%%%%%%%%%% Arrows
+
+% Pushout, pullback
+\providecommand{\po}{\arrow[ul,phantom,"\ulcorner" very near start]}
+\providecommand{\pb}{\arrow[dr,phantom,"\lrcorner" very near start]}
+
+% Overset to and from
+\providecommand{\xto}[1]{\xrightarrow{#1}}
+\providecommand{\from}{\leftarrow}
+\providecommand{\xfrom}[1]{\overset{#1}{\leftarrow}}
+
+% Backwards verion of mapsto
+\providecommand{\mapsfrom}{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+\providecommand{\longmapsfrom}{\mathrel{\reflectbox{\ensuremath{\longmapsto}}}}
+
+% Hook arrows
+\providecommand{\hookto}{\xhookrightarrow{}}
+\providecommand{\xhookto}[1]{\overset{#1}{\hookrightarrow}}
+\providecommand{\hookfrom}{\xhookleftarrow{}}
+\providecommand{\xhookfrom}[1]{\xhookleftarrow{#1}}
+
+% Two-headed arrows
+\providecommand{\tto}{\twoheadrightarrow}
+\providecommand{\xtto}[1]{\overset{#1}{\twoheadrightarrow}}
+\providecommand{\ffrom}{\twoheadleftarrow}
+\providecommand{\xffrom}[1]{\overset{#1}{\ffrom}}
+
+% Closed and open hook arrows
+\providecommand{\clhookto}{\mathrel{\raisebox{0.1em}{$\mathrel{\mathpalette\superimpose{{\hspace{0.1cm}\vspace{0.1em}\smallslash}{\hookrightarrow}}}$}}}
+\providecommand{\xclhook}[1]{\overset{#1}{\clhook}}
+\providecommand{\clhookfrom}{\mathrel{\raisebox{0.1em}{$\mathrel{\mathpalette\superimpose{{\hspace{0.1cm}\vspace{0.1em}\smallslash}{\hookleftarrow}}}$}}}
+\providecommand{\ohookto}{\mathrel{\raisebox{0.03em}{$\mathrel{\mathpalette\superimpose{{\hspace{0.1cm}\vspace{0.03em}\mbox{\small$\circ$}}{\hookrightarrow}}}$}}}
+\providecommand{\ohookfrom}{\mathrel{\raisebox{0.03em}{$\mathrel{\mathpalette\superimpose{{\hspace{0.1cm}\vspace{0.03em}\mbox{\small$\circ$}}{\hookleftarrow}}}$}}}
+
+% Arrows with tails
+\providecommand{\cofto}{\rightarrowtail}
+\providecommand{\coffrom}{\leftarrowtail}
+\providecommand{\xcofto}[1]{\overset{#1}{\cofto}}
+\providecommand{\xcoffrom}[1]{\overset{#1}{\coffrom}}
+
+% Squiggle arrows
+\providecommand{\sqto}{\rightsquigarrow}
+\providecommand{\sqfrom}{\mathrel{\reflectbox{\ensuremath{\sqto}}}}
+
+
+%%%%%%%%%%%%%%% Misc commands
+
+% Projective spaces
+\providecommand{\CP}{{\mathbb{C}\text{P}}}
+\providecommand{\HP}{{\mathbb{H}\text{P}}}
+\providecommand{\RP}{{\mathbb{R}\text{P}}}
+
+% Heart (for t-structures)
+\newcommand{\heart}{\ensuremath\heartsuit}
+
+% For blackboard bold number and delta categories
+\RequirePackage{bbm}
+\providecommand{\onecat}{\mathbbm{1}}
+\providecommand{\twocat}{\mathbbm{2}}
+
+% Blackboard delta
+\RequirePackage{pict2e,picture}
+\makeatletter
+\DeclareRobustCommand{\DDelta}{{\mathpalette\bb@Delta\relax}}
+\newcommand{\bb@Delta}[2]{%
+  \begingroup
+  \sbox\z@{$\m@th#1\Delta$}%
+  \dimendef\Dht=6 \dimendef\Dwd=8
+  \setlength{\Dwd}{\wd\z@}%
+  \setlength{\Dht}{\ht\z@}%
+  \begin{picture}(\Dwd,\Dht)
+  \put(0,0){$\m@th#1\Delta$}
+  \put(.42\Dwd,.7\Dht){\line(10,-26){.25\Dht}}
+  \end{picture}%
+  \endgroup
+}
+
+% Better-looking empty set
+\let\emptyset\varnothing
+\let\minus\smallsetminus
+
+%%%%%%%%%%%%%%%%%%%%%% Style
+
+% Custom bullet point for itemize environments
+\renewcommand{\labelitemi}{$\triangleright$}
+
+\let\del\partial
+\let\til\widetilde
+
+
+%%%%%%%%%%%%%%%%%%%%%% Coding
+\usepackage{fancyvrb,newverbs,xcolor}
+
+\definecolor{cverbbg}{gray}{0.93}
+
+\newenvironment{cverbatim}
+ {\SaveVerbatim{cverb}}
+ {\endSaveVerbatim
+  \flushleft\fboxrule=0pt\fboxsep=.5em
+  \colorbox{cverbbg}{\BUseVerbatim{cverb}}%
+  \endflushleft
+}
+\newenvironment{lcverbatim}
+ {\SaveVerbatim{cverb}}
+ {\endSaveVerbatim
+  \flushleft\fboxrule=0pt\fboxsep=.5em
+  \colorbox{cverbbg}{%
+    \makebox[\dimexpr\linewidth-2\fboxsep][l]{\BUseVerbatim{cverb}}%
+  }
+  \endflushleft
+}
+
+\newcommand{\ctexttt}[1]{\colorbox{cverbbg}{\texttt{#1}}}
+\newverbcommand{\cverb}
+  {\setbox\verbbox\hbox\bgroup}
+  {\egroup\colorbox{cverbbg}{\box\verbbox}}
+
+
+%%%%%%%%%%%%%%%%%%%%% Pictorial
+\usepackage{dynkin-diagrams}
+\usepackage[vcentermath]{youngtab}
+
