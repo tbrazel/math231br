@@ -31,11 +31,16 @@ Aside from the main text, which we deviate from at various points, some other re
     \item \emph{sheaf theory}: Godement's original work \cite{godementTopologieAlgebriqueTheorie1958}, and of course Serre's \cite{FAC}
     \item \emph{fiber bundles}: Steenrod's 1951 printing \cite{Steenrod-fibre-bundles}
     \item \emph{K\"{a}hler manifolds}: Michael Wong's 2013 \href{https://wiki.epfl.ch/kaehler2013/notesexercises}{course notes}
-    \item \emph{cobordism}: Dan Freed's notes \cite{Freed-cobordism} and Haynes Miller's notes \cite{millerNotesCobordism}
+    \item \emph{cobordism}: Dan Freed's notes \cite{Freed-bordism} and Haynes Miller's notes \cite{millerNotesCobordism}
     \item \emph{genera}: Hirzebruch's book \cite{MMF}
     \item \emph{complex manifolds}: Griffiths and Harris \cite{griffithsPrinciplesAlgebraicGeometry1978}
 \end{itemize}
 
+
+
+\subsection{Acknowledgements}
+
+Thank you to Vincent Costa for changes to the notes. Thanks to Sidhanth Raman for helpful correspondence in preparing this class.
 
 \section{Sheaves}
 
@@ -105,7 +110,8 @@ sending each point to the additive identity in its stalk. This map is continuous
 \end{align*}
 \end{notation}
 
-\begin{exercise}\label{exer:image-zero-section-is-open} Let $\pi \colon X \to S$ be any sheaf and $z \colon X \to S$ the zero section. Then $\im(z) \subseteq S$ is open.
+\begin{exercise}\label{exer:image-zero-section-is-open}
+Let $\pi \colon X \to S$ be any sheaf and $z \colon X \to S$ the zero section. Then $\im(z) \subseteq S$ is open.
 \end{exercise}
 
 
@@ -150,7 +156,8 @@ Applying $\pi_1$ or $H_1$ for instance, we have that the identity on $\Z$ factor
 % \end{definition}
 
 
-\begin{definition} We say a morphism of sheaves $f \colon S \to \til{S}$ is:
+\begin{definition}\label{def:injective-surjective-mononomorphism-of-sheaves} 
+We say a morphism of sheaves $f \colon S \to \til{S}$ is:
 \begin{enumerate}
     \item \emph{injective} if each $f_x$ is injective
     \item \textit{surjective} if each $f_x$ is surjective.
@@ -191,6 +198,10 @@ If $V \subseteq U$ is an open subspace, there is a natural \emph{restriction} ma
 \end{align*}
 This is called the \emph{presheaf} associated to $S$.
 \end{notation}
+
+\begin{terminology} If $S \to X$ is a sheaf, an element of $\Gamma(X,S)$ will be called a \emph{global section}. This is to indicate it is defined globally, i.e. everywhere on $X$, in contrast with sections only defined locally on some open subspace $U$.
+\end{terminology}
+
 
 Let's think about what structures of $S$ we can recover from its presheaf.
 
@@ -290,7 +301,270 @@ We now have a way to build a sheaf out of a presheaf! So we have a way to go fro
 
 Let's now give a slightly different question pandering to a more cynical worldview. Suppose someone hands you a presheaf $F \colon \Open(X)^\op \to \Ab$ and tells you it is the presheaf of sections attached to some sheaf, but we don't believe them. How might we argue that this cannot come from any sheaf?
 
+Here's an idea of how we might find a way to disagree:
+\begin{itemize}
+    \item if $F$ was of the form $\Gamma(-,S)$ for some $S$, then $F(U)$ would be equal to $\Gamma(U,S)$
+    \item we now know how we would reconstruct $S$: it is $\amalg_{x\in X}F_x$ equipped with the topology defined in \Cref{def:basis-for-topology-on-espace-etale}
+    \item so we can check: is the canonical map $F(U) \xto{\theta_U} \Gamma(U, \amalg_x F_x)$ a bijection?
+\end{itemize}
+Let's recall how this map $\theta_U$ worked --- each $s\in F(U)$ determines a function $U \to \amalg_{x\in U}F_x$ given by
+\begin{equation}\label{eqn:theta-U}
+\begin{aligned}
+    \theta_U \colon F(U) &\to \Gamma(U,\amalg_x F_x) \\
+    s &\mapsto \left[ x \mapsto \germ_x(s) \right].
+\end{aligned}
+\end{equation}
+If $\theta_U$ is not a bijection for some open $U$, then $F$ cannot have come from a sheaf. So let's see when $\theta_U$ could fail to be a bijection - that is, when is it injective and when is it surjective? We phrase the following as lemmas, although there's no mathematical content, it's just unwinding definitions.
 
+\begin{lemma}[When is $\theta_U$ a monomorphism?]
+\label{lem:theta-monomorphism} 
+Let $U,\theta_U$ as above. Let's first see what it means for $\theta_U$ to send two elements in $F(U)$ to the same thing in $\Gamma(U,\amalg_{x\in X}F_x)$.
+\begin{enumerate}
+    \item We have that $\theta_U(s) = \theta_U(t)$ if and only if $s$ and $t$ \emph{agree locally} -- that is, for every $x\in U$ there is some open $V\ni x$ for which $s_{|V} = t_{|V}$.
+\end{enumerate}
+This tells us the content of being a monomorphism is that ``being equal locally implies you are equal.'' In other words:
+\begin{enumerate}
+\setcounter{enumi}{1}
+    \item $\theta_U$ is a monomorphism if and only if, for every $x\in X$, if there is a neighborhood $V\ni x$ with $s_{|V} = t_{|V}\in F(V)$, then $s=t$ in $F(U)$.
+\end{enumerate}
+As the $V$'s chosen this way form an open cover of $U$, we can reword this as:
+\begin{enumerate}
+\setcounter{enumi}{2}
+    \item\label{locality} $\theta_U$ is a monomorphism if and only if, for every open cover $\left\{ U_i \right\}$ of $U$, if $s,t\in F(U)$ satisfies $s_{|U_i} = t_{|U_i}$ for all $i$, then $s=t$.
+\end{enumerate}
+\end{lemma}
+\begin{proof} For the first point, we have that $\theta_U(s) = \theta_U(t)$ if and only if the functions $u \mapsto \germ_u(s)$ and $u \mapsto \germ_u(t)$ agree, that is, only if $\germ_u(s) = \germ_u(t)$ in $F_u$ for all $u\in U$. By construction of $F_u$ as a colimit, we have that there must exist some neighborhood $V\ni u$ for which $s_{|V} = t_{|V}$ in $F(V)$. The second point is a rephrasing of the first, and (\ref{locality}) is a rephrasing of the second point.
+% For the forward direction of (\ref{locality}), suppose $\theta_U$ is a monomorphism, and take an open cover $\left\{ U_i \right\}$ so that $s_{|U_i}= t_{|U_i}$ for all $i$. Then each $x\in U$ is contained in some $U_i$, so it plays the role of the $V$ in the previous point, hence $s=t$ in $F(U)$.
+\end{proof}
+
+
+
+\begin{lemma}[When is $\theta_U$ an epimorphism?]
+\label{lem:theta-epimorphism}
+Let $U,\theta_U$ be as above, and suppose \Cref{lem:theta-monomorphism}(\ref{locality}) holds. We want to know when $\theta_U$ hits some element $a\in \Gamma(U,\amalg_{x\in X}F_x)$
+\begin{enumerate}
+    \item Let $a\in \Gamma(U,\amalg_{x\in X}F_x)$. Then for each $x\in U$, we have that $a(x) \in F_x$. By the construction of $F_x$ as a colimit, this means there is some open neighborhood $U_x \ni x$, and some element $s_x \in F(U_x)$ so that, under the structure map $F(U_x) \to F_x$, we have that $s_x \mapsto a(x)$. Another way to say that is that the section $\theta_{U_x}(s_x)$ agrees with $a$ at the point $x$. Since $\pi$ is a local homeomorphism, we have that $a$ and $\theta_{U_x}(s_x)$ must agree on some open neighborhood $V_x \ni x$ which, without loss of generality, we may assume to be a subspace of $U_x$. So we have that $\theta_{V_x}(s_x) = a_{|V_x}$ and $\theta_{V_y}(s_y) = a_{|V_y}$, so under restriction we ge
+\begin{align*}
+        \theta_{V_x \cap V_y}(s_x) = a_{V_x \cap V_y} =  \theta_{V_x\cap V_y}(s_y).
+    \end{align*}
+    If we assumed that the $\theta$'s were injective, \Cref{lem:theta-monomorphism}(\ref{locality}), this says that
+    \begin{align*}
+        s_{x|V_x \cap V_y} = s_{y | V_x \cap V_y}.
+    \end{align*}
+    And we have that $a$ is in the image of $\theta_U$ if and only if there is some $s\in F(U)$ so that $s_{|V_x} = s_x$ for each $x\in U$. In other words, $\theta_U$ is surjective if, any time locally defined sections agree on overlaps, there is a section defined on all of $U$ restricting to them.
+    \item\label{gluing} With the hypotheses above, we have that $\theta_U$ is surjective if and only if, for every cover $\left\{ U_i \right\}_{i\in I}$ of $U$, and elements $s_i \in F(U_i)$ satisfying $s_{i | U_i\cap U_j} = s_{j|U_i \cap U_j}$, there exists an element $s\in F(U)$ so that $s_{|U_i} = s_i$ for each $i$.
+\end{enumerate}
+\end{lemma}
+
+So what conditions were essential to showing that $\theta_U$ was a bijection for every $U$? It was \Cref{lem:theta-monomorphism}(\ref{locality}), which tells us if sections agree \emph{locally} then they agree \emph{globally}, and \Cref{lem:theta-epimorphism}(\ref{gluing}), which told us that sections defined locally and agreeing on overlaps can be \emph{glued} together to get a global section. These two conditions are called \emph{locality} and \emph{gluing}. Let's summarize our observations:
+
+
+
+\begin{theorem} A presheaf $F \colon \Open(X)^\op \to \Ab$ is the presheaf of sections attached to a sheaf if and only if the two conditions hold:
+\begin{itemize}
+    \item[\textbf{Sh1}] \textit{(Locality)} For any open set $U \subseteq X$ and any open cover $\left\{ U_i \right\}_{i\in I}$ of $U$, if $s,t\in F(U)$ satisfy $s_{U_i} = t_{U_i}$ for each $i \in I$, then $s=t$. Phrased differently, the map
+    \begin{align*}
+        F(U) \to \prod F(U_i)
+    \end{align*}
+    is injective.
+
+    \item[\textbf{Sh2}] \textit{(Gluing)} If $\left\{ U_i \right\}_{i\in I}$ is an open cover of $U$, and we have elements $s_i \in F(U_i)$ for each $i$ so that $s_{i|U_i\cap U_j} = s_{j|U_i\cap U_j}$ for all $i,j$, then there exists some $s\in F(U)$ so that $s_{|U_i} = s_i$ for each $i$. Phrased differently, $F(U)$ surjects onto the equalizer of the parallel restriction maps
+    \begin{align*}
+        \prod F(U_i) \rightrightarrows \prod F(U_i\cap U_j).
+    \end{align*}
+\end{itemize}
+\end{theorem}
+
+\begin{remark} Let $E$ denote the equalizer $E = \eq \left( \prod F(U_i) \rightrightarrows \prod F(U_i\cap U_j) \right)$. By functoriality, the map $F(U) \to \prod F(U_i)$ factors through $E$, and $E \to \prod F(U_i)$ is always a monomorphism. So for presheaves of abelian groups, locality reduces to the statement that $F(U) \to E$ is injective, while gluing restricts to the statement that $F(U) \to E$ is surjective. Hence altogether the sheaf condition can be compressed to the assertion that, for any $U \subseteq X$ and any open set $\left\{ U_i \right\}$ of $U$, the sequence is an equalizer:
+\begin{align*}
+    F(U) \to \prod F(U_i) \rightrightarrows \prod F(U_i\cap U_j).
+\end{align*}
+\end{remark}
+
+
+\begin{remark} In an abelian category, an equalizer of two maps $f,g \colon A \rightrightarrows B$ is the same as the kernel of their difference $A \xto{f-g} B$. So the locality and gluing conditions can be condensed into the statement that, for every open subspace $U \subseteq X$ and every open cover $\left\{ U_i \right\}$ of $U$, the sequence
+\begin{align*}
+    0 \to F(U) \to \prod F(U_i) \to \prod F(U_{ij})
+\end{align*}
+is exact, where that rightmost map is the difference of the two restrictions. If we ever want to talk about sheaves of \emph{sets} we can't do this, because subtracting two functions doesn't make sense unless they are group homomorphisms.
+\end{remark}
+
+
+\begin{corollary}\label{cor:espace-etale-equivalence-of-cats} 
+There is an isomorphism of categories between
+\begin{align*}
+    \left\{ \text{sheaves on }X \right\} \simeq \left\{ \substack{\text{the full subcategory of presheaves on }X \\ \text{ satisfying locality and gluing}} \right\}.
+\end{align*}
+\end{corollary}
+\begin{proof} We have shown a bijection on objects, so it suffices to verify that there is also a bijection on morphisms of each type.
+
+
+Let $S$ and $S'$ be sheaves. Then a map of sheaves $f \colon S \to S'$ clearly induces a map of presheaves, since any section $U \to S$ can be postcomposed with $f$ to get a section $U \to S'$, hence we get an induced map $\Gamma(U,S) \to \Gamma(U,S')$ which is easily seen to be compatible with restriction.
+
+Conversely, suppose we have two presheaves $F,G \in \Fun(\Open(X)^\op,\Ab)$ which satisfy locality and gluing, and a morphism of presheaves $F \to G$. We want to see how this induces a morphism of sheaves $\amalg_x F_x \to \amalg_x G_x$. We first observe that, by taking colimits, there is a natural induced map on stalks $F_x \to G_x$ for every $X$, so we get a commutative diagram of \emph{sets}
+\[ \begin{tikzcd}
+    \amalg_{x\in X}F_x \ar[rr,"f"]\ar[dr] &  & \amalg_{x\in X}G_x\ar[dl]\\
+     & X. & 
+\end{tikzcd} \]
+We now want to check that this induced map $f$ is actually continuous. Since we can check continuity on a basis of the target space (reference needed), we can take some $[(t,U)] \subseteq \amalg_{x\in X}G_x$ and try to see its preimage is open in $\amalg_{x\in X}F_x$. We can check that
+\begin{align*}
+    f^{-1}([(t,U)]) = \left\{ \germ_x(s)  \mid x\in U \text{ and } \germ_x(f\circ s) = \germ_x(t) \right\}.
+\end{align*}
+Pick one such point $\germ_x(s) \in f^{-1}([(t,U)])$. Since $\germ_x(f\circ s) = \germ_x(t)$, there is some open neighborhood $V \ni x$ for which $(f\circ s)_{|V} = t_{|V}$. This means every germ of $s$ over $V$ lies in the preimage of $f$, that is,
+\begin{align*}
+    \germ_x(s) \in [(s,V)] \subseteq f^{-1}([(t,U)]).
+\end{align*}
+In particular this implies that $f^{-1}([(t,U)])$ is open and therefore that $f$ is continuous.
+
+Verifying these two assignments are inverse is immediate by construction in one direction, and is the content of $\theta_U$ being bijective in the other direction direction.
+\end{proof}
+
+
+\begin{remark}[Important] What we have been calling sheaves (following Hirzebruch, Bredon, Serre) are now more commonly called the \emph{\'espace \'etal\'e} of a sheaf, while the associated presheaf, satisfying locality and gluing, is what is known contemporarily as a sheaf. The equivalence of categories above tells us it doesn't quite matter which one we talk about, but it's important to keep in mind our definition is technically different than the modern one.
+\end{remark}
+
+
+\begin{remark} The big advantage now is that we can describe a sheaf \emph{in terms of its sections}! We don't even need the sections to form a sheaf, we can always construct a sheaf out of a presheaf if need be.
+\end{remark}
+
+\begin{example}[Orientation sheaf] Let $M$ be an $n$-dimensional manifold, and define a sheaf by the presheaf
+\begin{align*}
+    o_M \colon \Open(M)^\op &\to \Ab \\
+    U &\mapsto H_n(M,M-U;\Z).
+\end{align*}
+We call this the \emph{orientation sheaf} of $M$ (something to check: relative homology classes satisfy locality and gluing). Then an \emph{orientation} of $M$ is exactly a global section $\omega \in \Gamma(M,o_M)$ with the property that the stalk of $\omega$ at each $x\in M$ is a generator of the abelian group $o_{M,x} = H_n(M,M-\{x\};\Z)\cong \Z$. This is just a rephrasing of \cite[pp.~233--236]{Hatcher}.
+\end{example}
+
+\begin{remark} The \'espace \'etal\'e of the orientation sheaf is \emph{not} the double cover of $M$, since this will not be a sheaf of abelian groups, only a sheaf of $\Z/2$-torsors. The \'espace \'etal\'e of $o_M$ will have fiber $\Z$ (if we are defining $o_M$ by homology with integral coefficients) and will be the infinite-sheeted cover corresponding to the orientation character $\pi_1(M) \to \Aut(\Z) = \Z/2$ given by the first Stiefel-Whitney class. We'll learn more about this later on.
+\end{remark}
+
+\subsection{Digression: big and small sites}
+
+To briefly tie what we've been doing into the language of Grothendieck topologies, we have the slice category $\Top_{/X}$ of spaces over $X$, which comes equipped with a Grothendieck topology given by open subsets. We could call $\Top_{/X}$ the \emph{big site}, and in this terminology $\Open(X) \subseteq \Top_{/X}$ is the \emph{small site}, which is the full subcategory on open subsets of $X$.
+
+\subsection{Sheaves of functions} The following is a space-level analogue of the idea that representable presheaves are sheaves.
+
+\begin{example}[Representable sheaves]
+\label{exa:representable-sheaves}
+Let $X$ and $Y$ be any spaces. Then the assignment
+\begin{align*}
+    \Open(X)^\op &\to \Set \\
+    U &\mapsto \Hom_\Top(U,Y)
+\end{align*}
+is a sheaf of sets. We call this the \emph{representable sheaf} attached to $Y$, although this is maybe a slight abuse of terminology?\footnote{Technically speaking, $Y$ should be viewed as a representable sheaf on $\Top = \Top_{/\ast}$, which is the big site over the one-point space. We can pull this back along the projection $X \to \ast$ and we get a sheaf $\Hom_{\Top_{/X}}(-,X \times Y)$, which, when restricted to the small site $\Open(X)$, agrees with $\Hom_{\Top}(-,Y)$ by adjunction.}
+\end{example}
+\begin{proof} We just have to verify that the presheaf of functions valued in $Y$ satisfies locality and gluing, which is immediate.
+\end{proof}
+
+\begin{question} When would this be a sheaf of groups or of abelian groups? That is, when we can endow $\Hom_\Top(U,Y)$ with a group structure compatibly for all $U$. One way to insist on this is to consider $\Hom_\Top(-,Y)$ by extending its domain to all of $\Top$, and then ask for it to be valued in groups rather than sets. This is the same data (by the Yoneda lemma) as asking for $Y$ to come equipped with continuous multiplication and inversion maps which turn $Y$ into a group compatibly with its topology. This is the data of being a \emph{topological group}, which we'll define in \Cref{def:topological-group}.
+\end{question}
+
+
+\begin{example} Let $X$ be any space, and denote by
+\begin{align*}
+    \mathbb{C}_{\mathfrak{c}} \colon \Open(X)^\op \to \Ab
+\end{align*}
+the sheaf sending $U \subseteq X$ to the abelian group of complex-valued continuous functions $U \to \C$. We call $\mathbb{C}_{\mathfrak{c}}$ the \emph{sheaf of germs of local complex-valued continuous functions}, following \cite[p.~23]{Hirzebruch}.
+\end{example}
+
+In general for spaces, we can take a sheaf of continuous functions valued in $\R$, in $\C$, in some other space, whatever we like. If $X$ has more structure, we can ask for these functions to respect the additional structure!
+
+\begin{example} Let $X$ be a differentiable manifold. We denote by $\mathbb{C}_{\mathfrak{b}}$ the sheaf of local complex-valued differentiable functions.\footnote{Recall a complex-valued function is differentiable if and only if both its real and imaginary parts are.}
+\end{example}
+
+\begin{example} Let $X$ be a complex manifold. We let $\mathbb{C}_{\omega}$ denote the sheaf of local holomorphic functions.
+\end{example}
+
+\begin{exercise} If $X$ is a compact connected complex manifold, show that $\Gamma(X, \mathbb{C}_\omega) = \C$.
+\end{exercise}
+
+
+
+\subsection{Sheafification}
+
+Let $\Ab(X)$ denote the category of sheaves of abelian groups. It is clearly a full subcategory of $\Fun(\Open(X)^\op,\Ab)$. Our goal is to show the following:
+
+\begin{theorem} The category $\Ab(X)$ is a localization of $\Fun(\Open(X)^\op,\Ab)$, that is, the inclusion admits a left adjoint called \emph{sheafification}. Moreover sheafification preserves stalks.
+\end{theorem}
+
+Our goal is to define the sheafification of a presheaf $F$ over $X$. We claim we've already seen this construction, it's simply the space $\amalg_{x\in X}F_x \to X$ we built previously.
+
+\begin{definition}\label{def:sheafification} Let $F \colon \Open(X)^\op \to \Ab$ be a presheaf. We will define a sheaf $F^\sharp(U)$ by the rule
+\begin{align*}
+    F^\sharp(U) = \Gamma(U, \amalg_{x\in X}F_x)
+\end{align*}
+where $\amalg_x F_x$ is topologized as in \Cref{def:basis-for-topology-on-espace-etale}.
+\end{definition}
+
+\begin{remark}\label{rmk:interpretation-of-sheafification}
+We can interpret $F^\sharp(U)$ as the set of those tuples $(f_x)_{x\in U} \in \prod_{x\in U} F_x$ for which, for any $x\in U$ there exists an open neighborhood $V\ni x$ and a section $s\in F(V)$ satisfying $s_v = f_v$ for all $v\in V$ (see e.g. \cite[007X]{Stacks}).
+\end{remark}
+
+There is clearly a natural map of presheaves $F \to F^\sharp$, and we've already seen it! We called it $\theta_U$ in \Cref{eqn:theta-U}. It induces an isomorphism on stalks by definition. The thing to check is that the sheafification construction is functorial (omitted) and defines a left adjoint to the inclusion of sheaves in presheaves. Adjunction follows from the following universal property:
+
+\begin{proposition}\label{prop:UP-of-sheafification}
+Let $F\in \Fun(\Open(X)^\op,\Ab)$ and $G\in \Ab(X)$. Then any map $F \to G$ factors uniquely through $F^\sharp$.
+\end{proposition}
+\begin{proof} By construction there is a commutative diagram
+\[ \begin{tikzcd}
+    F\rar\dar & F^\sharp\dar\\
+    G\rar & G^\sharp,
+\end{tikzcd} \]
+so it suffices to check that $G\to G^\sharp$ is an equivalence of sheaves, but this is true because it is a stalkwise isomorphism.\footnote{This wouldn't work if $G$ was just a presheaf, as although $G\to G^\sharp$ is a stalkwise isomorphism that does not imply it is an isomorphism of presheaves, only of sheaves.}
+\end{proof}
+
+\subsection{Subsheaves and cokernels}
+
+\begin{notation} For a topological space $X$, we denote by $\Ab(X)$ the category of \emph{sheaves of abelian groups} on $X$, and morphisms between them. Again following the equivalence of categories of \Cref{cor:espace-etale-equivalence-of-cats} we're allowed to work with local homeomorphisms of abelian groups over $X$ or presheaves on $X$ satisfying the sheaf condition. So every definition and statement we make here will have two equivalent formulations in each model of sheaves. We will provide both at the start but will begin dropping one for convenience as we continue.
+\end{notation}
+
+\begin{definition}[Subsheaf] Let $F \colon \Open(X)^\op \to \Ab$ be a sheaf. We say that a sheaf $G$ is a \emph{subsheaf} of $F$ if $G(U) \le F(U)$ is a subgroup for each $U\in \Open(X)$, and for any $V \subseteq U$, the restriction map $\res_U^V \colon F(U) \to F(V)$ is equal to the restriction map $G(U)\to G(V)$ for $G$.
+\end{definition}
+
+\begin{definition}[Subsheaf, \'espace \'etal\'e model] We say that a sheaf $\pi_1 \colon S_1 \to X$ is a \emph{subsheaf} of $\pi_2 \colon S_2 \to X$ if
+\begin{enumerate}
+    \item $S_1 \subseteq S_2$ is an open subspace
+    \item $\pi_1 = \pi_{2 | S_1}$
+    \item The stalk $(S_1)_x$ is a subgroup of the stalk $(S_2)_x$ for all $x\in X$.
+\end{enumerate}
+\end{definition}
+
+Just as subgroups of abelian groups are kernels of group homomorphisms, we can construct subsheaves as kernels of abelian sheaf homomorphisms.
+
+\begin{proposition} If $f \colon A \to B$ is a morphism of sheaves over $X$, we denote by $\ker(f)$ the \emph{kernel}, defined to be the sheaf of $A$ consisting of those points $a\in A$ so that  $f_{\pi(a)}(a) = 0$ in $B_{\pi(a)}$.
+\end{proposition}
+\begin{proof} We have to verify this is a subsheaf. Let $K$ denote the kernel of $f$, and let's write out the diagram so we can picture it:
+\[ \begin{tikzcd}
+    K\ar[dr,"\pi_K" below left]\rar & A\dar["\pi_A"]\rar["f"] & B\ar[dl,"\pi_B"]\\
+     & X. & 
+\end{tikzcd} \]
+It is clear that $\pi_K$ is just $\pi_A$ restricted to $K$ by construction, and moreover the stalks $K_x$ are subgroups of $A_x$, again by construction. So the only thing to verify is that $K \subseteq A$ is an open subspace. To see this, we note that the kernel of $f$ is the preimage of zero in $B$, which is the image of the zero section $z_B \colon X \to B$. This is open in $B$ by \Cref{exer:image-zero-section-is-open}, and $K = f^{-1}(\im(z_B))$, which will also be open since $f$ is continuous.
+\end{proof}
+
+\begin{exercise} \,
+\begin{enumerate}
+    \item Let $f \colon S_1 \to S_2$ be a morphism of sheaves over $X$. Give a reasonable definition of an \emph{image} subsheaf $\im(f) \subseteq S_2$.
+    \item Give a reasonable definition of a \emph{cokernel} sheaf $\coker(f)$ over $f$.
+    \item Prove an analogue of the first isomorphism theorem for sheaves of abelian groups over spaces.
+    \item How does your first iso theorem look on stalks? (c.f.~\Cref{def:injective-surjective-mononomorphism-of-sheaves})
+\end{enumerate}
+\end{exercise}
+
+This allows us to find \emph{exact sequences} of sheaves.
+
+\begin{example} Let $\mathbb{C}_{\mathfrak{c}}^\ast$ be the sheaf of germs of locally never zero complex valued continuous functions. There is a morphism of sheaves $\exp$, defined on sections by
+\begin{align*}
+    \mathbb{C}_{\mathfrak{c}}(U) &\to \mathbb{C}_{\mathfrak{c}}^\ast(U) \\
+    f &\mapsto \exp(2\pi i \cdot f).
+\end{align*}
+The kernel of this is isomorphic to the constant sheaf $\Z$, because $f$ and $f + n$ map to the same thing for any $n \in \Z$. We claim that we get a short exact sequence of sheaves
+\begin{align*}
+    0 \to \Z \to \mathbb{C}_{\mathfrak{c}} \xto{\exp} \mathbb{C}_{\mathfrak{c}}^\ast \to 0.
+\end{align*}
+The fact that exponentiation is an epimorphism of sheaves is a stalkwise condition, saying that for every value $x\in X$, we can find a sufficiently small neighborhood in which we can take a branch and define $\log(z)$.
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliography{zbib.bib}
 \bibliographystyle{amsalpha}
