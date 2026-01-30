@@ -48,9 +48,9 @@ The definition of a \emph{sheaf} in Hirzebruch is perhaps a bit different from w
 
 \begin{definition} A \emph{sheaf of abelian groups} over a topological space $X$ is a topological space $S$ with the data of a surjective continuous map $\pi \colon S \to X$, for which
 \begin{itemize}
-    \item $\pi$ is a \emph{local homeomorphism}, meaning for every point $s\in S$ there is an open neighborhood $U\ni s$ for which
+    \item $\pi$ is a \emph{local homeomorphism}, meaning for every point $s\in S$ there is an open neighborhood $U\ni s$ and an open neighborhood $V\ni \pi(s)$ for which
     \begin{align*}
-        \pi_{|U} \colon U \to \pi(U)
+        \pi_{|U} \colon U \to V
     \end{align*}
     is a homeomorphism
     \item for every $x\in X$, the \emph{stalk} $S_x := \pi^{-1}(x)$ has the structure of an \emph{abelian group}
