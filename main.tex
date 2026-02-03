@@ -833,35 +833,49 @@ For any space $X$ and any \emph{sheaf} $F\in\Ab(X)$, we have a canonical isomorp
 \end{align*}
 \end{exercise}
 
-The following proposition is subtle!
+Before we get to \Cref{prop:LES-Cech-cohomology-presheaves} it's worth saying some words about exactness of sheaves versus presheaves.
+
+\begin{remark}[On exactness] By definition, a sequence of presheaves $F_1\to F_2 \to F_3$ on $X$ is exact if
+\begin{align*}
+    0 \to F_1(U) \to F_2(U) \to F_3(U) \to 0
+\end{align*}
+is an exact sequence of abelian groups for all $U \in \Open(X)$. If these are all sheaves, then we say the sequence is exact if
+\begin{align*}
+    0 \to (F_1)_x \to (F_2)_x \to (F_3)_x \to 0
+\end{align*}
+is exact for every point $x\in X$. If a sequence of sheaves is exact (when considered as presheaves) then it is still exact when considered as sheaves, e.g. by \Cref{cor:filtered-colimits-preserve-exactness} or by the phrase ``sheafification is exact.'' The converse \emph{does not hold}! Consider the short exact sequence of sheaves
+\begin{align*}
+    0 \to \underline{\Z} \to C^0(-,\R) \to C^0(-,S^1) \to 0.
+\end{align*}
+This is exact (over any space $X$) since it is exact in each fiber. However over an arbitrary space it won't be exact as a sequence of presheaves, because not every circle-valued function lifts to a real-valued function (e.g. if it has non-trivial winding number).\footnote{Indeed we can think of the winding number as measuring the failure of lifting, giving us a class in $H^1(X,\underline{\Z}) = [X,S^1]$.}
+\end{remark}
+
 
 \begin{proposition}\label{prop:LES-Cech-cohomology-presheaves} 
 If
 \begin{align*}
     0 \to F_1 \to F_2 \to F_3 \to 0
 \end{align*}
-is a short exact sequence of presheaves, it induces a long exact sequence
+is a short exact sequence \emph{of presheaves}, it induces a long exact sequence
 \begin{align*}
     0 &\to \check{H}^0(X,F_1) \to \check{H}^0(X,F_2) \to \check{H}^0(X,F_3) \\
     &\to \check{H}^1(X,F_1) \to \check{H}^1(X,F_2) \to \check{H}^1(X,F_3) \\
     &\to \check{H}^2(X,F_1) \to \cdots
 \end{align*}
 \end{proposition}
-\begin{proof}[Sketch] The first thing to reconcile is what we mean by ``short exact sequence of presheaves.'' This means \emph{sectionwise} short exact, i.e. over an open set $U$ we get a short exact sequence. This implies stalkwise exactness but not vice versa -- in particular we can have sequences of sheaves that are exact as sheaves but not as presheaves.
-
-The first step is to show that, for any cover $\mathcal{U}$, the functor
+\begin{proof}[Sketch] The first step is to show that, for any cover $\mathcal{U}$, the functor
 \begin{align*}
-    \check{C}^q(\mathcal{U},-) \colon \Fun(\Open(X)^\op,\Ab)
+    \check{C}^q(\mathcal{U},-) \colon \Fun(\Open(X)^\op,\Ab) \to \Ab
 \end{align*}
 is exact (subtlety: its restriction to $\Ab(X)$ is not necessarily exact, because $\Ab(X)$ has a different notion of exactness than the presheaf category!). A diagram chase then implies we get a long exact sequence on $\check{H}^\ast(\mathcal{U},-)$. Then we take a colimit over all $\mathcal{U}$ in the filtered category of covers $\Cov(X)$, and use that filtered colimits preserve exactness to conclude (\Cref{exa:CovX-filtered} and \Cref{cor:filtered-colimits-preserve-exactness}). The details are spelled out in \cite[pp.~28--29]{Hirzebruch}.
 \end{proof}
 
-This begs a very interesting question --- when do the \v{C}ech cohomology of a presheaf $F$ and of its sheafification $F^\sharp$ agree?
+This begs a very interesting question --- when do the \v{C}ech cohomology of a presheaf $F$ and of its sheafification $F^\sharp$ agree? We need two preliminary results to lead up to a partial answer to this question.
 
 \begin{proposition}\label{prop:property-of-pshf-sheafifying-to-zero} 
 Let $F$ be a presheaf over a space, and suppose $F^\sharp = 0$. For any point $x\in X$, any open $U\ni x$ and any $f\in F(U)$, there exists some smaller open neighborhood $V \subseteq U$ containing $x$ for which $f_{|V} = 0$. 
 \end{proposition}
-\begin{proof} This is because the stalk $F_x$ must be zero.
+\begin{proof} This is because the stalk $F_x = F^\sharp_x$ must be zero.
 \end{proof}
 
 
