@@ -41,7 +41,7 @@ Aside from the main text, which we deviate from at various points, some other re
 
 \subsection{Acknowledgements}
 
-Thank you to Zo\"{e} Batterman, Vincent Costa, and Gabe Ong for offering suggestions and changes to the notes. Thanks to Sidhanth Raman for helpful correspondence in preparing this class.
+Thank you to Zo\"{e} Batterman, Vincent Costa, and Gabe Ong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
 
 \section{Sheaves}
 
@@ -682,9 +682,9 @@ We'll use this later on.
 \begin{exercise} Verify the claim in \cite[1.9.2]{Tohoku} that the collection $\left\{ \Z_U \right\}_{U\in \Open(X)}$ forms a system of \emph{generators} for the category $\Ab(X)$.
 \end{exercise}
 
-\subsection{\v{C}ech cohomology}
+\subsection{\v{C}ech cohomology of a presheaf}
 
-Let $\mathcal{U} = \left\{ U_i \right\}_{i\in I}$ be a cover of $X$, let $F$ be a sheaf, and define
+Let $\mathcal{U} = \left\{ U_i \right\}_{i\in I}$ be a cover of $X$, let $F$ be a presheaf, and define
 \begin{equation}\label{eqn:group-of-Cech-cochains}
 \begin{aligned}
     C^q(\mathcal{U},F) = \prod_{i_0, \ldots, i_q \in I} F(U_{i_0} \cap \cdots \cap U_{i_q}).
@@ -717,7 +717,7 @@ defined as
 \end{exercise}
 
 \begin{definition}\label{def:Cech-cohomology-on-cover} 
-We define the \textit{Cech cohomology} of $F\in \Ab(X)$ over the cover $\mathcal{U}$ to be
+We define the \textit{Cech cohomology} of the presheaf $F$ over the cover $\mathcal{U}$ to be
 \begin{align*}
     \hat{H}^q(\mathcal{U},F) = \ker(\delta^q)/\im(\delta^{q-1}).
 \end{align*}
@@ -765,7 +765,7 @@ So we get
 \begin{definition}\label{def:covX} Let $X$ be a topological space. We denote by $\Cov(X)$ the poset (category) of open covers of $X$ under refinement. That is, an object of $\Cov(X)$ is an open cover $\mathcal{U}$ of $X$, and for any two covers $\mathcal{U},\mathcal{V} \in \Cov(X)$, we have exactly one morphism $\mathcal{V} \to \mathcal{U}$ if $\mathcal{V}$ refines $\mathcal{U}$, otherwise there are no morphisms from $\mathcal{V}$ to $\mathcal{U}$.
 \end{definition}
 
-\begin{exercise} If $X$ is a space, $F\in \Ab(X)$, and $\mathcal{U},\mathcal{V}$ are open covers of $X$ for which $\mathcal{V}$ is a refinement of $\mathcal{U}$, define a natural restriction morphism
+\begin{exercise} If $X$ is a space, $F$ is a presheaf on $X$, and $\mathcal{U},\mathcal{V}$ are open covers of $X$ for which $\mathcal{V}$ is a refinement of $\mathcal{U}$, define a natural restriction morphism
 \begin{align*}
     \check{H}^q(\mathcal{U},F) \to \check{H}^q(\mathcal{V},F).
 \end{align*}
@@ -775,7 +775,7 @@ So we get
 In particular, the exercise above indicates that \v{C}ech cohomology is functorial in the cover. This motivates the following definition:
 
 \begin{definition}\label{def:Cech-cohomology} 
-We define the \emph{\v{C}ech cohomology} of $F\in \Ab(X)$ by
+We define the \emph{\v{C}ech cohomology} of a (pre)sheaf $F$ on $X$ by
 \begin{align*}
     \check{H}^q(X,F) := \colim_{\mathcal{U}\in \Cov(X)} \check{H}^q(\mathcal{U},F).
 \end{align*}
@@ -818,13 +818,8 @@ Note that $\check{C}^1(\mathcal{U},F) = \Z^{\times 2}$ in this instance, since $
 so we get cohomology in degrees $0$ and $1$, as expected. This is an example of how \emph{refining} the cover can detect more cohomological features.
 \end{example}
 
-\begin{exercise} Give an example of \emph{noise} in \v{C}ech cohomology. That is, find a cover which creates a cohomology class which vanishes under refinement.
-\end{exercise}
-
-
-
 \begin{proposition}\label{prop:Cech-0-is-global-sections} 
-For any space $X$ and any $F\in\Ab(X)$, we have a canonical isomorphism
+For any space $X$ and any \emph{sheaf} $F\in\Ab(X)$, we have a canonical isomorphism
 \begin{align*}
     \check{H}^0(X,F) \cong \Gamma(X,F).
 \end{align*}
@@ -838,23 +833,30 @@ For any space $X$ and any $F\in\Ab(X)$, we have a canonical isomorphism
 \end{align*}
 \end{exercise}
 
-\begin{proposition}\label{prop:LES-Cech-cohomology} 
+The following proposition is subtle!
+
+\begin{proposition}\label{prop:LES-Cech-cohomology-presheaves} 
 If
 \begin{align*}
     0 \to F_1 \to F_2 \to F_3 \to 0
 \end{align*}
-is a short exact sequence of sheaves in $\Ab(X)$, it induces a long exact sequence
+is a short exact sequence of presheaves, it induces a long exact sequence
 \begin{align*}
     0 &\to \check{H}^0(X,F_1) \to \check{H}^0(X,F_2) \to \check{H}^0(X,F_3) \\
     &\to \check{H}^1(X,F_1) \to \check{H}^1(X,F_2) \to \check{H}^1(X,F_3) \\
     &\to \check{H}^2(X,F_1) \to \cdots
 \end{align*}
 \end{proposition}
-\begin{proof}[Sketch] We first show, for any cover $\mathcal{U}$, that $\check{C}^q(\mathcal{U},-)$ is an exact functor on $\Ab(X)$. A diagram chase then implies we get a long exact sequence on $\check{H}^\ast(\mathcal{U},-)$. Then we take a colimit over all $\mathcal{U}$ in the filtered category of covers $\Cov(X)$, and use that filtered colimits preserve exactness to conclude (\Cref{exa:CovX-filtered} and \Cref{cor:filtered-colimits-preserve-exactness}). The details are spelled out in \cite[pp.~28--29]{Hirzebruch}.
+\begin{proof}[Sketch] The first thing to reconcile is what we mean by ``short exact sequence of presheaves.'' This means \emph{sectionwise} short exact, i.e. over an open set $U$ we get a short exact sequence. This implies stalkwise exactness but not vice versa -- in particular we can have sequences of sheaves that are exact as sheaves but not as presheaves.
+
+The first step is to show that, for any cover $\mathcal{U}$, the functor
+\begin{align*}
+    \check{C}^q(\mathcal{U},-) \colon \Fun(\Open(X)^\op,\Ab)
+\end{align*}
+is exact (subtlety: its restriction to $\Ab(X)$ is not necessarily exact, because $\Ab(X)$ has a different notion of exactness than the presheaf category!). A diagram chase then implies we get a long exact sequence on $\check{H}^\ast(\mathcal{U},-)$. Then we take a colimit over all $\mathcal{U}$ in the filtered category of covers $\Cov(X)$, and use that filtered colimits preserve exactness to conclude (\Cref{exa:CovX-filtered} and \Cref{cor:filtered-colimits-preserve-exactness}). The details are spelled out in \cite[pp.~28--29]{Hirzebruch}.
 \end{proof}
 
-\begin{remark} The definition of \v{C}ech cohomology in \Cref{def:Cech-cohomology} doesn't require $F$ to be a sheaf --- it makes sense for $F$ any presheaf. In particular we didn't use the sheaf condition in setting up this theory, aside from using \emph{gluing} to argue that $\check{H}^0(X,F) \cong \Gamma(X,F)$. We can make sense of \v{C}ech cohomology in any \emph{presheaf}, which begs the question: when do the \v{C}ech cohomology of a sheaf $F$ and of its sheafification $\til{F}$ agree?
-\end{remark}
+This begs a very interesting question --- when do the \v{C}ech cohomology of a presheaf $F$ and of its sheafification $F^\sharp$ agree?
 
 \begin{proposition}\label{prop:property-of-pshf-sheafifying-to-zero} 
 Let $F$ be a presheaf over a space, and suppose $F^\sharp = 0$. For any point $x\in X$, any open $U\ni x$ and any $f\in F(U)$, there exists some smaller open neighborhood $V \subseteq U$ containing $x$ for which $f_{|V} = 0$. 
@@ -885,16 +887,27 @@ is zero. If the intersection of the $V_{x_i}$'s is empty, there is nothing to sh
 \end{proof}
 
 
-\begin{theorem} If $X$ is paracompact, and $F$ is a presheaf with corresponding sheaf $\til{F}$, then the natural map $\check{H}^q(X,F) \to \check{H}^q(X,\til{F})$ is an isomorphism for all $q\ge0$.
+\begin{theorem}\label{thm:paracompact-space-Cech-cohomology-of-sheafification} 
+If $X$ is paracompact, and $F$ is a presheaf with corresponding sheaf $F^\sharp$, then the natural map $\check{H}^q(X,F) \to \check{H}^q(X,F^\sharp)$ is an isomorphism for all $q\ge0$.
 \end{theorem}
-\begin{proof} Consider the sheafification map $F \to F^\sharp$ and take its kernel and cokernel
+\begin{proof} Consider the sheafification map $F \to F^\sharp$ and take its kernel and cokernel in the category of presheaves
 \begin{align*}
     0 \to K \to F \to F^\sharp \to C \to 0.
 \end{align*}
-As $F \to F^\sharp$ sheafifies to an isomorphism, and since sheafification is an exact functor, we have that $K$ and $C$ sheafify to zero. Hence their higher cohomology vanishes by \Cref{lem:presheaf-sheafifying-to-zero-has-no-cohomology}, and using the long exact sequence on cohomology attached to short exact sequences of sheaves, we obtain that the induced maps $\check{H}^q(X,F) \to \check{H}^q(X,F^\sharp)$ are all isomorphisms.
+As $F \to F^\sharp$ sheafifies to an isomorphism, and since sheafification is an exact functor, we have that $K$ and $C$ sheafify to zero. Hence their higher cohomology vanishes by \Cref{lem:presheaf-sheafifying-to-zero-has-no-cohomology}, and using the long exact sequence on cohomology attached to short exact sequences of presheaves, we obtain that the induced maps $\check{H}^q(X,F) \to \check{H}^q(X,F^\sharp)$ are all isomorphisms.
 \end{proof}
 
-So over paracompact spaces, there is no difference between the cohomology of a presheaf and of its resulting sheafification.
+So over paracompact spaces, there is no difference between the cohomology of a presheaf and of its resulting sheafification. A corollary of this we will use often is the following:
+
+\begin{proposition}\label{prop:LES-Cech-cohomology}
+If $X$ is a paracompact space, and $0 \to F_1 \to F_2 \to F_3 \to 0$ is an exact sequence of \emph{sheaves} on $X$, then it induces a long exact sequence
+\begin{align*}
+    0 \to \check{H}^0(X,F_1) \to \check{H}^0(X,F_2) \to \check{H}^0(X,F_3) \to \check{H}^1(X,F_1) \to \cdots
+\end{align*}
+\end{proposition}
+\begin{proof} Combine \Cref{prop:LES-Cech-cohomology-presheaves} and \Cref{thm:paracompact-space-Cech-cohomology-of-sheafification}.
+\end{proof}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
