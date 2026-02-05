@@ -1,29 +1,47 @@
 \documentclass[11pt]{amsart}
+\input{../commands.tex}
+
+\newtheorem{hwexercise}{Exercise}
 
 \title{math231br Homework 2 (Due Thursday, 2/12/26)}
 
-\usepackage{amsthm,amssymb}
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}
-
-\providecommand{\im}{\mathrm{im}}
-\providecommand{\coker}{\mathrm{coker}}
-
 \begin{document}
-
 \maketitle
 
+\begin{hwexercise} If $X$ is a connected, compact, complex manifold, argue that $\Gamma(X,\mathcal{O}_X) = \C$, where we recall $\mathcal{O}_X$ is the sheaf of germs of holomorphic functions on $X$.
+\end{hwexercise}
 
-\begin{exercise} \,
+\begin{hwexercise} \,
 \begin{enumerate}
     \item Let $f \colon S_1 \to S_2$ be a morphism of sheaves over $X$. Give a reasonable definition of an \emph{image} subsheaf $\im(f) \subseteq S_2$.
     \item Give a reasonable definition of a \emph{cokernel} sheaf $\coker(f)$ over $f$.
     \item Prove an analogue of the first isomorphism theorem for sheaves of abelian groups over spaces.
     \item How does your first isomorphism theorem look on stalks?
 \end{enumerate}
-\end{exercise}
+\end{hwexercise}
 
-more tbd
+\begin{hwexercise} Let $X$ be a space, $F$ a presheaf, and $\mathcal{U}$ an open cover. For any $q\ge0$, verify that the composite
+\begin{align*}
+    \check{C}^q(\mathcal{U},F) \xto{d^q} \check{C}^{q+1}(\mathcal{U},F) \xto{d^{q+1}} \check{C}^{q+2}(\mathcal{U},F)
+\end{align*}
+is zero (that is, the \v{C}ech cochains complex is, indeed, a complex).
+\end{hwexercise}
+
+
+\begin{hwexercise} Find a cover $\mathcal{U}$ of $S^2$ for which $\check{H}^\ast(S^2,\underline{\Z})$ agrees with the singular cohomology $H^\ast(S^2,\Z)$.
+\end{hwexercise}
+
+\begin{hwexercise}[Important] If $X$ is a space, $F$ is a presheaf on $X$, and $\mathcal{U},\mathcal{V}$ are open covers for which $\mathcal{V}$ is a refinement of $\mathcal{U}$, construct a natural map
+\begin{align*}
+    \check{H}^q(\mathcal{U},F) \to \check{H}^q(\mathcal{V},F).
+\end{align*}
+Show that any choices you made in the process of refinement don't matter, and the resulting math is well-defined.
+\end{hwexercise}
+
+
+
+
+
+
 
 \end{document}
-
