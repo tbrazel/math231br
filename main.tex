@@ -439,7 +439,7 @@ To briefly tie what we've been doing into the language of Grothendieck topologie
 \label{exa:representable-sheaves}
 Let $X$ and $Y$ be any spaces. Then the assignment
 \begin{align*}
-    \Open(X)^\op &\to \Set \\
+    C^0(-,Y) \colon \Open(X)^\op &\to \Set \\
     U &\mapsto \Hom_\Top(U,Y)
 \end{align*}
 is a sheaf of sets. We call this the \emph{representable sheaf} attached to $Y$, although this is maybe a slight abuse of terminology?\footnote{Technically speaking, $Y$ should be viewed as a representable sheaf on $\Top = \Top_{/\ast}$, which is the big site over the one-point space. We can pull this back along the projection $X \to \ast$ and we get a sheaf $\Hom_{\Top_{/X}}(-,X \times Y)$, which, when restricted to the small site $\Open(X)$, agrees with $\Hom_{\Top}(-,Y)$ by adjunction.}
@@ -577,7 +577,7 @@ It is clear that $\pi_K$ is just $\pi_A$ restricted to $K$ by construction, and 
 \end{enumerate}
 \end{exercise}
 
-This allows us to find \emph{exact sequences} of sheaves.
+Now that we have a notion of \emph{subsheaf} and \emph{cokernel}, we can build short exact sequences of sheaves out of subsheaves (recall the definition of exactness from \Cref{def:injective-surjective-mononomorphism-of-sheaves}).
 
 \begin{example} Let $\mathbb{C}_{\mathfrak{c}}^\ast$ be the sheaf of germs of locally never zero complex valued continuous functions. There is a morphism of sheaves $\exp$, defined on sections by
 \begin{align*}
@@ -635,7 +635,7 @@ Let $U \subseteq X$ be an open set. Then the functor
     \Gamma(U,-) \colon \Ab(X) &\to \Ab \\
     S &\mapsto \Gamma(U,S)
 \end{align*}
-is corepresentable, meaning there exists a sheaf we will denote by $\Z_U$ for which $\Hom_{\Ab(X)}(\Z_U,-) \cong \Gamma(U,-)$ are naturally isomorphic.\footnote{This is poor notation. Better notation is to let $j \colon U \hookto X$ denote the inclusion, and write $j_! \Z_U$.}
+is corepresentable, meaning there exists a sheaf we will denote by $\Z_U$ for which $\Hom_{\Ab(X)}(\Z_U,-) \cong \Gamma(U,-)$ are naturally isomorphic as abelian groups.\footnote{This is poor notation. Better notation is to let $j \colon U \hookto X$ denote the inclusion, and write $j_! \Z_U$.}
 \end{example}
 \begin{proof}
 Denote by $h_U = \Hom_{\Open(X)}(-,U)$ the presheaf of sets\footnote{Note this is \emph{different} than the ``representable'' presheaf we defined in \Cref{exa:representable-sheaves}. There we looked at all continuous maps into $U$, whereas here we only want the natural inclusion of $V$ in $U$, if it exists.}
@@ -782,6 +782,19 @@ We define the \emph{\v{C}ech cohomology} of a (pre)sheaf $F$ on $X$ by
 That is, it is the colimit of the \v{C}ech cohomology along all possible covers, filtered by refinement.
 \end{definition}
 
+We have very little control over these refinement maps, as the following result illustrates:
+
+\begin{proposition}\label{prop:injectivity-of-refinement-of-Cech-cohomology} Let $\mathcal{V}$ be a refinement of the cover $\mathcal{U}$ on a space $X$. Then:
+\begin{itemize}
+    \item the refinement map $\check{H}^0(\mathcal{U},F) \to \check{H}^1(\mathcal{V},F)$ is an isomorphism
+    \item the refinement map $\check{H}^1(\mathcal{U},F) \to \check{H}^1(\mathcal{V},F)$ is injective
+    \item higher refinement maps $\check{H}^q(\mathcal{U},F) \to \check{H}^q(\mathcal{V},F)$ need not be injective for $q\ge 2$. An explicit example is on Math Overflow here: \href{https://mathoverflow.net/a/462472}{MO462472}.
+\end{itemize}
+\end{proposition}
+\begin{proof} The statement $q=0$ will follow from \Cref{prop:Cech-0-is-global-sections}. For $q=1$ a nice proof is in \cite[12.4]{Forster}.
+\end{proof}
+
+
 \begin{example} On $S^1$, we can take a simple cover consisting of only all of $S^1$, letting $F=\underline{\Z}$ be the constant sheaf $\Z$. Then the \v{C}ech cochains complex for this is the chain complex $\Z[0]$ concentrated in degree zero. This gives $\check{H}^0(\mathcal{U},F) = \Z$ and vanishing cohomology elsewhere. On the other hand, we can take a cover $S^1 = U_0 \cup U_1$, where $U_0$ and $U_1$ are the upper and lower semicircle, plus a little extra so that they overlap:
 \begin{figure}[H]
 \begin{tikzpicture}[scale=2]
@@ -886,18 +899,18 @@ Let $X$ be a paracompact space, and $F$ a presheaf on $X$. Then if $F^\sharp$ is
 \begin{proof} We show that no cochains survive refinement. That is, if $f \in \check{C}^q(\mathcal{U},F)$ for some cover $\mathcal{U} = \{U_i\}_{i\in I}$, we will find a refinement of the cover which kills $f$. Without loss of generality assume that $\mathcal{U}$ is locally finite. By the Dieudonn\'e shrinking theorem (\Cref{thm:shrinking}), we may find a cover $\mathcal{W} = \left\{ W_i \right\}_{i\in I}$ for which $\overline{W_i} \subseteq U_i$.
 
 Let $J = X$ as a set--- we will produce a refinement of the cover $\mathcal{U}$, now indexed over $J$. For each $x\in X$, we pick an open neighborhood $V_x \ni x$ for which:
-\begin{itemize}
+\begin{enumerate}
     \item if $x\in U_i$ then $V_x \subseteq U_i$ and if $x\in W_i$ then $V_x \subseteq W_i$
     \item if $V_x \cap W_i \ne \emptyset$ then $V_x \subseteq U_i$
     \item if $x\in U_{i_0} \cap \cdots \cap U_{i_q}$ then $f(i_0, \ldots, i_q)$ restricts to zero in $F(V_x)$.
-\end{itemize}
+\end{enumerate}
 Since $\mathcal{U}$ and $\mathcal{W}$ are locally finite, there are only finitely many $U_i$ and $W_i$ containing $x$ to worry about, so the first two conditions can be fulfilled. Why are we allowed to guarantee the last condition can hold? By \Cref{prop:property-of-pshf-sheafifying-to-zero} some sufficiently small neighborhood of $x$ in $U_{i_0} \cap \cdots \cap U_{i_q}$ will have the property that $f(i_0, \ldots, i_q)$ restricts to zero in it. We can pick $V_x$ to be that neighborhood, perhaps intersecting it further finitely many times to make it satisfy the first two conditions.
 
 We now claim that $f$ refines to zero in this new cover $\left\{ V_x \right\}_{x\in X}$. Pick any tuple $(x_0, \ldots, x_q)$, and let $i_j$ be such that $x_j \in W_{i_j} \subseteq U_{i_j}$ for each $j$. By (1), this tells us that $V_{x_j} \subseteq W_{i_j} \subseteq U_{i_j}$. We want to argue that the image of $f(i_0, \ldots, i_p)$ under the restriction map
 \begin{align*}
     F(U_{i_0} \cap \cdots \cap U_{i_q}) \to F(V_{x_0}\cap \cdots \cap V_{x_q})
 \end{align*}
-is zero. If the intersection of the $V_{x_i}$'s is empty, there is nothing to show, so suppose it is nonempty. Then $V_{x_0}\cap V_{x_k}$ is nonempty for each $k$. Since $V_{x_k} \subseteq W_{i_k}$, we have that $V_{x_0} \cap W_{i_k} \ne \emptyset$, and by point (2) this implies that $V_{x_0} \subseteq U_{i_k}$. Since this is true for all $k$, we have that $V_{x_0} \subseteq U_{i_0} \cap \cdots \cap U_{i_q}$. However by (3), we have that $f(i_0, \ldots, i_q)$ restricts to zero on $V_x$ and therefore on the smaller subset $V_{x_0} \cap \cdots \cap V_{x_q}$.
+is zero. If the intersection of the $V_{x_i}$'s is empty, there is nothing to show, so suppose it is nonempty. Then $V_{x_0}\cap V_{x_k}$ is nonempty for each $k$. Since $V_{x_k} \subseteq W_{i_k}$, we have that $V_{x_0} \cap W_{i_k} \ne \emptyset$, and by point (2) this implies that $V_{x_0} \subseteq U_{i_k}$. Since this is true for all $k$, we have that $V_{x_0} \subseteq U_{i_0} \cap \cdots \cap U_{i_q}$. However by (3), since $x_0 \in V_{x_0}\subseteq U_{i_0} \cap \cdots \cap U_{i_q}$, we have that $f(i_0, \ldots, i_q)$ restricts to zero on $V_{x_0}$ and therefore on the smaller subset $V_{x_0} \cap \cdots \cap V_{x_q}$.
 \end{proof}
 
 
@@ -921,6 +934,128 @@ If $X$ is a paracompact space, and $0 \to F_1 \to F_2 \to F_3 \to 0$ is an exact
 \end{proposition}
 \begin{proof} Combine \Cref{prop:LES-Cech-cohomology-presheaves} and \Cref{thm:paracompact-space-Cech-cohomology-of-sheafification}.
 \end{proof}
+
+\subsection{Acyclic resolutions}
+
+In classical topology, spaces were called \emph{acyclic} if every cycle on the space was a boundary --- in other words the space had the homology type of a point or any contractible space. Similarly a connective cochain complex can be considered acyclic if its cohomology is concentrated in degree zero. For \v{C}ech cohomology, we say a sheaf is acyclic if its \v{C}ech cochains complex is an acyclic complex. In other words:
+
+\begin{definition}\label{def:acyclic-sheaf} A sheaf $F\in \Ab(X)$ is \emph{acyclic} if $\check{H}^p(X,F) = 0$ for $p>0$.
+\end{definition}
+
+\begin{definition} Take $F\in \Ab(X)$. An \emph{acyclic resolution} of $F$ is a (possibly infinite) exact sequence
+\begin{align*}
+    0 \to F \to A^0 \to A^1 \to \cdots
+\end{align*}
+where each $A^i$ is acyclic for $i\ge 0$.
+\end{definition}
+
+\begin{exercise} Argue that the global sections functor
+\begin{align*}
+    \Gamma(X,-) \colon \Ab(X) \to \Ab
+\end{align*}
+is left exact, and then argue that it sends an acyclic resolution of $F$ to a chain complex in $\Ab$.
+\end{exercise}
+
+It turns out we can use acyclic resolutions to compute cohomology!
+
+\begin{theorem}[\v{C}ech=sheaf cohomology] 
+\label{thm:cech-equals-sheaf}
+Let $F\in \Ab(X)$ be a sheaf over a paracompact space, and consider any acyclic resolution $F \to A^\bullet$. Then $\check{H}^q(X,F)$ is canonically isomorphic to the cohomology of the chain complex obtained by applying $\Gamma(X,-)$ to the acyclic resolution.
+%, which by taking the acyclic sheaves to actually be injective is isomorphic to $H^q^\asst(X,F)$.
+\end{theorem}
+\begin{proof} We write out the sequence we're looking at:
+\begin{align*}
+    \Gamma(X,A^0) \xto{d^0} \Gamma(X,A^1) \xto{d^1} \cdots
+\end{align*}
+We will proceed by induction. The kernel of $d^0$ is $\Gamma(X,F)$ by definition, which is the same as $\check{H}^0(X,F)$ by \Cref{prop:Cech-0-is-global-sections}. This establishes our base case.
+
+Let $K^p := \ker(A^p \to A^{p+1})$. By exactness and the first isomorphism theorem, $A^p/K^p \cong K^{p+1}$, so we get a short exact sequence of sheaves
+\begin{align*}
+    0 \to K^p \to A^p \to K^{p+1}\to 0.
+\end{align*}
+Applying the long exact sequence on cohomology (\Cref{prop:LES-Cech-cohomology}), we get
+\begin{align*}
+    \cdots \to \check{H}^q(X,K^p) \to \check{H}^q(X,A^p) \to \check{H}^q(X,K^{p+1})\xto{\partial} \check{H}^{q+1}(X,K^p) \to \check{H}^{q+1}(X,K^p) \to \cdots
+\end{align*}
+Since the $A^p$'s are acyclic, the boundary maps $\partial$ are isomorphisms $\check{H}^q(X,K^{p+1})\cong \check{H}^{q+1}(X,K^p)$ for $q\ge 1$. Note though that $K^0 = F$, so we get that
+\begin{align*}
+    \check{H}^1(X,K^{q-1}) \cong \check{H}^q(X,F) \quad\quad \text{for }q\ge1.
+\end{align*}
+We claim $\check{H}^1(K^{q-1})$ is identified canonically with the $q$th cohomology of the sequence $\left\{ \Gamma(X,A^i) \right\}$. Indeed this follows from looking at the LES attached to $0 \to K^{q-1} \to A^{q-1}\to K^q \to 0$, from which we get
+\begin{align*}
+    H^0(X,A^{q-1}) \xto{d^{q-1}} H^0(X,K^q) \to H^1(X,K^{q-1}) \to 0.
+\end{align*}
+Since $H^0(X,K^q) = \ker(d^q)$, we have that $H^1(X,K^{q-1})$ is the $\ker(d^q)$ modulo the image of $d^{q-1}$, hence it is the cohomology of the complex.
+\end{proof}
+
+This provides us a new way to compute \v{C}ech cohomology over a paracompact space!
+
+\begin{remark} In general, \emph{sheaf cohomology} is defined as the derived functors of global sections. This makes sense over any space, and admits many key properties (for instance a long exact sequence on cohomology from a short exact sequence of sheaves). However in general it need not agree with \v{C}ech cohomology.
+\end{remark}
+
+
+\begin{remark} In general, one deals with \emph{injective resolutions} rather than acyclic ones. This allows us to reword the above in the language of derived categories, and define cohomology as the right derived functors of the global sections functor. In order to do this, we should show that injective sheaves are in fact acyclic.
+\end{remark}
+
+\begin{definition} Recall an \textit{injective sheaf} is an injective object in $\Ab(X)$, meaning that the functor
+\begin{align*}
+    \Hom_{\Ab(X)}(-,I) \colon \Ab(X)^\op \to \Ab
+\end{align*}
+is exact.
+\end{definition}
+
+\begin{example}\label{exa:skyscraper-injective} 
+Let $I$ be an injective abelian group, and $i \colon \{x\} \to X$ the inclusion of a point. Then the skyscraper sheaf $i_\ast I \in \Ab(X)$ is injective.
+\end{example}
+\begin{proof} The data of a map into a skyscraper sheaf is completely determined by what happens on the stalk over $x$ (this is a pullback-pushforward adjunction) -- this gives us a natural isomorphism of functors $\Ab(X) \to \Ab$:
+\begin{align*}
+    \Hom_{\Ab(X)}(-, i_\ast I) \cong \Hom_{\Ab}((-)_x, I).
+\end{align*}
+the right hand side is exact since taking stalks is an exact functor, hence $i_\ast I$ is injective.
+\end{proof}
+
+We're going to argue injective sheaves are acyclic. First we need a lemma.
+\begin{lemma}[{\cite[03AS, 03AU]{Stacks}}] Let $X$ be any space, and $\mathcal{U} = \left\{ U_i \right\}$ any open cover. Define a chain complex of abelian sheaves $\Z_{\mathcal{U},\bullet}$ by
+\begin{align*}
+    \Z_{\mathcal{U},p} = \bigoplus_{i_0, \ldots, i_p} \Z_{U_{i_0}\cap \cdots \cap U_{i_p}},
+\end{align*}
+where recall $\Z_U$ is the sheaf corepresenting $\Gamma(U,-)$ as in \Cref{exa:ZU-sheaf}. The differentials on the chain complex $\Z_{\mathcal{U},\bullet}$ are the sum over $(-1)^k$ times the canonical map
+\begin{align*}
+    \Z_{U_{i_0}\cap \cdots \cap U_{i_p}} \to \Z_{U_{i_0}\cap \cdots\cap \widehat{U_{i_k}} \cap U_{i_p}}.
+\end{align*}
+Then we claim that $\Hom_{\Ab(X)} \left( \Z_{\mathcal{U},p},F \right)\cong \check{C}^p(\mathcal{U},F)$ for any $F\in \Ab(X)$, and that the differentials $\Z_{\mathcal{U},p+1} \to \Z_{\mathcal{U},p}$ induce the \v{C}ech cochain differentials $\delta^p \colon \check{C}(\mathcal{U},F) \to \check{C}^{p+1}(\mathcal{U},F)$ after applying $\Hom_{\Ab(X)}(-,F)$.
+\end{lemma}
+
+\begin{corollary}\label{cor:injective-sheaf-is-acyclic} 
+Every injective sheaf is acyclic.
+\end{corollary}
+\begin{proof} If $I \in \Ab(X)$ is injective, then $\Hom_{\Ab(X)}(-,I)$ is an exact functor. In particular it sends $\Z_{\mathcal{U},\bullet}$ to a cochain complex which is exact except for in the first term. Since this is exactly the \v{C}ech cochains complex, this implies that $\check{H}^q(\mathcal{U},I) = 0$ for $q\ge 1$. As this is true for every $\mathcal{U}$, we conclude that $\check{H}^q(X,I) = 0$ for all $q\ge 1$.
+\end{proof}
+
+The converse does not hold:
+
+\begin{example} Let $A$ be a non-injective abelian group, and $i \colon \{x\} \to X$ the inclusion of a point. Then we claim the skyscraper sheaf $i_\ast A$ is acyclic but need not be injective.
+\end{example}
+\begin{proof} Take any cover of $X$ and refine it so that $U_0\ni x$ and $U_i\not\ni x$ for $i>0$. In particular there are no sections of $i_\ast A$ over overlaps, so $\check{H}^q(\mathcal{U},i_\ast A) = 0$ for all $q>0$. This remains true under refinement, so this vanishing passes to the colimit. Failure of injectivity of the sheaf $i_\ast A$ reduces to failure of injectivity of $A$ as an abelian group by looking at maps on stalks as in the proof of \Cref{exa:skyscraper-injective}.
+\end{proof}
+
+
+So \Cref{cor:injective-sheaf-is-acyclic} lets us conclude what we may have already expected:
+
+\begin{corollary}\label{cor:cech-equals-sheaf-cohomology-paracompact-Hausdorff} 
+Over a paracompact Hausdorff space $X$, we have that \v{C}ech cohomology is canonically isomorphic to the right derived functors of global sections.
+\end{corollary}
+
+\begin{remark} The contemporary perspective is to \emph{first} define cohomology as these right derived functors, \emph{then} to compare with \v{C}ech cohomology. The classical perspective of Serre, Godement and others, and what we presented above, is the exact opposite.
+\end{remark}
+
+\begin{exercise} Note that \Cref{thm:cech-equals-sheaf} has already told us that cohomology can be computed using an injective resolution, and that this doesn't depend on the choice of injective resolution. The yoga of derived functors lets us conclude this also. If we wanted to try to prove it by hand, we could do it as follows: Prove that if $F \to I^\bullet$ is any injective resolution and $F \to J^\bullet$ is any other resolution, there exists a map of chain complexes $f^\bullet$ making the diagram commute:
+\[ \begin{tikzcd}
+    F\rar\ar[dr] & I^\bullet\dar["f^\bullet" right]\\
+     & J^\bullet.
+\end{tikzcd}\]
+Show that $f^\bullet$ is a quasi-isomorphism and moreover is well-defined up to chain homotopy.
+\end{exercise}
 
 
 
