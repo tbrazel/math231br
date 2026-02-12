@@ -990,13 +990,6 @@ Since $H^0(X,K^q) = \ker(d^q)$, we have that $H^1(X,K^{q-1})$ is the $\ker(d^q)$
 
 This provides us a new way to compute \v{C}ech cohomology over a paracompact space!
 
-\begin{remark} In general, \emph{sheaf cohomology} is defined as the derived functors of global sections. This makes sense over any space, and admits many key properties (for instance a long exact sequence on cohomology from a short exact sequence of sheaves). However in general it need not agree with \v{C}ech cohomology.
-\end{remark}
-
-
-\begin{remark} In general, one deals with \emph{injective resolutions} rather than acyclic ones. This allows us to reword the above in the language of derived categories, and define cohomology as the right derived functors of the global sections functor. In order to do this, we should show that injective sheaves are in fact acyclic.
-\end{remark}
-
 \begin{definition} Recall an \textit{injective sheaf} is an injective object in $\Ab(X)$, meaning that the functor
 \begin{align*}
     \Hom_{\Ab(X)}(-,I) \colon \Ab(X)^\op \to \Ab
@@ -1014,7 +1007,17 @@ Let $I$ be an injective abelian group, and $i \colon \{x\} \to X$ the inclusion 
 the right hand side is exact since taking stalks is an exact functor, hence $i_\ast I$ is injective.
 \end{proof}
 
-We're going to argue injective sheaves are acyclic. First we need a lemma.
+\begin{definition}\label{def:injective-resolution} Let $F\in \Ab(X)$ be a sheaf. An \emph{injective resolution} of $F$ is an exact sequence
+\begin{align*}
+    0 \to F \to I^0 \to I^1 \to I^2 \to \cdots
+\end{align*}
+for which each sheaf $I^j$ is injective.
+\end{definition}
+
+\begin{remark} In general, one deals with \emph{injective resolutions} rather than acyclic ones. This allows us to reword the above in the language of derived categories, and define cohomology as the right derived functors of the global sections functor. In order to do this, we should show that injective sheaves are in fact acyclic.
+\end{remark}
+
+First we need a lemma.
 \begin{lemma}[{\cite[03AS, 03AU]{Stacks}}] Let $X$ be any space, and $\mathcal{U} = \left\{ U_i \right\}$ any open cover. Define a chain complex of abelian sheaves $\Z_{\mathcal{U},\bullet}$ by
 \begin{align*}
     \Z_{\mathcal{U},p} = \bigoplus_{i_0, \ldots, i_p} \Z_{U_{i_0}\cap \cdots \cap U_{i_p}},
