@@ -41,7 +41,7 @@ Aside from the main text, which we deviate from at various points, some other re
 
 \subsection{Acknowledgements}
 
-Thank you to Zo\"{e} Batterman, Vincent Costa, and Gabe Ong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
+Thank you to Zo\"{e} Batterman, Vincent Costa, Frank Gubars, Gabe Ong, and Greg Wong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
 
 \section{Sheaves}
 
@@ -863,6 +863,9 @@ is exact for every point $x\in X$. If a sequence of sheaves is exact (when consi
 This is exact (over any space $X$) since it is exact in each fiber. However over an arbitrary space it won't be exact as a sequence of presheaves, because not every circle-valued function lifts to a real-valued function (e.g. if it has non-trivial winding number).\footnote{Indeed we can think of the winding number as measuring the failure of lifting, giving us a class in $H^1(X,\underline{\Z}) = [X,S^1]$.}
 \end{remark}
 
+\begin{exercise}\label{exer:mono-sheaves-is-mono-presheaves} If $F \to G$ is a map of presheaves which is a monomorphism of sheaves (it is injective on every stalk) then it is a monomorphism of presheaves (it is injective on every section).
+\end{exercise}
+
 
 \begin{proposition}\label{prop:LES-Cech-cohomology-presheaves} 
 If
@@ -932,7 +935,11 @@ If $X$ is a paracompact space, and $0 \to F_1 \to F_2 \to F_3 \to 0$ is an exact
     0 \to \check{H}^0(X,F_1) \to \check{H}^0(X,F_2) \to \check{H}^0(X,F_3) \to \check{H}^1(X,F_1) \to \cdots
 \end{align*}
 \end{proposition}
-\begin{proof} Combine \Cref{prop:LES-Cech-cohomology-presheaves} and \Cref{thm:paracompact-space-Cech-cohomology-of-sheafification}.
+\begin{proof} Let $F_1 \to F_2 \to F_3$ be a short exact sequence of \emph{sheaves}. Define a \emph{presheaf} $F_2/F_1$ to be the cokernel of the map $F_1 \to F_2$ in the category of sheaves. By \Cref{prop:LES-Cech-cohomology-presheaves} we get a long exact sequence on \v{C}ech cohomology of presheaves
+\begin{align*}
+    0 \to \check{H}^0(X,F_1) \to \check{H}^0(X,F_2) \to \check{H}^0(X, F_2/F_1) \to \check{H}^1(X,F_1) \to \cdots 
+\end{align*}
+Note that $F_1$ and $F_2$ are already sheaves, and we claim that the natural map $(F_2/F_1)^\sharp \to F_3$ is an isomorphism. This is clear since sheafification is exact. Therefore by \Cref{thm:paracompact-space-Cech-cohomology-of-sheafification} we have canonical isomorphisms $\check{H}^q(X,F_2/F_1) \xto{\sim} \check{H}^q(X,F_3)$ for any $q\ge0$. Plugging these into the sequence above we get our desired result.
 \end{proof}
 
 \subsection{Acyclic resolutions}
@@ -949,7 +956,8 @@ In classical topology, spaces were called \emph{acyclic} if every cycle on the s
 where each $A^i$ is acyclic for $i\ge 0$.
 \end{definition}
 
-\begin{exercise} Argue that the global sections functor
+\begin{exercise}\label{exer:global-sections-left-exact} 
+Argue that the global sections functor
 \begin{align*}
     \Gamma(X,-) \colon \Ab(X) \to \Ab
 \end{align*}
@@ -967,9 +975,15 @@ Let $F\in \Ab(X)$ be a sheaf over a paracompact space, and consider any acyclic 
 \begin{align*}
     \Gamma(X,A^0) \xto{d^0} \Gamma(X,A^1) \xto{d^1} \cdots
 \end{align*}
-We will proceed by induction. The kernel of $d^0$ is $\Gamma(X,F)$ by definition, which is the same as $\check{H}^0(X,F)$ by \Cref{prop:Cech-0-is-global-sections}. This establishes our base case.
+We will proceed by induction on $q$. 
 
-Let $K^p := \ker(A^p \to A^{p+1})$. By exactness and the first isomorphism theorem, $A^p/K^p \cong K^{p+1}$, so we get a short exact sequence of sheaves
+\emph{Base case $q=0$}: Since $\Gamma(X,-F)$ is a left exact functor (\Cref{exer:global-sections-left-exact}), we get that
+\begin{align*}
+    0 \to \Gamma(X,F) \to \Gamma(X,A^0) \xto{d^0_\ast} \Gamma(X,A^1)
+\end{align*}
+is left exact. In particular, we get that the kernel of $d^0_\ast$ is exactly $\Gamma(X,F)$, which agrees with $\check{H}^0(X,F)$ by \Cref{prop:Cech-0-is-global-sections}. Hence $\check{H}^0(X,F)$ is the $0$th cohomology of $\Gamma(X,-)$ applied to the acyclic resolution, establishing our base case.
+
+\emph{Inductive step}: For any $p\ge0$, we let $K^p := \ker(A^p \to A^{p+1})$. Note by definition of our resolution, we have that $K^0\cong F$. By exactness and the first isomorphism theorem, $A^p/K^p \cong K^{p+1}$, so we get short exact sequences of sheaves for each $p\ge 0$:
 \begin{align*}
     0 \to K^p \to A^p \to K^{p+1}\to 0.
 \end{align*}
@@ -981,11 +995,11 @@ Since the $A^p$'s are acyclic, the boundary maps $\partial$ are isomorphisms $\c
 \begin{align*}
     \check{H}^1(X,K^{q-1}) \cong \check{H}^q(X,F) \quad\quad \text{for }q\ge1.
 \end{align*}
-We claim $\check{H}^1(K^{q-1})$ is identified canonically with the $q$th cohomology of the sequence $\left\{ \Gamma(X,A^i) \right\}$. Indeed this follows from looking at the LES attached to $0 \to K^{q-1} \to A^{q-1}\to K^q \to 0$, from which we get
+We claim $\check{H}^1(K^{q-1})$ is identified canonically with the $q$th cohomology of the sequence $\left\{ \Gamma(X,A^i) \right\}$. Indeed this follows from looking at the long exact sequence attached to $0 \to K^{q-1} \to A^{q-1}\to K^q \to 0$, from which we get
 \begin{align*}
-    H^0(X,A^{q-1}) \xto{d^{q-1}} H^0(X,K^q) \to H^1(X,K^{q-1}) \to 0.
+    H^0(X,A^{q-1}) \xto{d^{q-1}_\ast} H^0(X,K^q) \to H^1(X,K^{q-1}) \to 0.
 \end{align*}
-Since $H^0(X,K^q) = \ker(d^q)$, we have that $H^1(X,K^{q-1})$ is the $\ker(d^q)$ modulo the image of $d^{q-1}$, hence it is the cohomology of the complex.
+Since $H^0(X,K^q) = \ker(d^q_\ast)$, we have that $H^1(X,K^{q-1})$ is $\ker(d^q_\ast)$ modulo the image of $d^{q-1}_\ast$, hence it is the cohomology of the complex.
 \end{proof}
 
 This provides us a new way to compute \v{C}ech cohomology over a paracompact space!
@@ -1060,6 +1074,50 @@ Over a paracompact Hausdorff space $X$, we have that \v{C}ech cohomology is cano
 Show that $f^\bullet$ is a quasi-isomorphism and moreover is well-defined up to chain homotopy.
 \end{exercise}
 
+\subsection{Existence of injectives}
+
+We now know a new way to take cohomology, which is leveraging an acyclic resolution, or if we want to use some category theory, take the derived functors of global sections. This perspective is only valuable if we can actually find acyclic/injective resolutions. How do we know they even exist? Let's argue that they do.
+
+\begin{proposition}\label{prop:abX-enough-injectives} 
+For every $F \in \Ab(X)$, there exists an injective sheaf $I$ and a monomorphism $F \to I$.
+\end{proposition}
+\begin{proof} We can embed the abelian group $F_x$ into an injective abelian group $I_x$. Define a presheaf by
+\begin{align*}
+    \mathcal{I} \colon \Open(X)^\op &\to \Ab \\
+    U &\mapsto \prod_{x\in U}I_x.
+\end{align*}
+Note that $\mathcal{I}$ is actually a sheaf, since it is a product of skyscraper sheaves, one for each point of $X$. Observe that the stalk of the sheaf $\mathcal{I}_x$ need not be equal to $I_x$, however it will contain $I_x$ as a retract. We claim that
+\begin{align*}
+    \Hom_{\Ab(X)}(F,\mathcal{I}) \cong \prod_{x\in X}\Hom_\Ab(F_x,I_x).
+\end{align*}
+There is a map from the left to the right by taking $g \colon \mathcal{F}(U) \to \mathcal{I}(U)$ for any open $U\ni x$, then noting that $\mathcal{F}(U) \to \mathcal{I}(U)$ maps to $I_x$ along the projection, then taking a colimit over $U$, inducing $\mathcal{F}_x \to \mathcal{I}_x$. For the reverse direction, if we have maps $f_x \colon F_x \to I_x$ for each $x$, we can define $F(U) \to \mathcal{I}(U)$ by the composite
+\begin{align*}
+    F(U) \to \prod_{x\in U} F_x \xto{\prod f_x} \prod_{x\in U} I_x = \mathcal{I}(U),
+\end{align*}
+and we have these maps on each section, which give a map of sheaves. We claim these are inverse operations.
+
+We have to check two things: that $\mathcal{I}$ is injective, and that $F \to \mathcal{I}$ is a monomorphism. That it is a monomorphism can be seen sectionwise, which induces monomorphisms on stalks since filtered colimits preserve monomorphisms.
+
+To see $\mathcal{I}$ is injective, it suffices to show observe each skyscraper sheaf is injective by \Cref{exa:skyscraper-injective} and then use that injective objects are closed under arbitrary products.
+\end{proof}
+
+\begin{remark} This procedure of producing a monomorphism into an injective object is not functorial. However it can be made functorial leveraging a functorial map into injective abelian groups --- this is spelled out in \cite[01DG]{Stacks}.
+\end{remark}
+
+
+
+\begin{corollary} For any space $X$, we have that every $F\in\Ab(X)$ admits an injective resolution.
+\end{corollary}
+\begin{proof} By \Cref{prop:abX-enough-injectives}, we start with
+\begin{align*}
+    0 \to F \to I^0,
+\end{align*}
+and then take the quotient $I^0/F$ and embed it in some injective $I^1$. The composite $F \to I^0 \to I^1$ is obviously zero since it factors through the quotient by construction, so we get
+\begin{align*}
+    0 \to F \to I^0 \to I^1.
+\end{align*}
+We then embed $I^1/I^0$ into some injective $I^2$, and so on.
+\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
