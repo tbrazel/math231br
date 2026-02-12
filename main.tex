@@ -1101,11 +1101,6 @@ We have to check two things: that $\mathcal{I}$ is injective, and that $F \to \m
 To see $\mathcal{I}$ is injective, it suffices to show observe each skyscraper sheaf is injective by \Cref{exa:skyscraper-injective} and then use that injective objects are closed under arbitrary products.
 \end{proof}
 
-\begin{remark} This procedure of producing a monomorphism into an injective object is not functorial. However it can be made functorial leveraging a functorial map into injective abelian groups --- this is spelled out in \cite[01DG]{Stacks}.
-\end{remark}
-
-
-
 \begin{corollary} For any space $X$, we have that every $F\in\Ab(X)$ admits an injective resolution.
 \end{corollary}
 \begin{proof} By \Cref{prop:abX-enough-injectives}, we start with
@@ -1118,6 +1113,142 @@ and then take the quotient $I^0/F$ and embed it in some injective $I^1$. The com
 \end{align*}
 We then embed $I^1/I^0$ into some injective $I^2$, and so on.
 \end{proof}
+
+\subsection{Godement resolutions}
+
+We can expand the results of the previous section by establishing the so-called \emph{Godement resolution}, which is a functorial way of producing an acyclic resolution. We first need some preliminary definitions:
+
+\begin{definition}\label{def:pullback-pushforward} Let $f \colon X \to Y$ be a continuous map of spaces.
+\begin{itemize}
+    \item Given a sheaf $F\in \Ab(X)$, we define the \emph{pushforward sheaf} $f_\ast F$ on $Y$ by the rule
+    \begin{align*}
+        f_\ast F \colon \Open(Y) &\to \Ab \\
+        U &\mapsto F(f^{-1}(U)).
+    \end{align*}
+    We claim that $f_\ast F$ satisfies locality and gluing (exercise) and therefore $f_\ast$ induces a functor which we call \emph{pushforward}:
+    \begin{align*}
+        f_\ast \colon \Ab(X) \to \Ab(Y)
+    \end{align*}
+    %
+    \item Given a sheaf $G\in \Ab(Y)$, we define a presheaf on $X$ by
+    \begin{align*}
+        f^{-1}_\text{pre}G \colon \Open(X) &\to \Ab \\
+        U &\mapsto \colim_{\substack{V\in \Open(Y) \\ V \supseteq f(U)}} G(U).
+    \end{align*}
+    We define the \emph{inverse image sheaf} to be the sheafification of this, that is $f^{-1}G := (f^{-1}_\text{pre}G)^\sharp$. Again we claim this is functorial:
+    \begin{align*}
+        f^{-1} \colon \Ab(Y) \to \Ab(X).
+    \end{align*}
+\end{itemize}
+\end{definition}
+
+\begin{example} In the particular case when our map is of the form $i \colon \left\{ x \right\} \to X$, that is, the inclusion of a point, we have that a sheaf on the one-point space is just a single abelian group $A$. The pushforward sheaf $i_\ast A$ is \emph{exactly} the skyscraper sheaf of $A$ at the point $x \in X$. This is the reason for the notation for skyscraper sheaves in \Cref{exa:skyscraper-sheaves}.
+\end{example}
+
+\begin{proposition}\label{prop:pullback-pushforward-adjunction} Let $f \colon X \to Y$ be any map of spaces. Then pullback and pushforward form an adjunction:
+\begin{align*}
+    f^{-1} \colon \Ab(Y) \leftrightarrows \Ab(X) \colon f_\ast.
+\end{align*}
+\end{proposition}
+\begin{proof} For a proof (in slightly more generality), see the arguments in \cite[008P]{Stacks} and the previous sections.
+\end{proof}
+
+\begin{remark} Right adjoints preserve injective objects, so the pushforward of an injective sheaf is still injective. In particular pushforward of an injective abelian group (viewed as an injective sheaf over a point) is still injective. This is alternative way to see that skyscraper sheaves of injective abelian groups are injective sheaves (\Cref{exa:skyscraper-injective}). And indeed, we essentially used the adjunction \Cref{prop:pullback-pushforward-adjunction} to prove it.
+\end{remark}
+
+An interesting case comes from \emph{forgetting} the topology on $X$, and considering pullback-pushforward along the resulting natural map.
+
+\begin{notation} For any space $X$, we denote by $X^\delta$ the topological space with the exact same underlying set as $X$, but with the discrete topology (every subset is open). There is a natural map $\epsilon \colon X^\delta \to X$.\footnote{There is a ``discrete-forgetful'' adjunction $(-)^\delta \colon \Set \leftrightarrows \Top \colon U$, where $U$ forgets the topology on a space and returns its underlying set, and $(-)^\delta$ endows a set with the discrete topology. This map $X^\delta \xto{\epsilon} X$ can be seen to be natural since it is the counit of this adjunction.}
+\end{notation}
+
+We define a functor
+\begin{align*}
+    C^0 \colon \Ab(X) &\to \Ab(X) \\
+    F &\mapsto \epsilon_\ast \epsilon^{-1} F.
+\end{align*}
+%
+As a presheaf, $\epsilon_\ast \epsilon^{-1} F$ sends $U$ to $\prod_{x\in U} F_x$, that is, it is the sheaf of germs at all points. It is also clear that it comes equipped with a natural map of sheaves $j \colon F \to C^0(F)$ (which is the unit of the pullback-pushforward adjunction).
+
+\begin{proposition} Let $X$ be an arbitrary space, and $F\in \Ab(X)$ any sheaf of abelian groups.
+\begin{enumerate}
+    \item The map $j \colon F \to C^0(F)$ is a monomorphism.
+    \item The sheaf $C^0(F)$ is acyclic
+\end{enumerate}
+\end{proposition}
+\begin{proof} The first point is immediate -- if $f,g\in F(U)$ have the property that $j(f) = j(g) \in C^0(F)(U) = \prod_{x\in U}F_x$, this means they have the same value on stalks of all points in $U$, which by the sheaf condition means they must agree. The difficult part is the second point, arguing that $C^0(F)$ is acyclic.
+
+Fix any open cover $\mathcal{U} = \left\{ U_i \right\}_{i\in I}$ of $X$. We have that the \v{C}ech $p$-cochains of $C^0(F)$ can be rewritten (by swapping products around) as:
+\begin{align*}
+    \check{C}^p(\mathcal{U},C^0(F)) &= \prod_{i_0, \ldots, i_p\in I} C^0(F)(U_{i_0} \cap \cdots \cap U_{i_p}) = \prod_{i_0, \ldots, i_p\in I}\prod_{x\in U_{i_0}\cap \cdots \cap U_{i_p}}F_x \\
+    &= \prod_{x\in X} \prod_{\substack{i_0, \ldots, i_p\in I \\ U_{i_0}\cap \cdots \cap U_{i_p}\ni x}}F_x.
+\end{align*}
+So the \v{C}ech differential acts pointwise on each $x$. In other words if we define
+\begin{align*}
+    \check{C}^p(\mathcal{U},x,F) := \prod_{\substack{i_0, \ldots, i_p\in I \\ U_{i_0}\cap \cdots \cap U_{i_p}\ni x}}F_x,
+\end{align*}
+then it is clear that $\check{C}^\bullet(\mathcal{U},C^0(F))$ is a product over the individual complexes $\check{C}^\bullet(\mathcal{U},x,F)$. It therefore reduces to showing that $\check{C}^\bullet(\mathcal{U},x,F)$ is an acyclic complex.
+
+Fix an arbitrary point $x\in X$, and find one index $i'\in I$ for which $x\in U_{i'}$. Then (if we use \emph{unnormalized \v{C}ech cochains}\footnote{There are two notions of \v{C}ech cochains, one is \emph{normalized}, where each of $i_0, \ldots, i_p$ needs to be distinct, and the other is \emph{unnormalized}, where we're allowed to have repetitions. They end up giving completely the same answer, but some operations like this one are much easier to state in the language of unnormalized cochains.}) we can define a chain homotopy
+\begin{align*}
+    h \colon \check{C}^p(\mathcal{U},x,F) &\to \check{C}^{p-1}(\mathcal{U},x,F),
+\end{align*}
+by defining $(hc)(i_0, \ldots, i_{p-1}) = c(i',i_0, \ldots, i_{p-1})$. We can check, for $p\ge1$, this is a null-homotopy for the identity map on the cochain complex. Therefore $\check{C}^p(\mathcal{U},x,F)$ has no cohomology above $H^0$, and therefore neither does $\check{C}^p(\mathcal{U},C^0(F))$.
+\end{proof}
+
+Since $C^0$ is functorial, we can use it to (functorially!) build an acyclic resolution.
+
+\begin{notation} We define $C^1 \colon \Ab(X) \to \Ab(X)$ to be the functor sending $F$ to $C^0(\coker(F \xto{j}C^0(F)))$, that is, we look at $j \colon F \to C^0(F)$, take its cokernel, and then hit it with $C^0$. We get a composite map which we call $d^0$:
+\begin{align*}
+    C^0(F) \to \coker(j) \to C^0(\coker(j)) =: C^1(F),
+\end{align*}
+and it is clear that the composite $F \to C^0(F) \to C^1(F)$ is zero, since it factors through the cokernel of $F$.
+
+Iteratively, we define
+\begin{align*}
+    C^{n+1}(F) = C^0(\coker(C^{n-1}(F) \xto{d^{n+1}} C^n(F)),
+\end{align*}
+which receives an analogous map $d^n$ from $C^n(F)$.
+\end{notation}
+
+\begin{definition}\label{def:godement-resolution} 
+We define the \textit{Godement resolution} to be the acyclic resolution of $F$ obtained as
+\begin{align*}
+    0 \to F \to C^0(F) \xto{d^0} C^1(F) \xto{d^1} C^2(F) \to \cdots 
+\end{align*}
+as above.
+\end{definition}
+
+\begin{remark} A few things about this are worth noting:
+\begin{itemize}
+    \item each of these constructions $C^n$ are \emph{functorial}
+    \item the functors $C^n(-) \colon \Ab(X) \to \Ab(X)$ are exact for each $n$.
+\end{itemize}
+Exactness of $C^0(-)$ is immediate, since it is a stalkwise construction, and exactness of $C^n(-)$ can be proved inductively.
+\end{remark}
+
+What is the benefit of all this nonsense? It allows us to give an analogue and a reproof of \Cref{prop:LES-Cech-cohomology} (on a paracompact space, a short exact sequences of sheaves induces a long exact sequence on cohomology) for sheaf cohomology, and \emph{without paracompactness}.
+
+\begin{proposition}\label{prop:LES-sheaf-cohomology-any-space} Let $X$ be any topological space, and let $0 \to F_1 \to F_2 \to F_3 \to 0$ be a short exact sequence of sheaves on $X$. This induces a long exact sequence on sheaf cohomology
+\begin{align*}
+    0 \to H^0(X,F_1) \to H^0(X,F_2) \to H^0(X,F_3) \to H^1(X,F_1) \to \cdots
+\end{align*}
+\end{proposition}
+\begin{proof} We build the Godement resolutions $F_i \to C^\bullet(X,F_i)$ functorially for each $i=1,2,3$, and exactness of the $C^n$ functors implies that $C^\bullet(X,F_1) \to C^\bullet(X,F_2) \to C^\bullet(X,F_3)$ is a short exact sequence \emph{of chain complexes}. A standard diagram chase argument gives the desired long exact sequence on cohomology.
+\end{proof}
+
+When $X$ is paracompact, sheaf cohomology agrees with \v{C}ech cohomology, so the previous result lets us reprove \Cref{prop:LES-Cech-cohomology}.
+
+\begin{remark} While $C^n(F)$ is acyclic, there is no reason to expect it to be injective. A modified construction works, however, to produce functorial injective resolutions:
+\begin{enumerate}
+    \item begin with a functorial injective embedding of abelian groups into injective ones
+    \item modify the construction of $C^0(F)$ by applying this functor to each stalk
+    \item take the inclusion, cokernel, iterate.
+\end{enumerate}
+Details are in \cite[01DG]{Stacks}.
+\end{remark}
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
