@@ -795,7 +795,8 @@ We have very little control over these refinement maps, as the following result 
 \end{proof}
 
 
-\begin{example} On $S^1$, we can take a simple cover consisting of only all of $S^1$, letting $F=\underline{\Z}$ be the constant sheaf $\Z$. Then the \v{C}ech cochains complex for this is the chain complex $\Z[0]$ concentrated in degree zero. This gives $\check{H}^0(\mathcal{U},F) = \Z$ and vanishing cohomology elsewhere. On the other hand, we can take a cover $S^1 = U_0 \cup U_1$, where $U_0$ and $U_1$ are the upper and lower semicircle, plus a little extra so that they overlap:
+\begin{example}\label{exa:s1-north-south-cech-cohomology} 
+On $S^1$, we can take a simple cover consisting of only all of $S^1$, letting $F=\underline{\Z}$ be the constant sheaf $\Z$. Then the \v{C}ech cochains complex for this is the chain complex $\Z[0]$ concentrated in degree zero. This gives $\check{H}^0(\mathcal{U},F) = \Z$ and vanishing cohomology elsewhere. On the other hand, we can take a cover $S^1 = U_0 \cup U_1$, where $U_0$ and $U_1$ are the upper and lower semicircle, plus a little extra so that they overlap:
 \begin{figure}[H]
 \begin{tikzpicture}[scale=2]
   % circle
@@ -1169,7 +1170,8 @@ We define a functor
 %
 As a presheaf, $\epsilon_\ast \epsilon^{-1} F$ sends $U$ to $\prod_{x\in U} F_x$, that is, it is the sheaf of germs at all points. It is also clear that it comes equipped with a natural map of sheaves $j \colon F \to C^0(F)$ (which is the unit of the pullback-pushforward adjunction).
 
-\begin{proposition} Let $X$ be an arbitrary space, and $F\in \Ab(X)$ any sheaf of abelian groups.
+\begin{proposition}\label{prop:godement-sheaves-are-acyclic} 
+Let $X$ be an arbitrary space, and $F\in \Ab(X)$ any sheaf of abelian groups.
 \begin{enumerate}
     \item The map $j \colon F \to C^0(F)$ is a monomorphism.
     \item The sheaf $C^0(F)$ is acyclic
@@ -1347,8 +1349,6 @@ Every CW complex is paracompact.
 \end{theorem}
 \begin{proof}[Sketch] There's a nice outline on the nLab -- we can induct on the skeleton, leveraging that disks and spheres are paracompact, and that paracompact Hausdorff spaces are closed under coproducts and pushouts along closed embeddings.
 \end{proof}
-
-\newpage
 \section{Category theory}
 If you are unfamiliar with colimits I really recommend reading Chapter 3 of \cite{riehlCategoryTheoryContext2016}.
 
@@ -1436,6 +1436,133 @@ In particular, any colimiting construction we want to pursue over covers of a Ri
 A wild fun fact is that the poset of open sets and refinement for a good cover can be used to recover the homotopy type of the manifold (or space) you started out with! This is the content of the \emph{nerve lemma}.
 
 
+
+\section{Normalized versus unnormalized cochains}
+
+In this section of the appendix we cop to a lie by omission (or by obfuscation?). Our definition of the \v{C}ech cochains complex for a cover $\mathcal{U}=\left\{ U_i \right\}_{i\in I}$ was
+\begin{align*}
+    \check{C}^q(\mathcal{U},F) = \prod_{i_0, \ldots, i_q\in I} F(U_{i_0}\cap \cdots \cap U_{i_q})
+\end{align*}
+However this notation is a bit ambiguous --- are we allowing the $i_0,i_1, \ldots, i_q$ to be the same? If so we're allowing the $(q+1)$-fold intersection of the same open set - is this what we want? In examples we did, it seems like we weren't assuming this. We said ``ah there are no 3fold overlaps so there are no \v{C}ech 2-cochains'' but should we really have been allowing for these degenerate intersections where the same open set in our cover is repeated?
+
+The answer is that \emph{it doesn't matter}, they both compute the same cohomology. We're going to sketch how one proves this. We call the one where we don't allow for repeated indices the \emph{normalized} \v{C}ech cochains, and the one where we allow for repeated indices the \emph{unnormalized} \v{C}ech cochains (definitions to follow).
+
+With that being said, some computations are \emph{much easier} in one setting or the other. When we did explicit computations like \Cref{exa:s2-north-south-cover} and \Cref{exa:s1-north-south-cech-cohomology} it was beneficial to use normalized cochains, since we could conclude there are no higher cochains since there are no higher overlaps. However in the proofs of \Cref{prop:godement-sheaves-are-acyclic} and \Cref{thm:Cech-cohomology-and-singular-cohomology} it was more beneficial to work with unnormalized cochains since we could construct explicit chain homotopies without worrying about repeated indices.
+
+In this section we'll make the comparison between normalized and unnormalized cochains explicit. We need to define some local (not used outside this section) notation in order to streamline everything:
+
+\begin{definition}\label{def:normalized-unnormalized-cochains} Let $X$ be a space, $\mathcal{U} = \left\{ U_i \right\}_{i\in I}$ some open cover, and $F$ any presheaf on $X$. Dust off your nearby copy of the axiom of choice and use it to fix a total ordering $\le$ on the set $I$. We define
+\begin{itemize}
+    \item the \emph{normalized \v{C}ech cochains} to be
+    \begin{align*}
+        \check{C}^q_\text{nor}(\mathcal{U},F) := \prod_{i_0 < i_1 < \cdots < i_q} F(U_{i_0}\cap \cdots \cap U_{i_q}).
+    \end{align*}
+    \item the \emph{unnormalized \v{C}ech cochains} to be
+    \begin{align*}
+        \check{C}^q_\text{unnor}(\mathcal{U},F) := \prod_{i_0\le i_1\le \cdots \le i_q} F(U_{i_0}\cap \cdots \cap U_{i_q}).
+    \end{align*}
+\end{itemize}
+In each cases, the differentials are defined the same way, however in the unnormalized cochains, differentials can be built out of identities (when we're omitting an index that was duplicated) while in the normalized cochains this won't occur.
+\end{definition}
+
+The core result we want to prove is the following:
+
+\begin{theorem} There is a natural map of chain complexes
+\begin{align*}
+    \check{C}^\bullet_\text{nor}(\mathcal{U},F) \to \check{C}^\bullet_\text{unnor}(\mathcal{U},F)
+\end{align*}
+and it is a quasi-isomorphism (meaning it induces an isomorphism on cohomology).
+\end{theorem}
+\begin{proof}[Proof sketch]
+It is clear that normalized cochains sit inside unnormalized cochains as a subcomplex, since at each level $q$ we have a subgroup inclusion $\check{C}^q_\text{nor}(\mathcal{U},F) \subseteq \check{C}^q_\text{unnor}(\mathcal{U},F)$. In fact we will show that this inclusion splits. We say that a cochain $c\in \check{C}^q_\text{unnor}(\mathcal{U},F)$ is \emph{normalized} if it lies in the image of this natural map, or equivalently, it vanishes on any tuple with repeated indices (i.e. one which isn't strict).
+
+For $0\le k\le q-1$, we define an endomorphism of unnormalized cochains, essentially detecting how sensitive a cochain is to doubling up an index in the $k$th slot. Explicitly:
+\begin{align*}
+    P_k \colon \check{C}^q_\text{unnor}(\mathcal{U},F) &\to \check{C}^q_\text{unnor}(\mathcal{U},F) \\
+    c(i_0\le \cdots \le i_q) &\mapsto c(i_0\le \cdots \le i_q) - c(i_0 \le \cdots \le i_k \le i_k \le i_{k+2}\le \cdots \le i_q).
+\end{align*}
+That is, we output the difference of $c$ and $c$ on the tuple where we have a repeated overlap at the $k$th spot. Note that if $c$ was normalized, then we have that $P_k$ acts as the identity for each $k$.
+
+We now define
+\begin{align*}
+    \mathcal{P}_q := P_{q-1}\circ P_{q-2} \circ \cdots \circ P_0 \colon \check{C}^q_\text{unnor}(\mathcal{U},F) &\to \check{C}^q_\text{unnor}(\mathcal{U},F).
+\end{align*}
+%
+We have a few claims about these maps $\mathcal{P}_q$:
+\begin{enumerate}
+    \item $\mathcal{P}_q$ takes values in \emph{normalized} cochains
+    \item $\mathcal{P}_q \circ \mathcal{P}_q = \mathcal{P}_q$, that is, it is idempotent.
+    \item $\{\mathcal{P}_q\}_{q\ge0}$ is a chain map (it commutes with the differentials)
+\end{enumerate}
+To sketch the first point -- we can see that a cochain $c$ is normalized if and only $P_k(c)=c$ for all $k$. Hence it suffices to verify that $P_k\circ \mathcal{P}_q = \mathcal{P}_q$ for any $0\le k\le q-1$, which is immediate by definition. Once we show this, idempotent-ness is immediate. Checking it is a chain map is just some painful index-bashing, but trust me that it's true.
+
+Hence with all our claims in hand, we get a splitting of chain complexes
+\[ \begin{tikzcd}
+    {\check{C}^\bullet_\text{nor}(\mathcal{U},F)}\rar[hook]\ar[dr,equal] & {\check{C}^\bullet_\text{unnor}(\mathcal{U},F)}\dar["\mathcal{P}_\bullet" right]\\
+     & {\check{C}^\bullet_\text{nor}(\mathcal{U},F)}.
+\end{tikzcd} \]
+In particular the inclusion splits (it splits levelwise in fact). The remaining stuff is called the \emph{degenerate} cochains complex. That is, our inclusion and projection exhibit a splitting of abelian groups
+\begin{align*}
+    \check{C}^q_\text{unnor} = \check{C}^q_\text{nor} \oplus \check{D}^q.
+\end{align*}
+Here $\check{D}^q$ is our notation for what is left over -- it consists of those cochains which are supported only on $(q+1)$-tuples which are \emph{not} strictly increasing (they have a repeated entry).
+
+The last remaining thing to check is that $\check{D}^\bullet$ has no cohomology. To do this we exhibit an explicit chain homotopy. For $0\le k\le q-1$, we define
+\begin{align*}
+    s^k \colon \check{D}^q &\to \check{D}^{q-1}
+\end{align*}
+by the formula $(s^k c)(i_0, \ldots, i_{q-1}) = c(i_0, \ldots, i_k,i_k,i_{k+1}, \ldots, i_q)$. We then take $h$ to be the map
+\begin{align*}
+    h = \sum_{k=0}^{q-1} (-1)^k s^k \colon \check{D}^q \to \check{D}^{q-1}.
+\end{align*}
+We can check that $dh + hd = \id$ on $\check{D}^\bullet$, hence $h$ exhibits a null-homotopy of the identity map on the degenerate cochains.
+\end{proof}
+
+And obviously there's one last sanity check we should do, which is that the definitions above don't depend on the ordering we fixed on $I$. We skip this argument, and state the big corollary:
+
+\begin{corollary}\label{cor:normalized-unnormalized-doesnt-matter} We can compute \v{C}ech cohomology with either normalized or unnormalized cochains and the answers we get in either case will be canonically isomorphic.
+\end{corollary}
+
+
+
+
+
+\begin{remark} This entire story and proof is \emph{easier and generalizable} if we are willing to do a bit more category theory and work with cosimplicial objects. Indeed this is how it's normally proved. Let $\DDelta$ denote the category with countably many objects $[0],[1],[2]$, etc., where the object $[n] \in \DDelta$ is intended to denote the ordered set with $n+1$ elements $[n] = \{0,1, \ldots, n\}$. The morphisms $[m]\to[n]$ in $\DDelta$ are weakly order-preserving maps between these sets. We say that a \emph{cosimplicial object} in a category $\mathscr{C}$ is a functor
+\begin{align*}
+    \DDelta \to \mathscr{C}.
+\end{align*}
+There are special morphisms in $\DDelta$ which generate all the other morphisms. These are called \emph{degeneracy} and \emph{face} maps:
+\begin{itemize}
+    \item \emph{face maps}: for any $0\le j\le n$ we have maps $\delta^j \colon [n-1]\to [n]$ uniquely defined as the injective order-preserving map which doesn't contain $j\in[n]$ in its image
+    \item \emph{degeneracy maps}: for any $0\le j\le n$ we have maps $\sigma^j \colon [n+1]\to[n]$ uniquely defined as the surjective order-preserving map so that $\sigma^j(j)=\sigma^j(j+1)=j\in [n]$.
+\end{itemize}
+These generate all other morphisms in the sense that every morphism can be written as a composite of them \cite[0166]{Stacks}. They satisfy some natural identities, called the \emph{simplicial identities}, see for instance \cite[0167]{Stacks}.
+
+Our \v{C}ech cochains are very naturally a cosimplicial object! Explicitly, they form a functor
+\begin{align*}
+    \check{C}^{(-)}_\text{unnor}(\mathcal{U},F) \colon \DDelta &\to \Ab \\
+    [q] &\mapsto \prod_{i_{(-)} \in \Hom([q],(I,\le))} F(U_{i_0}\cap \cdots \cap U_{i_q}).
+\end{align*}
+Here the product is over weakly order-preserving functions $[q]\to I$. We could define the normalized cochains by only taking a product over strictly order-preserving maps, if we like. 
+
+The \v{C}ech cochains have a cosimplicial structure since we have all this extra available stuff we can do with them -- we can repeat or skip indices. Moreover the differentials on the cochain complex arise very naturally from the cosimplicial structure. This is a standard thing: any time we have a cosimplicial abelian group we can change it into a cochain complex by taking the alternating sums of the degeneracy maps. If we unwind our definition of the \v{C}ech cochains differential in \Cref{eqn:cech-coboundary-formula} we can see that it is exactly built that way. 
+
+Once we have all this in mind, the proof above can be rewritten in cosimplicial language:
+\begin{itemize}
+    \item given any cosimplicial abelian group $A^\bullet$ (not just the unnormalized cochains, but \emph{any} one) there is a natural ``normalization'' of it, defined by taking things that lie in the kernels of all the degeneracy maps:
+    \begin{align*}
+        NA^q := \bigcap_{k=0}^{q-1} \ker(A^q \xto{s^k} A^{q-1}).
+    \end{align*}
+    \item in this language, there is again a natural inclusion $NA^q \subseteq A^q$, and it splits levelwise by a similar projection map:
+    \begin{align*}
+        P_k &:= (\id - d^k s^{k-1}) \\
+        \mathcal{P}_q &:= (\id - d^q s^{q-1}) \circ \cdots \circ (\id - d^1 s^0).
+    \end{align*}
+    \item from this perspective, our three claims (that $\mathcal{P}_q$ is normalized, i.e. that it satisfies $P_k\circ \mathcal{P}_q = \mathcal{P}_q$ for any $k$, that $\mathcal{P}_q$ is idempotent, and that $\mathcal{P}_q$ is a chain map) follow immediately from the identities of cosimplicial maps
+    \item the splitting off of a degenerate subcomplex and exhibiting that it has no cohomology is also a standard result in cosimplicial algebra. 
+\end{itemize}
+The story for simplicial abelian groups can be found in \cite[VIII.6]{Maclane-homology} or \cite[III.2]{GoerssJardine}, and the cosimplicial story is dual.
+\end{remark}
 
 
 
