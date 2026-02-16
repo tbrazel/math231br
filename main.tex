@@ -1159,7 +1159,7 @@ We can expand the results of the previous section by establishing the so-called 
 
 An interesting case comes from \emph{forgetting} the topology on $X$, and considering pullback-pushforward along the resulting natural map.
 
-\begin{notation} For any space $X$, we denote by $X^\delta$ the topological space with the exact same underlying set as $X$, but with the discrete topology (every subset is open). There is a natural map $\epsilon \colon X^\delta \to X$.\footnote{There is a ``discrete-forgetful'' adjunction $(-)^\delta \colon \Set \leftrightarrows \Top \colon U$, where $U$ forgets the topology on a space and returns its underlying set, and $(-)^\delta$ endows a set with the discrete topology. This map $X^\delta \xto{\epsilon} X$ can be seen to be natural since it is the counit of this adjunction.}
+\begin{notation} For any space $X$, we denote by $X^\delta$ the topological space with the exact same underlying set as $X$, but with the discrete topology (every subset is open). There is a natural map $\epsilon \colon X^\delta \to X$.\footnote{There is a ``discrete-forgetful'' adjunction $(-)^\delta \colon \Set \leftrightarrows \Top \colon U$, where $U$ forgets the topology on a space and returns its underlying set, and $(-)^\delta$ endows a set with the discrete topology. This map $X^\delta \xto{\epsilon} X$ is simply the counit of this adjunction, hence is natural in $X$.}
 \end{notation}
 
 We define a functor
@@ -1249,26 +1249,56 @@ When $X$ is paracompact, sheaf cohomology agrees with \v{C}ech cohomology, so th
 Details are in \cite[01DG]{Stacks}.
 \end{remark}
 
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newpage
 \appendix
 \section{Point-set topology}
 
-\begin{definition} A \emph{paracompact space} is a space for which every open cover admits an open refinement which is \emph{locally finite} (each point in the space intersects only most finitely many of the spaces in the refinement).
+\begin{definition}\label{def:point-finite-versus-locally-finite} Let $\left\{ U_i \right\}_{i\in I}$ be an open cover of a space $X$. We say it is
+\begin{itemize}
+    \item \emph{point finite} if each $x\in X$ is contained in only finitely many $U_i$
+    \item \emph{locally finite} if each $x\in X$ has an open neighborhood $V\ni x$ so that $V$ meets only finitely many $U_i$.
+\end{itemize}
+Clearly a locally finite open cover is point finite, but the converse need not hold (see \cite[p.~244]{Munkres} for an explicit example).
 \end{definition}
-This is strictly weaker than being compact, since compactness requires the entire cover to be finite, not just locally finite.
+
+We want to rephrase compactness in terms of \emph{refining} the cover, not just throwing out elements of the cover. To that end, it's nicer to work with a different definition. We prove a quick proposition:
+
+\begin{proposition}\label{prop:new-def-of-compactness} Let $X$ be a topological space. Then it is compact if, for every $\mathcal{U}\in \Cov(X)$, there exists a refinement $\mathcal{V} \le \mathcal{U}$ for which $\mathcal{V}$ is finite (has finitely many elements).
+\end{proposition}
+\begin{proof} If $X$ is compact (in the ordinary sense), then we can just pick $\mathcal{V}$ to be the finite subcollection of $\mathcal{U}$ guaranteed by compactness. For the reverse direction, suppose we have an open cover $\mathcal{U} = \left\{ U_i \right\}_{i\in I}$, and a finite refinement $\mathcal{V} =\{V_1, \ldots, V_n\}$. Then by the definition of refinement, there is some function $f \colon \{1,2, \ldots, n\} \to I$ so that $V_i \subseteq U_{f(i)}$ for each $1\le i\le n$. Then it is clear that $\left\{ U_{f(1)}, \ldots, U_{f(n)} \right\}$ is a finite open cover of $X$, which is a subcover of our original cover $\mathcal{U}$.
+\end{proof}
+
+As Munkres says, this definition is ``awkward... but it suggests a way to generalize.''
+
+\begin{definition}\label{def:compact-paracompact-point-finite} Let $X$ be a space. We say it is...
+\begin{align*}
+    \begin{cases} \textit{compact} \\ \textit{paracompact} \\ \textit{point finite/metacompact}\end{cases}\text{ if every open cover }\mathcal{U}\text{ admits a refinement }\mathcal{V}\text{ which is }
+    \begin{cases} \text{finite} \\ \text{locally finite} \\ \text{point finite}\end{cases}
+\end{align*}
+\end{definition}
+It is clear that we have the following implications:
+\begin{center}
+    compact $\Rightarrow$ paracompact $\Rightarrow$ point finite.
+\end{center}
+
+The converse implications don't hold.
 
 \begin{example} Euclidean space $\R^n$ is paracompact but not compact.
 \end{example}
 
 
-\begin{theorem}[{Dieudonn\'e, \cite[2.8.2]{Hirzebruch}}] Every locally compact space with a countable basis is paracompact.
-\end{theorem}
 
+\begin{example}[Point-finite spaces need not be paracompact] The first example was, I believe, \cite[Example~B]{bingMetrizationTopologicalSpaces1951}. Another good example is \cite[Example~89]{steeinCounterexamplesTopology1978}.
+\end{example}
+
+
+\begin{remark} Hirzebruch, Bourbaki, and many other authors assume the spaces receiving the definitions in \Cref{def:compact-paracompact-point-finite} are Hausdorff. We will try to be clear when the Hausdorff condition is needed.
+\end{remark}
+
+\begin{theorem}[{Dieudonn\'e, \cite[2.8.2]{Hirzebruch}}] Every locally compact\footnote{\emph{Locally compact} means for every $x\in X$ there exists some compact subspace $K \subseteq X$ and an open neighborhood $U\ni x$ so that $U \subseteq K$.} Hausdorff space with a countable basis is paracompact.
+\end{theorem}
 
 \subsection{Normal spaces}
 
@@ -1278,10 +1308,8 @@ The idea of a \emph{normal} space can be thought of (loosely) as a strengthening
 A space is \emph{normal} if any two disjoint closed subsets can be separated by disjoint open neighborhoods. Explicitly if $Z_1,Z_2 \subseteq X$ are each closed and $Z_1 \cap Z_2 = \emptyset$, then there exist open subspaces $U_1 \supseteq Z_1$ and $U_2 \supseteq Z_2$ so that $U_1 \cap U_2 = \emptyset$.
 \end{definition}
 
-
-\begin{theorem}[{Dieudonn\'e, \cite[2.8.1]{Hirzebruch}}] Every paracompact space is \emph{normal}.
+\begin{theorem}[{Dieudonn\'e, \cite[2.8.1]{Hirzebruch}}] Every paracompact space Hausdorff is \emph{normal}.
 \end{theorem}
-
 
 In particular since our manifolds are Hausdorff with countable bases, they are in particular normal.
 
@@ -1294,21 +1322,12 @@ A space $X$ is normal if and only if, for every two disjoint closed subsets $A,B
 so that $f(A) =0$ and $f(B) =1$.
 \end{lemma}
 
-
-
-
-
-
-
 The following crucial result implies that, over a normal space, locally finite covers can always be ``shrunk.'' It is a crucial ingredient for the existence of partitions of unity.
 
 \begin{theorem}[{Shrinking theorem, \cite[2.8.3]{Hirzebruch}}]
 \label{thm:shrinking}
-Let $X$ be normal, and $\left\{ U_i \right\}_{i\in I}$ a locally finite\footnote{Hirzebruch says \emph{point finite}.} cover. Then $X$ admits an open cover $\left\{ V_i \right\}_{i\in I}$, indexed over the same set, so that $\overline{V_i} \subseteq U_i$.
+Let $X$ be normal, and $\left\{ U_i \right\}_{i\in I}$ a point finite open cover. Then $X$ admits an open cover $\left\{ V_i \right\}_{i\in I}$, indexed over the same set, so that $\overline{V_i} \subseteq U_i$.
 \end{theorem}
-
-
-
 
 \begin{definition}\label{def:partition-of-unity} 
 Let $\left\{ U_i \right\}_{i\in I}$ be an open cover of a space $X$. We say that a system of continuous functions $\left\{ \phi_i \colon X \to \R \right\}_{i\in I}$ is a \emph{partition of unity subordinate to} the cover if:
@@ -1327,8 +1346,6 @@ Let $\left\{ U_i \right\}_{i\in I}$ be an open cover of a space $X$. We say that
 \begin{definition}\label{def:numerable-open-cover}
 We say an open cover of a space is \emph{numerable} if it admits a subordinate partition of unity. We say a fiber bundle is \emph{numerable} if the base admits a numerable cover over which the total space is trivialized \cite[7.1]{doldPartitionsUnityTheory1963}.
 \end{definition}
-
-
 
 \begin{theorem}\label{thm:paracompact-partition-unity} 
 A space is paracompact if and only if it is Hausdorff and every open cover admits a partition of unity.
