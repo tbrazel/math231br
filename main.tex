@@ -28,6 +28,9 @@ These notes are from a MATH213BR, a second-semester graduate algebraic topology 
 
 \textbf{Part 2}: We discuss oriented and complex cobordism, genera, the $L$-genus and Todd genus, and the index of a $4n$-manifold. We prove Hirzebruch's signature theorem as well as Riemann-Roch for algebraic manifolds.
 
+\setcounter{tocdepth}{1}
+\tableofcontents{}
+
 \subsection{References}
 Aside from the main text, which we deviate from at various points, some other references which have informed the presentation here include:
 \begin{itemize}
@@ -41,7 +44,7 @@ Aside from the main text, which we deviate from at various points, some other re
 
 \subsection{Acknowledgements}
 
-Thank you to Zo\"{e} Batterman, Vincent Costa, Frank Gubars, Gabe Ong, and Greg Wong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
+Thank you to Zo\"{e} Batterman, Vincent Costa, Frank Gubars, Grayson Kemplin, Gabe Ong, and Greg Wong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
 
 \section{Sheaves}
 
@@ -1249,6 +1252,258 @@ When $X$ is paracompact, sheaf cohomology agrees with \v{C}ech cohomology, so th
 Details are in \cite[01DG]{Stacks}.
 \end{remark}
 
+
+\subsection{Fine sheaves}
+
+Another source of acyclic sheaves comes from so-called \emph{fine sheaves} on paracompact spaces.
+
+\begin{definition}\label{def:fine-sheaf} 
+Let $F$ be a sheaf over a paracompact space $X$. We say that $F$ is \emph{fine} if, for every locally finite open covering $\left\{ U_i \right\}$ of $X$, we have a system of homomorphisms
+\begin{align*}
+    h_i \colon F \to F,
+\end{align*}
+so that
+\begin{enumerate}
+    \item For every $i$, the support of $h_i$ is closed in $X$ and contained in $U_i$
+    \item $\sum_i h_i$ is the identity (the sum makes sense because the cover is locally finite).
+\end{enumerate}
+\end{definition}
+
+
+% \todo{in Bredon II.9.15, he says $A$ is fine if $\Hom(A,A)$ is soft. is this a good characterization for us to use?}
+
+
+\begin{example}\label{exa:cx-valued-cts-funcs-is-fine} 
+The sheaf $C^0(-,\C)$ of germs of complex-valued continuous functions over a paracompact space is fine.
+\end{example}
+\begin{proof} Fix a locally finite open cover $\left\{ U_i \right\}$, and pick a partition of unity $\{\phi_i\}$. Then we can define
+\begin{align*}
+    h_i \colon C^0(-,\C) &\to C^0(-,\C) \\
+    f &\mapsto f\cdot \phi_i.
+\end{align*}
+It is clear the $h_i$'s sum to the identity, and the closed subsets in the definition of fineness are given by their support.
+\end{proof}
+
+\begin{example} If $X$ is a differentiable manifold, then the sheaf of germs of differentiable functions $\mathbb{C}_{\mathfrak{b}}$ is fine.
+\end{example}
+\begin{proof} The same proof works, aside from one subtlety -- in order for $h$ to be a map of sheaves, we can't just multiply by arbitrary $\phi_i$, since this might break differentiability--- we need the $\phi_i$'s themselves to be differentiable. Hence this hinges on the existence of a differentiable partition of unity, which was proven by de Rham (at least in the smooth setting? see \cite[I.2]{derhamDifferentiableManifolds1984}). 
+\end{proof}
+
+\begin{remark} If $X$ is a complex manifold and $\mathcal{O}_X$ is the sheaf of holomorphic functions, it is not necessarily the case that $\mathcal{O}_X$ is fine. An analogous argument to the above doesn't work because there are no holomorphic partitions of unity (this would violate the maximum modulus principle, for instance). Additionally, if $\mathcal{O}_X$ was fine then $H^1(X,\mathcal{O}_X)$ would vanish by \Cref{thm:fine-sheaf-on-paracompact-is-acyclic}, but this isn't true for $X=\CP^1$, for instance.
+\end{remark}
+
+
+
+\begin{proposition} Let $F$ be fine over a paracompact Hausdorf space $X$, and let $Z \subseteq X$ any closed subspace. Define $\Gamma(Z,F)$ to be the colimit of sections defined in open neighborhoods around $Z$. Then the natural restriction map
+\begin{align*}
+    \Gamma(X,F) \to \Gamma(Z,F)
+\end{align*}
+is surjective, that is, every section defined around $Z$ can be extended to a section on $X$.\footnote{The terminology for sheaves satisfying this condition is that they are \emph{soft} --- in that language, this proposition states ``fine sheaves are soft.''}
+\end{proposition}
+% https://wiki.epfl.ch/kaehler2013/documents/Notes/Notes%202%20Sheaves%20and%20Cohomology.pdf
+\begin{proof}
+Pick any section $s\in \Gamma(Z,F)$, which by construction of the colimit is defined in some neighborhood $U \supseteq Z$. Pick an open cover $\left\{ U_i \right\}$ of $X$, let $V_i = U \cap U_i$, and let $s_i$ be the restriction of $s$ to $U \cap U_i$. Finally let $V = X - Z$, so altogether we have an open cover $\{V\} \cup \{V_i\}_i$ of $X$. We may assume it is locally finite without loss of generality. Since $F$ is fine, we may pick $h_i$'s which vanish outside $V_i \cap Z$ for all $i$, and sum to the identity. We also have an $h$ which vanishes outside some closed subset of $V$, we don't have any control over this. However the sum of all these $h$'s and $h_i$'s is the identity everywhere. Then we can take
+\begin{align*}
+    \sigma = \sum h_i s_i.
+\end{align*}
+Away from $Z$ this is zero, and this is equal to $s$ on $Z$. Hence $\sigma \mapsto s$ under the restriction $\Gamma(X,F) \to \Gamma(Z,F)$ and we are done.
+\end{proof}
+
+\begin{theorem}\label{thm:fine-sheaf-on-paracompact-is-acyclic}
+Let $F$ be a fine sheaf on a paracompact space $X$. Then $F$ is acyclic.
+\end{theorem}
+\begin{proof} It suffices to show that $\check{H}^q(\mathcal{U},F)=0$ for all $q\ge1$ and any locally finite open cover $\mathcal{U}$. We will define a \emph{chain homotopy}
+\begin{align*}
+    k^q \colon \check{C}^q(\mathcal{U},F) &\to \check{C}^{q-1}(\mathcal{U},F)
+\end{align*}
+using our functions $h_i$ provided by the fineness of the sheaf $F$. Fix some $f\in \check{C}^q(\mathcal{U},F)$, then we want to define $(k^q f)(i_0, \ldots, i_{q-1})$. For an arbitrary $i\in I$, we define a section $t_f(i,i_0, \ldots, i_{q-1}) \in F(U_{i_0}\cap \cdots \cap U_{i_{q-1}})$ by
+\begin{align*}
+    t_f(i,i_0, \ldots, i_{q-1})(x) = \begin{cases} 
+    h_i\cdot f(i,i_0, \ldots, i_{q-1}) &  x\in U_i\cap U_{i_0} \cap \cdots \cap U_{i_{q-1}}\\
+   0 & x\notin U_i\cap U_{i_0} \cap \cdots \cap U_{i_{q-1}}. \end{cases}
+\end{align*}
+We then define
+\begin{align*}
+    (k^q f)(i_0, \ldots, i_{q-1}) = \sum_{i\in I} t_f(i,i_0, \ldots, i_{q-1}).
+\end{align*}
+This sum makes sense since $\mathcal{U}$ is locally finite. If $\delta^q \colon \check{C}^q(\mathcal{U},F) \to \check{C}^{q+1}(\mathcal{U},F)$ denotes the boundary operator, then we can verify (exercise) that, for $q\ge 1$ we get:
+\begin{align*}
+    k^{q+1}\circ \delta^q + \delta^{q-1}\circ k^q = \id = \id-0.
+\end{align*}
+This gives us a chain homotopy between the identity and the zero map, implying that $\check{H}^q(\mathcal{U},F) = 0$ for all $q\ge 1$.
+\end{proof}
+
+\begin{example}
+    On any paracompact space $X$, the sheaves $C^0(-,\R)$ and $C^0(-,\C)$ are acyclic.
+\end{example}
+
+\subsection{Leray covers}
+When is a short exact sequence of sheaves actually a short exact sequence of presheaves? This occurs when it is a \emph{sectionwise} short exact sequence. We claim that a stalkwise monomorphism induces a sectionwise monomorphism, so if $F_1 \to F_2 \to F_3$ is a short exact sequence of sheaves, then by looking at the long exact sequence on \emph{sheaf cohomology}\footnote{We don't know we get a long exact sequence on \v{C}ech cohomology for a short exact sequence of sheaves, only of presheaves.}, we obtain
+\begin{align*}
+    0 \to F_1(U) \to F_2(U) \to F_3(U) \to H^1(U,F_1) \to \cdots 
+\end{align*}
+hence failure of exactness as a sequence of presheaves over an open set $U$ is measured by the vanishing of the sheaf cohomology group $H^1(U,F_1)$.
+
+Now what about long exact sequences? Suppose for instance, we had an injective resolution of a sheaf $F$ given by
+\begin{align*}
+    0 \to F \to I^0 \xto{d^0} I^1 \to \cdots
+\end{align*}
+For an open set $U$, can we see whether
+\begin{equation}\label{eqn:acyclic-resolution-on-U}
+\begin{aligned}
+    0 \to F(U) \to I^0(U) \to I^1(U) \to I^2(U) \to \cdots
+\end{aligned}
+\end{equation}
+is long exact? Here is where we squint at \Cref{eqn:acyclic-resolution-on-U} and say that it looks an awful lot like the sequence used to compute the derived functors of $\Gamma(-,F)$, but now over the open subspace $U$ instead of over $X$. Indeed it is, but only if we know that $I^j$ is still injective (or at least acyclic) when considered as a sheaf on $U$. This wouldn't necessarily be true if we had used an acyclic resolution (a restriction of an acyclic resolution to an open subspace need not remain an acyclic resolution), but because we used an \emph{injective} resolution, when we restrict to an open subspace it remains an injective resolution (exercise). In summary if $F \to I^\bullet$ is an injective resolution, then \Cref{eqn:acyclic-resolution-on-U} will be exact exactly if $F_{|U}$ is acyclic.
+
+An interesting case emerges when $U = U_{i_0}\cap \cdots \cap U_{i_q}$ is the overlap of some open spaces coming from an open cover $\mathcal{U}$ of $X$:
+
+
+\begin{proposition} Let $X$ be a space, $\mathcal{U}$ an open cover, and $F$ a sheaf. Suppose that the sheaf cohomology satisfies $H^1(U_{i_0 \cdots i_q}, F_{|U_{i_0 \cdots i_q}}) = 0$ for all finite intersections of elements in our cover. Then for any injective resolution of sheaves
+\begin{align*}
+    F \to I^0 \to I^1 \to I^2 \to \cdots
+\end{align*}
+the sequence of \v{C}ech cochains is long exact for every $q$:
+\begin{equation}\label{eqn:LES-cech-cochains-leray-cover}
+\begin{aligned}
+    0 \to \check{C}^q(\mathcal{U},F) \to \check{C}^q(\mathcal{U},I^0) \to \check{C}^q(\mathcal{U},I^1) \to \check{C}^q(\mathcal{U},I^2) \to \cdots
+\end{aligned}
+\end{equation}
+\end{proposition}
+\begin{proof} This follows from the formula $\check{C}^q(\mathcal{U},G) = \prod_{i_0, \ldots, i_q} G(U_{i_0 \cdots i_q})$ for any sheaf $G$, together with the above discussion and the observation that an arbitrary product of long exact sequences of abelian groups is still long exact.\footnote{ This is axiom AB4* in \cite{Tohoku}. Arbitrary products are always left exact, and axiom AB4 says arbitrary coproducts preserve monomorphisms. The dual axioms AB4* which Grothendieck leaves as an exercise to us is that arbitrary products preserve epimorphisms, hence are right exact. We can also just see this by hand in the category of abelian groups.}
+\end{proof}
+
+The sheaves $F$ satisfying this nice property deserve a special name for being so very special.
+
+\begin{definition}\label{def:Leray-cover} Let $X$ be a space and $\mathcal{U}$ an open cover. We say $F$ is \emph{a Leray cover for} $\mathcal{U}$ if $H^1(U_{i_0 \cdots i_q}, F_{|U_{i_0 \cdots i_q}}) = 0$ for all finite intersections of open sets in the cover $\mathcal{U}$.
+\end{definition}
+
+We'll now see why this key property of Leray covers is so important -- it tells us we can compute \v{C}ech cohomology along a Leray cover!
+
+\begin{theorem}\label{thm:leray} 
+Let $\mathcal{U}$ be an open cover of a space $X$, and suppose $F$ is a Leray cover with respect to $\mathcal{U}$. Then we obtain an isomorphism
+\begin{align*}
+    \check{H}^q(\mathcal{U},F) \xto{\sim} H^q(X,F)
+\end{align*}
+for all $q\ge0$.
+\end{theorem}
+\begin{proof} Take any injective resolution $F \to A^\bullet$. By functoriality of \v{C}ech cochains and naturality of differentials we get a commutative infinite grid (see \cite[p.~193]{Bredon-sheaf}):
+\[ \begin{tikzcd}
+     & 0\dar & 0\dar & 0\dar & 0\dar & \\
+    0\rar & {\Gamma(X,F)}\rar\dar & {\Gamma(X,I^0)}\rar\dar & {\Gamma(X,I^1)}\rar\dar & {\Gamma(X,I^2)}\rar\dar & \cdots\\
+    0\rar & {\check{C}^0(\mathcal{U},F)}\rar\dar & {\check{C}^0(\mathcal{U},I^0)}\rar\dar & {\check{C}^0(\mathcal{U},I^1)}\rar\dar  & {\check{C}^0(\mathcal{U},I^2)}\rar\dar  & \cdots \\
+    0\rar & {\check{C}^1(\mathcal{U},F)}\rar\dar & {\check{C}^1(\mathcal{U},I^0)}\rar\dar & {\check{C}^1(\mathcal{U},I^1)}\rar\dar  & {\check{C}^1(\mathcal{U},I^2)}\rar\dar  & \cdots \\
+    0\rar & {\check{C}^2(\mathcal{U},F)}\rar\dar & {\check{C}^2(\mathcal{U},I^0)}\rar\dar & {\check{C}^2(\mathcal{U},I^1)}\rar\dar  & {\check{C}^2(\mathcal{U},I^2)}\rar\dar  & \cdots \\
+    & \vdots  & \vdots  & \vdots  & \vdots  & 
+\end{tikzcd} \]
+The first row is not necessarily exact (it computes $H^\ast(X,F)$) nor is the first column necessarily exact (it computes $\check{H}^\ast(\mathcal{U},F)$). However we claim all other rows and columns are exact. The columns are exact because they \v{C}ech cohomology in an injective sheaf, and we have seen this vanishes in \Cref{cor:injective-sheaf-is-acyclic}. The rows are exact by the Leray condition -- this was the reason for \Cref{eqn:LES-cech-cochains-leray-cover}.
+
+We claim now that the cohomology of the first row is isomorphic to the cohomology of the first column! This can be done by taking an element in a kernel/image and chasing it diagonally through the grid (TODO add details).
+\end{proof}
+
+The procedure of computing \v{C}ech cohomology is a bit hairy. For a fixed cover $\mathcal{U}$ it is a fairly easy process to compute $\check{H}^\ast(\mathcal{U},F)$, however the process of refining the cover to produce a colimit is a bit unclear. A massive upshot of \Cref{thm:leray} is that, in the process of computing \v{C}ech cohomology over nice spaces, it gives you a way to tell when you've refined your cover \emph{enough} to stop refining and call it a day!
+
+\begin{corollary}\label{cor:leray-covers-paracompact-spaces} Let $X$ be a paracompact Hausdorff space, and $F\in \Ab(X)$. If $\mathcal{U}$ is any open cover for which $F$ is Leray, then the natural colimiting map
+\begin{align*}
+    \check{H}^q(\mathcal{U},F) \to \check{H}^q(X,F)
+\end{align*}
+is an isomorphism for all $q$.
+\end{corollary}
+\begin{proof} This is a combination of \Cref{thm:leray} and the comparison between \v{C}ech and sheaf cohomology on paracompact Hausdorff spaces we saw in \Cref{cor:cech-equals-sheaf-cohomology-paracompact-Hausdorff}.
+\end{proof}
+
+\section{Comparison with singular cohomology}
+
+\begin{definition} We say $X$ is \emph{semi-locally contractible} if any open subset $U \subseteq X$ admits an open cover $\left\{ V_i \right\}$ so that the inclusion $V_i \subseteq U$ is homotopic to a constant map.\footnote{That is, $W_i$ need not be contractible as a space, but it is ``contractible in $U$.''}
+\end{definition}
+
+\begin{theorem}\label{thm:Cech-cohomology-and-singular-cohomology} 
+If $X$ is paracompact, Hausdorff, and semi-locally contractible, and $A$ is any abelian group, there is an isomorphism between sheaf cohomology with constant coefficients and singular cohomology
+\begin{align*}
+    \check{H}(X, \underline{A}) \cong H^\ast_\text{sing}(X,A).
+\end{align*}
+\end{theorem}
+\begin{proof}[Proof (sheafy version)] Here we're loosely following \cite[III.1]{Bredon-sheaf} and \href{https://public.websites.umich.edu/~mmustata/SingSheafcoho.pdf}{this note of Musta\c{t}\u{a}}.
+
+\emph{Step 1: Singular cochain sheaves resolve the constant sheaf:} For any $q\ge 0$, define a presheaf as
+\begin{align*}
+    C^q_\sing \colon \Open(X)^\op &\to \Ab \\
+    U &\mapsto C^q_\sing(U,A),
+\end{align*}
+where we recall $C_q(U) = \bigoplus_{\Delta^q \xto{\sigma} U}\Z$ is the free abelian group on the set of singular $q$-chains, and by definition $C^q_\sing(U,A) = \Hom_\Ab(C_q(U),A) = \prod_{\sigma \colon \Delta^q \to U}A$ is the set of \emph{singular cochains} on $U$. Since cochains form a chain complex, it is clear that we get a chain complex of sheaves of abelian groups for any $F$. Moreover there is a natural map of presheaves
+\begin{align*}
+    \underline{A} \to C^0_\sing
+\end{align*}
+sending any locally constant function $s \colon U \to A$ to the singular cochain which associates, to the point $u\in U$, the value $s(u) \in A$. So we get a sequence of presheaves
+\begin{align*}
+    \underline{A} \to C^0_\sing \to C^1_\sing \to \cdots
+\end{align*}
+Observe that $C^q_\sing$ is not a sheaf --- this is because we can have simplices landing in $U_i$'s which agree on overlaps, but do not glue to one big simplex (exercise: come up with an explicit example illustrating this). So we now sheafify everything in sight, and we get
+\begin{equation}\label{eqn:singular-resolution-of-const-sheaf}
+\begin{aligned}
+    \underline{A} \to (C^0_\sing)^\sharp \to (C^1_\sing)^\sharp \to \cdots
+\end{aligned}
+\end{equation}
+We first claim this is an exact sequence of sheaves (a resolution of the constant sheaf), so we have to verify exactness on stalks. Since $X$ is semi-locally contractible, there is a cofinal system of open neighborhoods $U\ni x$ which are contractible (TODO check this, add to appendix). On such a contractible neighborhood, we get that $\underline{A}(U) = A$ (since $U$ is connected), and we get that all the singular cohomology vanishes, i.e. $H_\sing^i(U,A) = 0$ for $i>0$. In other words, the sequence
+\begin{align*}
+    0 \to \underline{A}(U) \to C^0_\sing(U) \to C^1_\sing(U) \to \cdots 
+\end{align*}
+is exact. Hence the stalks are exact and we have that \Cref{eqn:singular-resolution-of-const-sheaf} is a resolution of sheaves.
+
+\emph{Step 2: Singular cochain sheaves are acyclic:} The next claim to verify is that these $(C^q_\sing)^\sharp$ sheaves are acyclic. We'll do this by reference to \Cref{thm:paracompact-space-Cech-cohomology-of-sheafification} --- since our base space is paracompact it suffices to show the \emph{pre}sheaves $C^q_\sing$ are acyclic in \v{C}ech cohomology. Observe that the \v{C}ech cochains for this presheaf on an open cover $\mathcal{U} = \left\{ U_i \right\}$ look like:
+\begin{align*}
+    \check{C}^q (\mathcal{U}, C^q_\sing) = \prod_{i_0, \ldots, i_q} C^q_\sing(U_{i_0 \cdots i_q}) = \prod_{i_0 \cdots i_q} \prod_{\Delta^p \xto{\sigma} U_{i_0 \cdots i_q}}A
+\end{align*}
+The trick is to rearrange this -- if $\sigma \colon \Delta^p \to X$ is any simplex, we'll denote by $I_\sigma = \left\{ i\in I \mid \sigma(\Delta^p) \cap U_i \ne \emptyset \right\}$, this is the indexing set of the collection of open sets in our cover that a given simplex $\sigma$ hits. This is because, unless $i_0, \ldots, i_q\in I$, then $\sigma$ does not contribute a copy of $A$ to $C^q_\sing(U_{i_0 \cdots i_q})$. Letting $\check{C}^q(I_\sigma;A)$ denote the group $\prod_{i_0, \ldots, i_q \in I_\sigma} A$, we can rearrange the above to equal
+\begin{align*}
+    \check{C}^q(\mathcal{U},C^q_\sing) = \prod_{\sigma} \check{C}^q(I_\sigma,A).
+\end{align*}
+So acyclicity of $C^q_\sing$ reduces to checking that the sequence
+\begin{equation}\label{eqn:Isigma-LES}
+\begin{aligned}
+    \cdots \to\check{C}^{q-1}(I_\sigma, A) \to \check{C}^q(I_\sigma,A) \to \check{C}^{q+1}(I_\sigma,A) \to \cdots
+\end{aligned}
+\end{equation}
+is exact (again, because products of long exact sequences of abelian groups are long exact). We do this by constructing an explicit chain homotopy --- we've fixed our $\sigma$, and let's fix a preferred element which we'll call $j \in I_\sigma$ (it doesn't matter what it is). Then we define a map
+\begin{align*}
+    h \colon \check{C}^q (I_\sigma,A) &\to \check{C}^{q-1}(I_\sigma,A)
+\end{align*}
+by defining $h(c)(i_0, \ldots, i_{q-1}) := c(j,i_0, \ldots, i_{q-1})$. We claim that $d^{q-1}\circ h + h\circ d^{q} = \id$, that is, $h$ exhibits the identity map on \Cref{eqn:Isigma-LES} as null-homotopic. This is because, for any $c \in \check{C}^{q-1}(I_\sigma,A)$, we have
+\begin{align*}
+    (d^{q-1} h)(c)(i_0, \ldots, i_q) &= \sum_{k=0}^q (-1)^k (hc)(i_0, \ldots, \widehat{i_k}, \ldots, i_q) = \sum_{k=0}^q (-1)^k c(j,i_0, \ldots, \widehat{i_k}),
+\end{align*}
+and
+\begin{align*}
+    (h d^q)(c)(i_0, \ldots, i_q) &= (d^q c)(j,i_0, \ldots, i_{q}) = c(i_0, \ldots, i_q) + \sum_{k=1}^q (-1)^{k+1} c(j,i_0, \ldots, \widehat{i_k}, \ldots, i_q).
+\end{align*}
+Summing these two terms, everything cancels except $c(i_0, \ldots, i_q)$, so $d^{q-1}\circ h + h\circ d^{q} = \id$, hence \Cref{eqn:Isigma-LES} is exact, and therefore the $C^q_\sing$ presheaves are acyclic. No aspect of this used paracompactness of $X$! However we use paracompactness to conclude that the \emph{sheaves} $(C^q_\sing)^\sharp$ are acyclic, as desired.
+
+\emph{Step 2.5: Pause, what do we have so far:} The previous two steps tell us that the constant sheaf cohomology $H^q(X,\underline{A})$ can be computed as derived functors of global sections along the acyclic resolution given by the sheafification of the singular cochain sheaves --- explicitly, as the cohomology of the following chain complex:
+\begin{align*}
+    0 \to \Gamma(X,\underline{A}) \to (C^0_\sing)^\sharp(X) \to (C^1_\sing)^\sharp(X) \to \cdots 
+\end{align*}
+Note that we have a natural morphism of complexes
+\[ \begin{tikzcd}
+    0\rar & {\Gamma(X,\underline{A})}\rar\dar & (C^0_\sing)(X)\rar\dar & C^1_\sing(X)\rar\dar & \cdots \\
+    0\rar & {\Gamma(X,\underline{A})}\rar & (C^0_\sing)^\sharp(X)\rar & (C^1_\sing)^\sharp(X)\rar & \cdots
+\end{tikzcd} \]
+This induces a map between their cohomology, and by what we've seen above, this gives us a map $H^p_\sing(X,A) \to H^p(X, \underline{A})$. We're aiming to argue it is an isomorphism by showing that the vertical maps induce a quasi-isomorphism.
+
+\emph{Step 3: Cochains to sheafified cochains is levelwise surjective:} Suppose we have some $q\ge 0$ and an element $c\in (C^q_\sing)^\sharp(X)$. We want to lift it to $C^q_\sing(X)$. Fix an open cover $\mathcal{U}$. Since we have sheafified, we can repackage the data of $c$ as the data of, for every $U_i \in \mathcal{U}$, a cochain $c_i \in C^q(U_i,A)$, so that the cochains $c_i$ and $c_j$ agree on the overlap. Surjectivity then reduces to checking the existence of a global element $\chi \in C^q(X,A)$ which restricts to $c_i$ on each $U_i$. Recall what a $q$-cochain is -- it \emph{tells you} a particular value in $A$ for every $q$-simplex in its domain. The $c_i$'s give us a rule of how to give a value of $A$ for every $q$-simplex landing in $U_i$ for each $i$, and these rules agree for simplices on the overlaps, so now we have to assign a value for every simplex landing in $X$. The trick is to use barycentric subdivision to chop up an arbitrary simplex in $X$ into much smaller simplices, each of which has the property that it either lands completely in a $U_i$ or is disjoint from it. This can't be accomplished on arbitrary spaces, but it can on paracompact Hausdorff ones, since they admit locally finite covers.
+
+\emph{Step 4: Cochains to sheafified cochains has null-homologous kernel}: We now have a map of chain complexes $C^\ast_\sing(X) \to (C_\sing^\bullet)^\sharp(X)$ which is levelwise surjective. We want to show that its kernel is null-homologous. We claim that this also follows from barycentric subdivision. In particular we can describe, at each level $q$, the kernel of $C^q_\sing(X) \to (C^q_\sing)^\sharp(X)$ as those $q$-cochains $c$ satisfying the following condition: there exists some open cover $\mathcal{U}$ so that, if $\sigma$ has image inside any one (maybe more) of the $U_i$'s, then $c(\sigma) = 0$. However it is a standard result in barycentric subdivision to see that the complex of such things is null-homologous (see \cite[2.21]{Hatcher}).
+\end{proof}
+
+\begin{proof}[Proof sketch (nerve lemma)] An alternative proof of this fact involves first establishing the existence of \emph{good covers} along the spaces we care about (a cover $\mathcal{U}$ for which all the finite intersections of opens in the cover are contractible). The nerve lemma then says that $|N(\mathcal{U})| \simeq X$, that is, the geometric realization of the nerve of this cover recovers the homotopy type of the space $X$. Since singular cohomology is a homotopy invariant, we can replace $H^\ast_\sing(X,A)$ with $H^\ast_\sing(|N(\mathcal{U})|,A)$ without loss of generality. We can then \emph{canonically} identify the singular cochains complex for $|N(\mathcal{U})|$ with the \v{C}ech cochains complex for $\mathcal{U}$. This tells us that \v{C}ech cohomology along a good cover agrees with singular cohomology of $X$, and then we can use that good covers are cofinal among all covers to conclude.
+\end{proof}
+
+\begin{remark} It turns out by a recent theorem of Sella you can weaken this and drop the paracompact+Hausdorff condition, and only assume $X$ is semi-locally contractible \cite{Sella-sheaf-cohomology}.
+\end{remark}
+
+\begin{remark} When $X$ is a manifold and $A=\R$, we'll provide a different proof of this fact, via the \emph{de Rham theorem} (\Cref{thm:sheafy-de-rham,thm:de-Rham}).
+\end{remark}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
@@ -1288,11 +1543,8 @@ The converse implications don't hold.
 \begin{example} Euclidean space $\R^n$ is paracompact but not compact.
 \end{example}
 
-
-
 \begin{example}[Point-finite spaces need not be paracompact] The first example was, I believe, \cite[Example~B]{bingMetrizationTopologicalSpaces1951}. Another good example is \cite[Example~89]{steeinCounterexamplesTopology1978}.
 \end{example}
-
 
 \begin{remark} Hirzebruch, Bourbaki, and many other authors assume the spaces receiving the definitions in \Cref{def:compact-paracompact-point-finite} are Hausdorff. We will try to be clear when the Hausdorff condition is needed.
 \end{remark}
