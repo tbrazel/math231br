@@ -1359,7 +1359,7 @@ is long exact? Here is where we squint at \Cref{eqn:acyclic-resolution-on-U} and
 An interesting case emerges when $U = U_{i_0}\cap \cdots \cap U_{i_q}$ is the overlap of some open spaces coming from an open cover $\mathcal{U}$ of $X$:
 
 
-\begin{proposition} Let $X$ be a space, $\mathcal{U}$ an open cover, and $F$ a sheaf. Suppose that the sheaf cohomology satisfies $H^1(U_{i_0 \cdots i_q}, F_{|U_{i_0 \cdots i_q}}) = 0$ for all finite intersections of elements in our cover. Then for any injective resolution of sheaves
+\begin{proposition} Let $X$ be a space, $\mathcal{U}$ an open cover, and $F$ a sheaf. Suppose that the sheaf cohomology satisfies $H^p(U_{i_0 \cdots i_q}, F_{|U_{i_0 \cdots i_q}}) = 0$ for all $p\ge1$ and all finite intersections of elements in our cover. Then for any injective resolution of sheaves
 \begin{align*}
     F \to I^0 \to I^1 \to I^2 \to \cdots
 \end{align*}
@@ -1375,7 +1375,17 @@ the sequence of \v{C}ech cochains is long exact for every $q$:
 
 The sheaves $F$ satisfying this nice property deserve a special name for being so very special.
 
-\begin{definition}\label{def:Leray-cover} Let $X$ be a space and $\mathcal{U}$ an open cover. We say $F$ is \emph{a Leray cover for} $\mathcal{U}$ if $H^1(U_{i_0 \cdots i_q}, F_{|U_{i_0 \cdots i_q}}) = 0$ for all finite intersections of open sets in the cover $\mathcal{U}$.
+\begin{definition}\label{def:Leray-cover} Let $X$ be a space and $\mathcal{U}$ an open cover.
+% We say $F$ is an \emph{$n$-Leray cover} for $\mathcal{U}$ if
+% \begin{align*}
+%     H^p(U_{i_0 \cdots i_q},F_{|U_{i_0 \cdots i_q}}) =0
+% \end{align*}
+% for $p+q\le n$.
+We say $F$ is \emph{Leray} for $\mathcal{U}$ if
+\begin{align*}
+    H^p(U_{i_0 \cdots i_q},F_{|U_{i_0 \cdots i_q}}) =0
+\end{align*}
+for all $p\ge1$ and all $q\ge0$.
 \end{definition}
 
 We'll now see why this key property of Leray covers is so important -- it tells us we can compute \v{C}ech cohomology along a Leray cover!
