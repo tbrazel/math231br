@@ -15,11 +15,11 @@ Provide an overview of the construction and basic properties of *Inoue surfaces*
 ## Sheaf cohomology and singular cohomology
 Give a recount of the comparison theorem between singular cohomology and sheaf cohomology with coefficients in a constant sheaf. Explain (following Sella) why we only need to assume $X$ is semi-locally contractible in the assumptions of the theorem.
 
-## $\Omega_3=0$
-Prove that $\Omega_3^\text{SO}=0$ following Chapter 2 of Saveliev's *Lectures on the topology of 3-manifolds*. (Dibs: Luke Lelli)
+## $\Omega_3=0$ (Dibs: Luke Lelli)
+Prove that $\Omega_3^\text{SO}=0$ following Chapter 2 of Saveliev's *Lectures on the topology of 3-manifolds*. 
 
-## The $\widehat{A}$-genus
-Discuss the $\widehat{A}$-genus and its connection to spin bordism. (Dibs: Zoe Batterman)
+## The $\widehat{A}$-genus (Dibs: Zoe Batterman)
+Discuss the $\widehat{A}$-genus and its connection to spin bordism. 
 
 ## The Hodge-de Rham spectral sequence
 Explain the spectral sequence $H^p(X,\Omega^q) \Rightarrow H^{p+q}(X,\mathbb{C})$ valid for complex manifolds, following Deligne, Fröhlicher, and others. Explain why it degenerates for compact Kähler manifolds, and give examples of the failure of degeneration in other settings.
