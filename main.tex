@@ -50,7 +50,8 @@ Thank you to Zo\"{e} Batterman, Vincent Costa, Frank Gubars, Grayson Kemplin, Ga
 
 The definition of a \emph{sheaf} in Hirzebruch is perhaps a bit different from what we're used to. He wants to think of sheaves as \emph{living over} a space $X$, whereas we might be comfortable thinking about sheaves as local data across a space. We'll see how these perspectives are equivalent.
 
-\begin{definition} A \emph{sheaf of abelian groups} over a topological space $X$ is a topological space $S$ with the data of a surjective continuous map $\pi \colon S \to X$, for which
+\begin{definition}\label{def:sheaf} 
+A \emph{sheaf of abelian groups} over a topological space $X$ is a topological space $S$ with the data of a surjective continuous map $\pi \colon S \to X$, for which
 \begin{itemize}
     \item $\pi$ is a \emph{local homeomorphism}, meaning for every point $s\in S$ there is an open neighborhood $U\ni s$ for which
     \begin{align*}
@@ -1425,10 +1426,11 @@ is an isomorphism for all $q$.
 \section{Comparison with singular cohomology}
 
 \begin{theorem}\label{thm:Cech-cohomology-and-singular-cohomology} 
-If $X$ is paracompact, Hausdorff, and locally contractible, and $A$ is any abelian group, there is an isomorphism between sheaf/\v{C}ech cohomology with constant coefficients and singular cohomology
+If $X$ is paracompact, Hausdorff, and locally contractible, and $A$ is any abelian group, there is a natural isomorphism between singular cohomology and sheaf cohomology with constant coefficients
 \begin{align*}
-    \check{H}(X, \underline{A}) \cong H^\ast_\text{sing}(X,A).
+    H^\ast_\text{sing}(X,A) \xto{\sim} H^\ast(X,\underline{A}).
 \end{align*}
+In particular as $X$ is paracompact, these are both isomorphic to \v{C}ech cohomology $\check{H}^\ast(X,\underline{A})$ by \Cref{thm:cech-equals-sheaf}.
 \end{theorem}
 \begin{proof}[Proof (sheafy version)] Here we're loosely following \cite[III.1]{Bredon-sheaf} and \href{https://public.websites.umich.edu/~mmustata/SingSheafcoho.pdf}{this note of Musta\c{t}\u{a}}.
 
@@ -1437,7 +1439,7 @@ If $X$ is paracompact, Hausdorff, and locally contractible, and $A$ is any abeli
     C^q_\sing \colon \Open(X)^\op &\to \Ab \\
     U &\mapsto C^q_\sing(U,A),
 \end{align*}
-where we recall $C_q(U) = \bigoplus_{\Delta^q \xto{\sigma} U}\Z$ is the free abelian group on the set of singular $q$-chains, and by definition $C^q_\sing(U,A) = \Hom_\Ab(C_q(U),A) = \prod_{\sigma \colon \Delta^q \to U}A$ is the set of \emph{singular cochains} on $U$. Since cochains form a chain complex, it is clear that we get a chain complex of sheaves of abelian groups for any $F$. Moreover there is a natural map of presheaves
+where we recall $C_q(U) = \bigoplus_{\Delta^q \xto{\sigma} U}\Z$ is the free abelian group on the set of singular $q$-chains, and by definition $C^q_\sing(U,A) = \Hom_\Ab(C_q(U),A) = \prod_{\sigma \colon \Delta^q \to U}A$ is the set of \emph{singular cochains} on $U$. Since cochains form a chain complex, it is clear that we get a chain complex of presheaves of abelian groups for any $F$. Moreover there is a natural map of presheaves
 \begin{align*}
     \underline{A} \to C^0_\sing
 \end{align*}
@@ -1496,12 +1498,21 @@ Note that we have a natural morphism of complexes
 \end{tikzcd} \]
 This induces a map between their cohomology, and by what we've seen above, this gives us a map $H^p_\sing(X,A) \to H^p(X, \underline{A})$. We're aiming to argue it is an isomorphism by showing that the vertical maps induce a quasi-isomorphism.
 
-\emph{Step 3: Cochains to sheafified cochains is levelwise surjective:} Suppose we have some $q\ge 0$ and an element $c\in (C^q_\sing)^\sharp(X)$. We want to lift it to $C^q_\sing(X)$. Fix an open cover $\mathcal{U}$. Since we have sheafified, we can repackage the data of $c$ as the data of, for every $U_i \in \mathcal{U}$, a cochain $c_i \in C^q(U_i,A)$, so that the cochains $c_i$ and $c_j$ agree on the overlap. Surjectivity then reduces to checking the existence of a global element $\chi \in C^q(X,A)$ which restricts to $c_i$ on each $U_i$. Recall what a $q$-cochain is -- it \emph{tells you} a particular value in $A$ for every $q$-simplex in its domain. The $c_i$'s give us a rule of how to give a value of $A$ for every $q$-simplex landing in $U_i$ for each $i$, and these rules agree for simplices on the overlaps, so now we have to assign a value for every simplex landing in $X$. The trick is to use barycentric subdivision to chop up an arbitrary simplex in $X$ into much smaller simplices, each of which has the property that it either lands completely in a $U_i$ or is disjoint from it. This can't be accomplished on arbitrary spaces, but it can on paracompact Hausdorff ones, since they admit locally finite covers.
+\emph{Step 3: Cochains to sheafified cochains is levelwise surjective:} Suppose we have some $q\ge 0$ and an element $c\in (C^q_\sing)^\sharp(X)$. We want to lift it to $C^q_\sing(X)$. Fix an open cover $\mathcal{U}$. Since we have sheafified, we can repackage the data of $c$ as the data of, for every $U_i \in \mathcal{U}$, a cochain $c_i \in C^q_\sing(U_i,A)$, so that the cochains $c_i$ and $c_j$ agree on the overlap. Surjectivity then reduces to checking the existence of a global element $\chi \in C^q_\sing(X,A)$ which restricts to $c_i$ on each $U_i$. Recall what a $q$-cochain is -- it \emph{tells you} a particular value in $A$ for every $q$-simplex in its domain. The $c_i$'s give us a rule of how to give a value of $A$ for every $q$-simplex landing in $U_i$ for each $i$, and these rules agree for simplices on the overlaps, so now we have to assign a value for every simplex landing in $X$. The trick is to use barycentric subdivision to chop up an arbitrary simplex in $X$ into much smaller simplices, each of which has the property that it either lands completely in a $U_i$ or is disjoint from it. This can't be accomplished on arbitrary spaces, but it can on paracompact Hausdorff ones, since they admit locally finite covers.
 
-\emph{Step 4: Cochains to sheafified cochains has null-homologous kernel}: We now have a map of chain complexes $C^\ast_\sing(X) \to (C_\sing^\bullet)^\sharp(X)$ which is levelwise surjective. We want to show that its kernel is null-homologous. We claim that this also follows from barycentric subdivision. In particular we can describe, at each level $q$, the kernel of $C^q_\sing(X) \to (C^q_\sing)^\sharp(X)$ as those $q$-cochains $c$ satisfying the following condition: there exists some open cover $\mathcal{U}$ so that, if $\sigma$ has image inside any one (maybe more) of the $U_i$'s, then $c(\sigma) = 0$. However it is a standard result in barycentric subdivision to see that the complex of such things is null-homologous (see \cite[2.21]{Hatcher}).
+\emph{Step 4: Cochains to sheafified cochains has null-homologous kernel}: We now have a map of chain complexes $C^\bullet_\sing(X) \to (C_\sing^\bullet)^\sharp(X)$ which is levelwise surjective. We want to show that its kernel is null-homologous. We claim that this also follows from barycentric subdivision. In particular we can describe, at each level $q$, the kernel of $C^q_\sing(X) \to (C^q_\sing)^\sharp(X)$ as those $q$-cochains $c$ satisfying the following condition: there exists some open cover $\mathcal{U}$ so that, if $\sigma$ has image inside any one (maybe more) of the $U_i$'s, then $c(\sigma) = 0$. However it is a standard result in barycentric subdivision to see that the complex of such things is null-homologous (see \cite[2.21]{Hatcher}).
 \end{proof}
 
-\begin{proof}[Proof sketch (nerve lemma)] An alternative proof of this fact involves first establishing the existence of \emph{good covers} along the spaces we care about (a cover $\mathcal{U}$ for which all the finite intersections of opens in the cover are contractible). The nerve lemma then says that $|N(\mathcal{U})| \simeq X$, that is, the geometric realization of the nerve of this cover recovers the homotopy type of the space $X$. Since singular cohomology is a homotopy invariant, we can replace $H^\ast_\sing(X,A)$ with $H^\ast_\sing(|N(\mathcal{U})|,A)$ without loss of generality. We can then \emph{canonically} identify the singular cochains complex for $|N(\mathcal{U})|$ with the \v{C}ech cochains complex for $\mathcal{U}$. This tells us that \v{C}ech cohomology along a good cover agrees with singular cohomology of $X$, and then we can use that good covers are cofinal among all covers to conclude.
+If we limit our attention to sufficiently nice spaces, e.g. differentiable manifolds, we have an alternative proof of \Cref{thm:Cech-cohomology-and-singular-cohomology} via homotopy theory.
+
+\begin{proof}[Proof sketch (nerve lemma)]
+Suppose $X$ is paracompact and it admits a \emph{good cover} $\mathcal{U}$ (when $X$ is a Riemannian manifold, we proved this existence in \Cref{prop:good-covers-final-in-covers-on-mfld}). The nerve lemma \cite[\S5]{weilTheoremesRham1952} (see also \cite[4G.3]{Hatcher}) says that $|N(\mathcal{U})| \simeq X$, that is, the geometric realization of the nerve of this cover recovers the homotopy type of the space $X$. Since singular cohomology is a homotopy invariant, we can replace $H^\ast_\sing(X,A)$ with $H^\ast_\sing(|N(\mathcal{U})|,A)$ without loss of generality. One can prove that the simplicial cochains complex on $N(\mathcal{U})$ is canonically identified with the \v{C}ech cochains complex for $\mathcal{U}$. We can compose this isomorphism with the natural map comparing simplicial and singular cochains:
+\begin{align*}
+    \check{C}^\ast(\mathcal{U},\underline{A}) \cong C_\Delta^\bullet(N(\mathcal{U}),A) \to C_\sing^\bullet(|N(\mathcal{U})|,A).
+\end{align*}
+The latter map is a quasi-isomorphism by the standard comparison theorem between simplicial and singular cohomology (see for instance \cite[\S2.1]{Hatcher}).
+
+Thus for any good cover $\mathcal{U}$, we have that \v{C}ech cohomology of the cover agrees with singular cohomology. We use cofinality of good covers (\Cref{prop:manifold-stalk-cofinal-system}) to conclude.
 \end{proof}
 
 \begin{remark} It turns out by a recent theorem of Sella you can weaken this and drop the paracompact+Hausdorff condition, and only assume $X$ is semi-locally contractible \cite{Sella-sheaf-cohomology}.
@@ -1509,6 +1520,108 @@ This induces a map between their cohomology, and by what we've seen above, this 
 
 \begin{remark} When $X$ is a manifold and $A=\R$, we'll provide a different proof of this fact, via the \emph{de Rham theorem} (\Cref{thm:sheafy-de-rham,thm:de-Rham}).
 \end{remark}
+
+\section{Vector bundles and sheaves of sections}
+
+\begin{definition} A \emph{real vector bundle} $\pi \colon E \to X$ is a map of spaces so that
+\begin{itemize}
+    \item $\pi$ is a surjection
+    \item $\pi^{-1}(x)$ has the structure of a real vector space for every $x\in X$
+    \item for every $x\in X$ there exists an open neighborhood $U \ni x$, an integer $k$, and a homeomorphism $\phi$ fitting into a commutative diagram
+\[ \begin{tikzcd}
+    U \times \R^k\ar[rr,"\phi"]\ar[dr] &  & \pi^{-1}(U)\ar[dl,"\pi" below right]\\
+     & U, &
+\end{tikzcd} \]
+so that $\phi(x,-) \colon \R^k \xto{\sim} \pi^{-1}(x)$ is an isomorphism of real vector spaces for each $x\in U$.
+\end{itemize}
+\end{definition}
+
+A \textit{complex} vector space is the same definition, but we replace $\R$ with $\C$ above.
+
+\begin{example} On any manifold, we have a \emph{tangent bundle}
+\begin{align*}
+    TM \to M,
+\end{align*}
+which is a vector bundle of rank equal to the dimension of $M$. A section of the bundle is a vector field on $M$.
+\end{example}
+
+\begin{notation} If $E\to X$ is a vector bundle and $U \subseteq X$ is some open subset, we denote by $\Sec(U,E)$ the set of continuous sections:
+\begin{align*}
+    \Sec(U,E) := \left\{ s \colon U \to E_{|U} \colon \pi\circ s = \id_U \right\}.
+\end{align*}
+Note that $\Sec(U,E)$ is an $\R$-module. In fact, it is a $C(U,\R)$-module.
+\end{notation}
+
+\begin{proposition} Let $X$ be a space, and $E \to X$ a vector bundle. Then the functor
+\begin{align*}
+    \Sec(-,E) \colon \Open(X)^\op \to \Ab
+\end{align*}
+is a sheaf.
+\end{proposition}
+\begin{proof} Sections satisfy locality and gluing. 
+\end{proof}
+
+\begin{remark} We can form new vector bundles out of old ones by doing linear algebra operations ``fiberwise.'' That is, we can make sense of direct sums, tensor products, duals, exterior powers, symmetric powers, etc. of existing vector bundles.
+\end{remark}
+
+\begin{definition} Let $M$ be a smooth $n$-manifold. Then we denote by
+\begin{align*}
+    \Omega^k_{\dR} = \Sec(-,\wedge^k T^\ast M)
+\end{align*}
+the sheaf of sections of the $k$th exterior power of the cotangent bundle.
+\end{definition}
+
+\begin{example} We have that $\Omega^0_\dR$ is the sheaf of real-valued differentiable functions on $M$.
+\end{example}
+
+Differential forms are expressible in local coordinates, where they admit a nicer shape. Let's see some examples:
+
+\begin{example} On $M = \R^3$, an element of $\Gamma(\R^3,\Omega^1_\dR)$ is expressible as
+\begin{align*}
+    f_1(x,y,z) dx + f_2(x,y,z) dy + f_3(x,y,z) dz,
+\end{align*}
+where the $f_i$'s are differentiable real-valued functions, $dx$ is the section $\R^3 \to T^\ast \R^3$ which projects a tangent vector to its $x$-component, and similarly for $dy$ and $dz$. In multivariable calculus we often rewrite these as \textit{vector fields}
+\begin{align*}
+    F_1(x,y,z) \hat{i} + F_2(x,y,z) \hat{j} + F_3(x,y,z) \hat{j}.
+\end{align*}
+\end{example}
+
+\begin{example} Again on $M = \R^3$, an element of $\Gamma(\R^3,\Omega^2_\dR)$ is something of the form
+\begin{align*}
+    f_1(x,y,z) dx \wedge dy + f_2(x,y,z) dz\wedge dx + f_3(x,y,z) dy\wedge dx,
+\end{align*}
+where again the $f_i$'s are differentiable and real-valued, and $dx\wedge dy \in \Gamma(\R^3, \wedge^2 T^\ast M)$ is the section which takes an ordered pair of tangent vectors, projects them onto the $xy$-plane, and spits out the signed volume of the parallelogram they span. In general we make a choice (this is secretly the Hodge star operator which we'll learn later) to identify
+\begin{align*}
+    dx\wedge dy &\leftrightarrow \hat{k} \\
+    dy \wedge dz & \leftrightarrow \hat{i} \\
+    dz\wedge dx &\leftrightarrow \hat{j},
+\end{align*}
+and rewrite a differential 2-form as a vector field.
+\end{example}
+
+\begin{definition}\label{def:exterior-derivative} 
+In general we define the \emph{exterior derivative} of a differential $k$-form
+\begin{align*}
+    \omega = \sum_{i_1 < \cdots < i_k}f_{i_1, \ldots, i_k}dx_{i_1}\wedge \cdots \wedge dx_{i_k}
+\end{align*}
+as
+\begin{align*}
+    d\omega = \sum_{i_1< \cdots < i_k} df_{i_1, \ldots, i_k} \wedge dx_{i_1}\wedge \cdots \wedge dx_{i_k}.
+\end{align*}
+\end{definition}
+
+\begin{exercise}
+Let $M$ be a smooth manifold. Show that the exterior derivative in \Cref{def:exterior-derivative} defines a morphism of abelian sheaves.
+\end{exercise}
+
+\begin{terminology} \,
+\begin{itemize}
+    \item A form $\omega$ is said to be \emph{closed} if $d\omega = 0$.
+    \item A form $\omega$ is said to be \emph{exact} if it is of the form $\omega=d\alpha$ for some $\alpha$. In this case, $\alpha$ is said to be a \emph{primitive} of $\omega$.
+\end{itemize}
+\end{terminology}
+
+\subsection{The Poincar\'e lemma}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
