@@ -1,0 +1,58 @@
+\documentclass[11pt]{amsart}
+\input{../commands.tex}
+
+\newtheorem{hwexercise}{Exercise}
+
+\title{math231br Homework 4 (Due Thursday, 2/26/26)}
+
+\begin{document}
+\maketitle
+
+\begin{hwexercise} For this exercise, we fill in the last bit of homological algebra that lets us conclude that the \v{C}ech cohomology of a Leray cover computes sheaf cohomology. Suppose we have a commutative diagram of abelian groups and abelian group homomorphisms laid out in an infinite grid like so:
+\[ \begin{tikzcd}
+     &  & 0\dar & 0\dar & 0\dar & \\
+     &  & A_0\rar\dar & A_1\rar\dar & A_2\rar\dar & \cdots\\
+    0\rar & B_0\rar\dar & C_{00}\rar\dar & C_{01}\rar\dar  & C_{02}\rar\dar  & \cdots \\
+    0\rar & B_1\rar\dar & C_{10}\rar\dar & C_{11}\rar\dar  & C_{12}\rar\dar  & \cdots \\
+    0\rar & B_2\rar\dar & C_{20}\rar\dar & C_{21}\rar\dar  & C_{22}\rar\dar  & \cdots \\
+    & \vdots  & \vdots  & \vdots  & \vdots  & 
+\end{tikzcd} \]
+Suppose that:
+\begin{itemize}
+    \item Every row (except the one with all the $A_i$'s) is exact
+    \item Every column (except the one with all the $B_j$'s) is exact
+\end{itemize}
+Prove that the cohomology of the row consisting of the $A_i$'s is isomorphic to the cohomology of the column consisting with the $B_j$'s.
+\end{hwexercise}
+
+\begin{hwexercise} This exercise is to convince yourself that null-homotopies on chain complexes work the way we do.
+\begin{enumerate}
+    \item Let $f^\bullet \colon C^\bullet \to C^\bullet$ be an endomorphism of a cochain complex. Suppose we have maps
+    \begin{align*}
+        h^n \colon C^n \to C^{n-1}
+    \end{align*}
+    for all $n$, so that the following equality holds for all $n$:
+    \begin{align*}
+        h^{n+1}\circ d^n + d^{n+1}\circ h^n = \id
+    \end{align*}
+    Use this to prove that $C^\bullet$ has no cohomology (it is exact).
+
+    \item More generally, suppose we have two chain maps $f^\bullet, g^\bullet \colon C^\bullet \to C^\bullet$ and $h^n$'s satisfying the following relation for all $n$:
+    \begin{align*}
+        h^{n+1}\circ d^n + d^{n+1}\circ h^n = f^n - g^n.
+    \end{align*}
+    Then prove that $f^\bullet$ and $g^\bullet$ induce the same map on cohomology of $C^\bullet$.
+\end{enumerate}
+\end{hwexercise}
+
+
+\begin{hwexercise} Give an example illustrating why $C^q_\sing$ is not a sheaf.
+\end{hwexercise}
+
+
+
+
+
+
+
+\end{document}
