@@ -1538,11 +1538,63 @@ so that $\phi(x,-) \colon \R^k \xto{\sim} \pi^{-1}(x)$ is an isomorphism of real
 
 A \textit{complex} vector space is the same definition, but we replace $\R$ with $\C$ above.
 
+\begin{remark}
+A vector bundle (unless it is a rank zero vector bundle) is \emph{not} a sheaf. Even though it is a continuous surjection $\pi \colon E \to X$, and every fiber has the structure of an abelian group, that fiber has a non-discrete topology, which prevents $\pi$ from being a local homeomorphism.
+\end{remark}
+
+\begin{notation} Given a vector bundle $\pi \colon E \to X$ and a point $x\in X$, it is common notation to write $E_x$ to mean the fiber $\pi^{-1}(x)$. This is supposed to remind us of stalks.
+\end{notation}
+
+\begin{example} Given any space $X$ and any rank $k\ge0$, we have the \emph{trivial vector bundle}
+\begin{align*}
+    \pi \colon X \times \R^k \to X.
+\end{align*}
+\end{example}
+
+\begin{definition}\label{def:isomorphism-of-vb} Let $\pi_1 \colon E_1 \to X$ and $\pi_2 \colon E_2 \to X$ be two vector bundles over the same base space. A \emph{morphism} of vector bundles is a continuous map $f \colon E_1\to E_2$ so that:
+\begin{enumerate}
+    \item $\pi_2\circ f = \pi_1$, that is, the diagram commutes:
+\[ \begin{tikzcd}
+    E_1\ar[rr,"f" above]\ar[dr,"\pi_1" below left] & & E_2\ar[dl,"\pi_2" below right] & \\
+     & X
+\end{tikzcd}\]
+    \item for every point $x\in X$, the restriction $f_x := f_{|(E_1)_x} \colon (E_1)_x \to (E_2)_x$ is a linear transformation.
+\end{enumerate}
+We say $f$ is an \emph{isomorphism} if $f$ is a homeomorphism (equivalently, $f_x$ is an invertible linear transformation for each $x\in X$).
+\end{definition}
+
+\begin{terminology} We say a vector bundle is \emph{trivial} if it is isomorphic to the trivial vector bundle.
+\end{terminology}
+
+\begin{example} The M\"{o}bius strip can be thought of as a vector bundle over the sphere $S^1$. It is not isomorphic to the trivial vector bundle on $S^1$.
+\end{example}
+
 \begin{example} On any manifold, we have a \emph{tangent bundle}
 \begin{align*}
     TM \to M,
 \end{align*}
 which is a vector bundle of rank equal to the dimension of $M$. A section of the bundle is a vector field on $M$.
+\end{example}
+
+\begin{example} Let $M$ be a real $n$-dimensional manifold. If $M$ has trivial tangent bundle (such manifolds are called \emph{parallelizable}) then we can pick any nonzero vector $\vec{v}\in \R^n$, and create a section $\sigma$ which is the composite
+\begin{align*}
+    M &\to M \times \R^n \cong TM \\
+    m &\mapsto (m,\vec{v}).
+\end{align*}
+Since the vector bundle isomorphism $M \times \R^n \cong TM$ is an invertible linear transformation in each fiber, it sends $\vec{v}$ to some nonzero tangent vector over each point in $M$. Thus the composite map $\sigma \colon M \to TM$ is a \emph{nonvanishing} vector field across all of $M$.
+\end{example}
+
+\begin{example} The hairy ball theorem follows from the statement that the tangent bundle on the $2$-sphere is nontrivial.
+\end{example}
+
+\begin{theorem} The only spheres whose tangent bundles are trivial are $S^0$, $S^1$, $S^3$, and $S^7$.
+\end{theorem}
+
+\begin{example} On any manifold we have a \emph{cotangent bundle}
+\begin{align*}
+    T^\ast M \to M,
+\end{align*}
+where the fiber over $p\in M$ in the dual vector space $(T_p M)^\ast$. That is. A section of the cotangent bundle can be thought of as a way to coherently ``measure'' tangent vectors along the manifold.
 \end{example}
 
 \begin{notation} If $E\to X$ is a vector bundle and $U \subseteq X$ is some open subset, we denote by $\Sec(U,E)$ the set of continuous sections:
@@ -1561,6 +1613,9 @@ is a sheaf.
 \begin{proof} Sections satisfy locality and gluing. 
 \end{proof}
 
+\begin{question} If you were handed the sheaf $\Sec(-,E)$ but not told what $E$ is, could you reconstruct the vector bundle $E$? If so, demonstrate how to do it, and if not, explain what extra data you might need in order to build $E$ from its sheaf of sections.
+\end{question}
+
 \begin{remark} We can form new vector bundles out of old ones by doing linear algebra operations ``fiberwise.'' That is, we can make sense of direct sums, tensor products, duals, exterior powers, symmetric powers, etc. of existing vector bundles.
 \end{remark}
 
@@ -1571,8 +1626,29 @@ is a sheaf.
 the sheaf of sections of the $k$th exterior power of the cotangent bundle.
 \end{definition}
 
-\begin{example} We have that $\Omega^0_\dR$ is the sheaf of real-valued differentiable functions on $M$.
+\begin{example} We have that $\Omega^0_\dR$ is the sheaf of real-valued differentiable functions on $M$, and $\Omega^1_\dR$ is the sheaf of sections of the cotangent bundle.
 \end{example}
+
+\begin{remark}[Key properties of wedges] If you haven't seen exterior/wedge powers before, here are the key properties to keep in mind:
+\begin{enumerate}
+    \item we have that
+    \begin{align*}
+        \alpha \wedge (\beta + \gamma) = \alpha \wedge \beta + \alpha \wedge \gamma
+    \end{align*}
+    \item we have
+    \begin{align*}
+        \alpha \wedge \beta = - \beta \wedge \gamma
+    \end{align*}
+    \item and
+    \begin{align*}
+        \alpha \wedge \alpha = 0.
+    \end{align*}
+\end{enumerate}
+Formally, the exterior algebra of a vector space is the tensor algebra $V^{\otimes \bullet}$ modded out by the two-sided ideal $\left\langle v \otimes v \mid v\in V \right\rangle$.
+\end{remark}
+
+
+
 
 Differential forms are expressible in local coordinates, where they admit a nicer shape. Let's see some examples:
 
@@ -1600,7 +1676,11 @@ and rewrite a differential 2-form as a vector field.
 \end{example}
 
 \begin{definition}\label{def:exterior-derivative} 
-In general we define the \emph{exterior derivative} of a differential $k$-form
+We define the \emph{exterior derivative} of a differential $0$-form $f$ to be
+\begin{align*}
+    df = \sum_{i=1}^n \frac{df}{dx_i}(x_1, \ldots, x_n) dx_i.
+\end{align*}
+More generally, we define the exterior derivative of a differential $k$-form
 \begin{align*}
     \omega = \sum_{i_1 < \cdots < i_k}f_{i_1, \ldots, i_k}dx_{i_1}\wedge \cdots \wedge dx_{i_k}
 \end{align*}
@@ -1609,6 +1689,15 @@ as
     d\omega = \sum_{i_1< \cdots < i_k} df_{i_1, \ldots, i_k} \wedge dx_{i_1}\wedge \cdots \wedge dx_{i_k}.
 \end{align*}
 \end{definition}
+
+\begin{remark} Given any $f,g\in \Omega^0_\dR(M)$, we have that
+\begin{align*}
+    d (f\cdot g) = f\ dg + g\ df.
+\end{align*}
+This is just the product rule for derivatives.
+\end{remark}
+
+
 
 \begin{exercise}
 Let $M$ be a smooth manifold. Show that the exterior derivative in \Cref{def:exterior-derivative} defines a morphism of abelian sheaves.
@@ -1622,6 +1711,13 @@ Let $M$ be a smooth manifold. Show that the exterior derivative in \Cref{def:ext
 \end{terminology}
 
 \subsection{The Poincar\'e lemma}
+
+\begin{exercise}\label{exer:fund-thm-calc} Let $f(x_1, \ldots, x_n)$ be a differentiable real-valued function defined on the unit ball $B \subseteq \R^n$. Show that
+\begin{align*}
+    f(x_1, \ldots, x_n) = \sum_{i=1}^n \int_0^1 \frac{df}{dx_i}(tx_1, \ldots, tx_n)dt.
+\end{align*}
+
+\end{exercise}
 
 
 \begin{lemma} [Poincar\'e Lemma]
@@ -1653,7 +1749,7 @@ We can compute the pullback of $\omega$ along $h$ as
 \begin{align*}
     h^\ast(\omega) &= f(tx_1, \ldots, tx_n) d(tx_{i_1})\wedge \cdots \wedge d(tx_{i_k}) \\
     % &= f(tx_1, \ldots, tx_n) \left( dx_I  + \sum_{j=1}^n dx_{i_1} \wedge \cdots \wedge dx_{i_{j-1}} \wedge dt \wedge dx_{i_{j+1}}\wedge \cdots \wedge dx_{i_k}\right) \\
-    &= f(tx_1, \ldots, tx_n) \left( dx_I + \sum_{j=1}^n (-1)^j dx_{I\minus\{j\}} \right).
+    &= f(tx_1, \ldots, tx_n) \left( dx_I + dt\wedge \sum_{j=1}^n (-1)^j dx_{I\minus\{j\}} \right).
 \end{align*}
 We're going to leverage this to construct a primitive for $\omega$, namely we will define $\alpha$ by ``integrating out'' $t$ from $h^\ast \omega$. Explicitly:
 \begin{align*}
@@ -1668,11 +1764,7 @@ As all the differentials vanish unless $s\in I$, we get the above is equal to
 \begin{align*}
     \sum_{j=1}^k \left(\int_0^1 \frac{\partial f}{\partial x_{i_j}}dt\right) dx_I.
 \end{align*}
-To verify this equals $\omega$, it suffices to check that
-\begin{align*}
-    f(x_1, \ldots, x_n) = \sum_{i=1}^n \int_0^1 \frac{\partial f}{\partial x_i}(tx_1, \ldots, tx_n)dt
-\end{align*}
-This is a standard version of the fundamental theorem of calculus that holds in star-shaped domains; see for instance \cite[I.1.4]{tuIntroductionManifolds2011}).
+Finally to verify this equals $\omega$ we use \Cref{exer:fund-thm-calc}. This is a standard version of the fundamental theorem of calculus that holds in star-shaped domains; see for instance \cite[I.1.4]{tuIntroductionManifolds2011}).
 \end{proof}
 
 In general, as we know, applying $\Gamma(M,-)$ to the above sequence will turn it into a chain complex, but will fail to preserve exactness. Here's an easy case where it does preserve exactness: I claim we know this exactness from multivariable calculus!
