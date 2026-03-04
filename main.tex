@@ -516,7 +516,7 @@ so it suffices to check that $G\to G^\sharp$ is an equivalence of sheaves, but t
 \label{exer:constant-sheaf}
 Let $A\in \Ab$. Then there is a silly presheaf on $X$ which sends every open subset $U\subseteq X$ to $A$, and every restriction map to the identity on $A$. We call this the \emph{constant presheaf} valued at $A$. We will denote by $\underline{A}$ the sheafification of this presheaf, and call this the \emph{constant sheaf} valued at $A$. By construction.
 \begin{enumerate}
-    \item Verify that, under the isomorphism of categories \Cref{cor:espace-etale-isomorphism-of-cats}, the constant sheaf $\underline{A}$ corresponds to the sheaf \label{exa:constant-sheaf-espace-etale} defined as $X \times A \to X$, where $A$ has the discrete topology.
+    \item Verify that, under the isomorphism of categories \Cref{cor:espace-etale-isomorphism-of-cats}, the constant sheaf $\underline{A}$ corresponds to the sheaf \Cref{exa:constant-sheaf-espace-etale} defined as $X \times A \to X$, where $A$ has the discrete topology.
     \item Show that $\Gamma(U,\underline{A})$ can be described as locally constant functions valued in $A$.
 \end{enumerate}
 \end{exercise}
@@ -1989,7 +1989,8 @@ Here $F = [0,1]$ is the interval, and we can think of $G = \Z/2$ acting via $t \
 
 \subsection{\v{C}ech 1-cocycles}
 
-Given a topological group $G$, we can define the sheaf of groups $G_c$ as in \Cref{nota:Gc}, and therefore construct its \v{C}ech cohomology following \Cref{def:Cech-cohomology-on-cover}. Note that in the previous definition we had assumed our sheaf to be a sheaf of abelian groups, so we have to be a bit careful about products versus sums.
+Given a topological group $G$, we can define the sheaf of groups $G_c$ as in \Cref{nota:Gc}, 
+and therefore construct its \v{C}ech cohomology following \Cref{def:Cech-cohomology-on-cover}. Note that in the previous definition we had assumed our sheaf to be a sheaf of abelian groups, so we have to be a bit careful about products versus sums.
 
 \begin{exercise}[Suggested] Let $G$ be non-abelian, and define $\check{C}^i(\mathcal{U},G)$ as in \Cref{eqn:group-of-Cech-cochains}. Try to write down a formula for the differential $\delta^q$ (but remember you can't take \emph{sums} any more).
 \begin{enumerate}
@@ -2165,7 +2166,7 @@ If you are unfamiliar with colimits I really recommend reading Chapter 3 of \cit
 \end{example}
 
 
-\begin{example}\label{exa:CovX-filtered} For a space $X$, the category $\Cov(X)$ of open covers under refinement (defined in \Cref{def:covV}) is cofiltered. This is precisely the assertion that two covers admit a common refinement, and therefore by induction finitely many covers admit a common refinement.
+\begin{example}\label{exa:CovX-filtered} For a space $X$, the category $\Cov(X)$ of open covers under refinement (defined in \Cref{def:covX}) is cofiltered. This is precisely the assertion that two covers admit a common refinement, and therefore by induction finitely many covers admit a common refinement.
 \end{example}
 
 The important thing about filtered categories is that colimits computed over them are very well behaved.
