@@ -2349,13 +2349,51 @@ Recall by \Cref{thm:H1-bijection-with-fiber-bundles}, given a topological group 
 \begin{definition}[{\cite[7.2]{doldPartitionsUnityTheory1963}}]
 \label{def:classifying-space}
 Let $G$ be a topological group. We say a space $B$ is \emph{classifying} for $G$ if there exists a natural isomorphism
-\begin{align*}
+\begin{equation}\label{eqn:dold-classifying-nat-trans}
+\begin{aligned}
     T \colon [-,B] \Rightarrow \check{H}^1(-,G_c)
-\end{align*}
+\end{aligned}
+\end{equation}
 of functors $\Top^\op \to \Set$.
 \end{definition}
 
-Note that baked into the definition is the existence of a universal bundle. By the Yoneda lemma, the homotopy class of the identity map on $B$ is mapped to some bundle $\eta \colon E \to B$ in $\check{H}^1(B,G_c)$, and every element in $[X,B]$ is the pullback of $\eta$ for every $X$. So to study and classify principal $G$-bundles, we should start by classifying a universal one. The \emph{classification theorem} of Dold gives us a lovely way to do this:
+\begin{remark}[Yoneda and the homotopy category] We are tempted to make a Yoneda-flavored argument about classifying spaces for principal $G$-bundles, since \Cref{eqn:dold-classifying-nat-trans} looks a lot like a natural transformation from a representable functor to a non-representable one. However for any space $X$, we note that $[X,B]$ is not a hom-set in the category $\Top$ of topological spaces. We can fix this, however, by defining the \emph{homotopy category} of topological spaces $\Ho(\Top)$.
+\end{remark}
+
+\begin{proposition}\label{prop:classifying-bundle}
+Let $G$ be a topological group. There is a natural bijection
+\[
+\Nat([-,B], \check{H}^1(-,G_c)) \cong \check{H}^1(B,G_c).
+\]
+In particular if $B$ is \emph{classifying}, the choice of natural isomorphism corresponds to a preferred element in $\check{H}^1(B,G_c)$, whose associated principal $G$-bundle we denote by $EG$, and call it the \emph{universal principal $G$-bundle}. This has the property that any other principal $G$-bundle $E\to X$ is of the form $E\cong f^\ast EG$, where $f\colon X \to B$ is some (homotopy class of) map.
+\end{proposition}
+\begin{proof}[Proof sketch] Once the category theory is set up correctly, the remainder of this proposition is just the Yoneda lemma. Define $\Ho(\Top)$ to be the \emph{homotopy category} of spaces --- objects are the same as those in $\Top$, and hom-sets are homotopy classes of maps between two spaces:
+\begin{align*}
+    \Hom_{\Ho(\Top)}(X,Y) := [X,Y].
+\end{align*}
+Then $[-,B]$ is indeed a representable functor out of $\Ho(\Top)$. In order to apply Yoneda, however, we need to know that $\check{H}^1(-,G_c)$ descends to a functor out of $\Ho(\Top)$, that is, non-abelian \v{C}ech cohomology is homotopy invariant. This is left as an exercise.
+\end{proof}
+
+\begin{example}[Universal $C_2$-bundles]
+\label{exa:universal-c2-bundle}    
+Let $C_2$ be the cyclic group of order two. For any $n$, the sphere double covers real projective space:
+\begin{align*}
+    S^n \to \RP^n,
+\end{align*}
+and this is a principal $C_2$-bundle. None of these are universal, but if we let $n\to \infty$, we get a principal $C_2$-bundle:
+\begin{align*}
+    S^\infty \to \RP^\infty.
+\end{align*}
+We will very soon see that this is universal! What this means is that if $X$ is any space, and $E\to X$ is any principal $C_2$-bundle, then there exists some map $f \colon X \to \RP^\infty$ so that $E$ is the pullback of $S^\infty$, that is, we have a pullback diagram of spaces:
+\[
+\begin{tikzcd}
+    E\rar\dar\pb & S^\infty\dar \\
+    X\rar["f" below] & \RP^\infty.
+\end{tikzcd}
+\]
+\end{example}
+
+We now want to figure out how to argue whether a given space is \emph{classifying} for principal $G$-bundles. The \emph{classification theorem} of Dold gives us a lovely way to do this:
 
 \begin{definition}\label{def:contractible} We say that a space is \emph{contractible} if it has the homotopy type of a point. If the space is a CW complex, then this is equivalent to the statement that all its homotopy groups vanish.
 \end{definition}
@@ -2394,8 +2432,30 @@ For the other direction, suppose $\eta$ is universal. If we can prove the existe
 The map on bottom is homotopic to the identity, so the composite map on top is a homeomorphism $E \to E$. However this factors through a contractible space, hence $E$ must be contractible as well.
 \end{proof}
 
-\begin{remark} A mild modification of the argument in the proof of \Cref{thm:classification-thm-principal-G-bundles} shows that universal classifying spaces of principal $G$-bundles are unique up to homotopy equivalence.
+\begin{remark}
+We now know how to prove that $S^\infty \to \RP^\infty$ is the universal $C_2$-bundle as we claimed in \Cref{exa:universal-c2-bundle}. By Dold's classification theorem \Cref{thm:classification-thm-principal-G-bundles}, it suffices to argue that the infinite sphere $S^\infty$ is contractible, which is a basic exercise in topology (see for instance \cite[p.~19]{Hatcher}).
 \end{remark}
+
+\begin{proposition}
+Let $G$ be a topological group, and suppose that $B_1$ and $B_2$ are two classifying spaces for principal $G$-bundles. Then $B_1$ and $B_2$ are homotopy equivalent.
+\end{proposition}
+\begin{proof}
+Both $B_1$ and $B_2$ represent the functor
+\[
+    \check{H}^1(-,G) \colon \Ho(\Top)^\op \to \Set,
+\]
+therefore they must be isomorphic in the domain category $\Ho(\Top)$. One checks that $B_1$ and $B_2$ being isomorphic in $\Ho(\Top)$ is the same as them being homotopy equivalent as spaces.\footnote{An isomorphism class of object in $\Ho(\Top)$ is often referred to as a \emph{homotopy type}. This is potentially overloaded terminology, but at least among CW complexes there is no confusion using this terminology.}
+\end{proof}
+
+\begin{notation}
+Since the classifying space for principal $G$-bundles (assuming it exists, we haven't argued this yet) is well-defined up to homotopy equivalence, one usually calls it ``$BG$'' and the universal principal $G$-bundle over it is denoted $EG \to BG$. In casual conversation you'll often see topologists write something like
+\[
+\RP^\infty = BC_2,
+\]
+and this is intended to mean that $\RP^\infty$ is (the homotopy type of) the classifying space for $C_2$.
+\end{notation}
+
+
 
 \begin{theorem}[Existence of universal bundles]
 \label{thm:existence-universal-G-bundles}
@@ -2632,7 +2692,7 @@ We say a \emph{property} $\mathbf{P}$ is any boolean-valued assignment on object
 \end{itemize}
 \end{notation}
 
-\begin{terminology} A \emph{local basis} of a space $X$ at a point $x$ is any final subcategory of $\Open_x(X)$.
+\begin{terminology} A \emph{local basis} (or \emph{neighborhood basis}) of a space $X$ at a point $x$ is any final subcategory of $\Open_x(X)$.
 \end{terminology}
 
 A core idea in the theory of open sets is the following comparison between local bases of opens satisfying a condition and covers built out of opens satisfying that same condition.
