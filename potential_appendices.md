@@ -15,7 +15,7 @@ Define Stein manifolds, and explain why every complex topological vector bundle 
 ## Cartan-Serre finiteness
 Sketch the proof of the finiteness theorem for sheaf cohomology of coherent modules over the structure sheaf, following Chapter VI of Grauert's book *Theory of Stein spaces*
 
-## Inoue surfaces
+## Inoue surfaces (Dibs: Frank Gubars)
 Provide an overview of the construction and basic properties of *Inoue surfaces*, which are examples of complex surfaces with no divisors.
 
 ## Sheaf cohomology and singular cohomology (Dibs: Matteo Salloum)
