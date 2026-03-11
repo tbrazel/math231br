@@ -18,7 +18,7 @@ Sketch the proof of the finiteness theorem for sheaf cohomology of coherent modu
 ## Inoue surfaces
 Provide an overview of the construction and basic properties of *Inoue surfaces*, which are examples of complex surfaces with no divisors.
 
-## Sheaf cohomology and singular cohomology
+## Sheaf cohomology and singular cohomology (Dibs: Matteo Salloum)
 Give a recount of the comparison theorem between singular cohomology and sheaf cohomology with coefficients in a constant sheaf. Explain (following Sella) why we only need to assume $X$ is semi-locally contractible in the assumptions of the theorem.
 
 ## $\Omega_3=0$ (Dibs: Luke Lelli)
