@@ -2492,24 +2492,7 @@ The space $V_k(\R^\infty)$ is contractible, and therefore
 \end{align*}
 is a universal principal $O(k)$-bundle. Similar statements for $U(k)$ and $\Sp(k)$.
 \end{theorem}
-\begin{proof} This will follow by Dold's classification theorem \Cref{thm:classification-thm-principal-G-bundles}
-\begin{itemize}
-    \item \emph{$V_k(\R^\infty)$ is a CW complex}: todo
-    \item \emph{$V_k(\R^\infty) \to \Gr(k,\infty)$ is a numerable cover}: Since $\Gr(k,\infty)$ is paracompact, every principal bundle over it is numerable, in particular the bundle given by the infinite Stiefel manifold.
-    \item \emph{$V_k(\R^\infty)$ is contractible}: Define
-\begin{align*}
-    L_t \colon \R^\infty &\to \R^\infty \\
-    (x_1,x_2,x_3, \ldots) &\mapsto (1-t)(x_1,x_2,x_3, \ldots) + t(x_1,0,x_2,0, \ldots).
-\end{align*}
-This is an injective linear map, and defines a map $V_k(\R^\infty) \to V_k(\R\infty)$ homotopic to the identity. Now pick a point
-\begin{align*}
-    w\in V_k(\R^\infty)
-\end{align*}
-which is a $k$-frame \emph{all of whose entries lie in even coordinates} and which is zero in the odd coordinates. Then we can take a straight-line interpolation between any odd-supported frame and $w$ --- this will stay orthogonal at all stages of the linear homotopy.
-
-So given any map $S^n \to V_k(\R^\infty)$, we can first deform it by post-composing with $L_t$ and letting $t$ vary to stick the frames in odd coordinates (it's important that $S^n$ is compact here, since the map lands in some $V_k(\R^N)$ for some suitably large $N$, and then we can think about this as living in $V_k(\R^{2N})$ and apply our $L_t$ there). We can then do a straight-line homotopy deforming the image of $S^n$ into the single point $w$. One can check that orthogonality and rank are preserved throughout, so this is a well-defined homotopy. This can be done for any sphere in any dimension, so we get that $\pi_n(V_k(\R^\infty)) = 0$ for all $n$, hence $V_k(\R^\infty)$ is contractible.\footnote{Technically we also need to know that $V_k(\R^\infty)$ is a CW complex, since we're applying Whitehead's theorem to conclude.}
-
-\end{itemize}
+\begin{proof}[Proof sketch] This will follow by Dold's classification theorem (\Cref{thm:classification-thm-principal-G-bundles}). We have to check that $\Gr(k,\infty)$ is paracompact so that the infinite Steiefel manifold gives a numerable cover. The proof the the infinite Stiefel manifold is contractible is essentially a generalization of the proof that $S^\infty$ is contractible.
 \end{proof}
 
 
