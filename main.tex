@@ -2727,30 +2727,39 @@ The Chern classes are uniquely determined by their axioms (that is, if we have e
 
 A \emph{characteristic class} is a way to assign, to every vector bundle over $X$ a cohomology class over $X$.\footnote{More generally, to every principal $G$-bundle a cohomology class.} We want this assignment to be natural in $X$, that is, natural under pullbacks. We have an elegant way to talk about these following the Pontryagin--Steenrod theorem, combined with the Yoneda embedding. 
 
-\begin{definition}\label{def:complex-characteristic-class} A \emph{complex characteristic class} is a natural transformation
+\begin{definition}\label{def:complex-characteristic-class} A \emph{complex characteristic class} for rank $r$ vector bundles is a natural transformation
 \begin{align*}
-    \Vect_\C^k(-) \Rightarrow H^r(-,\Z)
+    \Vect_\C^r(-) \Rightarrow H^k(-,\Z)
 \end{align*}
-of functors $\Top^\op \to \Set$ (or perhaps from $\Ho(\Top)^\op \to \Set$).
+of functors $\Top^\op \to \Set$ (or perhaps from $\Ho(\Top)^\op \to \Set$). Here $k$ can be whatever we want.
 \end{definition}
 
-When we restrict our attention to paracompact spaces, we have that $\Vect_\C^k(-)$ is \emph{representable}, when viewed as a functor out of $\Ho(\Top)$. So a characteristic class is a natural transformation of the form
+When we restrict our attention to paracompact spaces, we have that $\Vect_\C^r(-)$ is \emph{representable}, when viewed as a functor out of $\Ho(\Top)$. So a characteristic class is a natural transformation of the form
 \begin{align*}
-    \left[ -,\Gr_\C(k,\infty) \right] \Rightarrow H^r(-,\Z).
+    \left[ -,\Gr_\C(r,\infty) \right] \Rightarrow H^k(-,\Z).
 \end{align*}
 %
-But by the Yoneda lemma, the set of natural transformations of the above is in bijection with the cohomology class $H^r(\Gr_\C(k,\infty))$. So we get the following:
+But by the Yoneda lemma, the set of natural transformations of the above is in bijection with the cohomology class $H^k(\Gr_\C(r,\infty))$. So we get the following:
 
-\begin{slogan} A complex characteristic class for rank $k$ vector bundles is an integral cohomology class of the complex Grassmannian $\Gr_\C(k,\infty)$.
+\begin{slogan} A complex characteristic class for rank $r$ vector bundles is an integral cohomology class of the complex Grassmannian $\Gr_\C(r,\infty)$.
 \end{slogan}
 
 \begin{theorem}[Borel]
 We have an isomorphism
 \begin{align*}
-    H^\ast(\Gr_\C(k,\infty);\Z) \cong \Z[c_1, \ldots, c_k],
+    H^\ast(\Gr_\C(r,\infty);\Z) \cong \Z[c_1, \ldots, c_r],
 \end{align*}
 where $c_i$ lives in degree $2i$.
 \end{theorem}
+
+We can apply this to answer the question of when characteristic classes exist:
+\begin{itemize}
+    \item when $k$ is odd, there is one and only characteristic class $\Vect_\C^r(-) \Rightarrow H^k(-,\Z)$, which is the zero map
+    \item for $k=2$, all characteristic classes are integer multiples of $c_1$
+    \item for $k=4$, all characteristic classes are $\Z$-linear combinations of $c_1^2$ and $c_2$
+\end{itemize}
+
+
 
 \textbf{Constructing Chern classes}: Given any complex vector bundle $E\to X$ of rank $r$ over a paracompact space $X$, it is pulled back from the tautological bundle via some map
 \begin{align*}
@@ -2798,7 +2807,7 @@ where $U(1)^{\times r} \subseteq U(r)$ is the subgroup of diagonal unitary matri
 \end{example}
 
 \begin{definition}\label{def:projectivization-vector-bundle}
-We can generalize this construction of the flag bundle of a rank two bundle as a projectivization. Given any vector bundle $E \to X$ of rank $r$, we denote by $\mathbb{P}(E)$ the \emph{projectivization} of the vector bundle, whose fiber over $x\in X$ is $\mathbb{P}(E_x)$. The projectivized bundle $\mathbb{P}(E) \to X$ is a fiber bundle with structure group $\GL_r(\C)$ and fiber $\CP^{r-1}$.
+We can generalize this construction of the flag bundle of a rank two bundle as a projectivization. Given any vector bundle $E \to X$ of rank $r$, we denote by $\mathbb{P}(E)$ the \emph{projectivization} of the vector bundle, whose fiber over $x\in X$ is $\mathbb{P}(E_x)$. The projectivized bundle $\mathbb{P}(E) \to X$ is a fiber bundle with structure group $\PGL_r(\C)$ and fiber $\CP^{r-1}$.\footnote{We can't keep the structure group as $\GL_r(\C)$ because it won't act faithfully on the fiber, so we need to mod out by the scaling action by diagonal matrices with the same entry along the diagonal. This yields $\PGL_r(\C) = \GL_r(\C)/\C^\times$.}
 \end{definition}
 
 While the flag bundle and projectivization agree for rank two bundles, they don't for rank three bundles, since a line in $\C^3$ is not the same data as a complete flag. Let's let $E \to X$ be rank three, and consider the map
@@ -2861,9 +2870,6 @@ and pulling back we get that $\pi^{-1}(E) \cong \mathcal{S}_E \oplus Q_E$, where
 
 \begin{slogan} Any statement we want to prove about vector bundles, we can assume the vector bundle is split into a sum of line bundles.
 \end{slogan}
-
-
-
 
 \subsection{More about Chern classes}
 
