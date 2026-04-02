@@ -2962,6 +2962,221 @@ as maps
 
 
 
+\section{Pontryagin classes}
+
+As discussed, Chern classes are characteristic classes of complex vector bundles over spaces. We define some characteristic classes of real vector bundles, called \emph{Pontryagin classes}, by turning a real vector bundle into a complex vector bundle then taking its Chern classes.
+
+\begin{definition}\label{def:complexification} Let $V\in \Vect_\R$ be a real vector space. We define its \emph{complexification} to be the tensor product $V \otimes_\R \C \in \Vect_\C$. If $E \to X$ is a real vector bundle, we define $E \otimes_\R \C \to X$ to be the complexification of the real vector bundle, obtained by complexifying in every fiber. Note that complexification doubles the real dimension of any vector space, hence the real rank of any vector bundle.
+\end{definition}
+
+\begin{definition}\label{def:pontryagin-class} Let $E \to X$ be any real vector bundle. We define its \emph{Pontryagin classes} by
+\begin{align*}
+    p_k(E) := (-1)^k c_{2k}(E \otimes_\R \C) \in H^{4k}(X,\Z).
+\end{align*}
+We define the \emph{total Pontryagin class} to be
+\begin{align*}
+    p(E) = \sum_{k\ge0} p_k(E) \in H^{\ast}(X,\Z).
+\end{align*}
+\end{definition}
+
+\begin{remark} We can alternatively consider the inclusion $O(r) \subseteq U(r)$ of $r \times r$ orthogonal matrices as living inside of the group of $r \times r$ unitary matrices. This induces a map
+\begin{align*}
+    \psi \colon \check{H}^1(X,O(r)) \to \check{H}^1(X,U(r)),
+\end{align*}
+which is the same as complexification -- that is, it sends a real rank $r$ vector bundle to a complex rank $r$ vector bundle. We can define Pontryagin classes of a bundle $E$ as the Chern classes of $\psi(E)$ \cite[4.5]{Hirzebruch}. This has a subtlety in that this technically allows us to define odd Chern classes of the complexification, however all of these are 2-torsion.
+\end{remark}
+
+\begin{proposition} Let $E$ be a real vector bundle. Then $c_{2k+1}(E \otimes_\R \C)$ is 2-torsion.
+\end{proposition}
+\begin{proof}[Proof sketch]
+For any complex vector bundle $V$, we can define a conjugate bundle $\bar{V}$ by taking the complex conjugate of the complex structure. We can argue that
+\begin{align*}
+    c_k(V) = (-1)^k c_k(\bar{V}).
+\end{align*}
+We check that a complexified bundle $E \otimes_\R \C$ is isomorphic to its own complex conjugate \cite[15.1]{MilnorStasheff}. For even rank Chern classes this tells us no new information, but for odd rank Chern classes they must all be 2-torsion.
+\end{proof}
+
+\begin{remark} This leads to perhaps some competing notation about how we want to index the Pontryagin classes. We could just define $p_k(E)$ to be $c_k(E \otimes_\R\C)$, and if we did, many of the nice properties of Chern classes transfer immediately to nice properties of Pontryagin classes (for instance a Whitney sum formula would hold \emph{integrally} instead of modulo two). We adopt the classical and more commonly seen convention that $p_k(E) := (-1)^k c_{2k}(E \otimes_\R \C)$, in which case we have to reduce modulo two to transfer properties of Chern classes to properties of Pontryagin classes.  
+\end{remark}
+
+\begin{proposition}[Properties of Pontryagin classes] Let $E \to X$ be any real vector bundle. Then
+\begin{enumerate}
+    \item $p_0(E) = 1$
+    \item $p_i(E) = 0$ if $i>\text{rank}(E)/2$
+    \item For any continuous $f \colon Y \to X$ we have that $p_k(f^\ast E) = f^\ast p_k(E)$ for any $k$.
+    \item For two bundles $E_1,E_2 \to X$, we have that
+    \begin{align*}
+        p(E_1 \oplus E_2) \equiv p(E_1)\cdot p(E_2) \pmod{2}.
+    \end{align*}
+\end{enumerate}
+\end{proposition}
+
+\begin{terminology} When people discuss the ``Chern numbers of a manifold'' or the ``Pontryagin numbers of a manifold,'' they mean the tangent bundle of the manifold. So $c(M)$ always means $c(TM)$ and $p(M)$ always means $p(TM)$.
+\end{terminology}
+
+An important exercise is the following:
+
+\begin{exercise}\label{exer:complexified-complex-bundle} 
+Let $E \to X$ be a complex vector bundle. Then we can consider it as a real vector bundle (forgetting the complex structure) and complexify it. Show that there is a canonical isomorphism
+\begin{align*}
+    E \otimes_\R \C \cong E \oplus \bar{E},
+\end{align*}
+where $\bar{E}$ is the complexified vector bundle. (Hint: first do this for vector spaces, then extend fiberwise).
+\end{exercise}
+% MS 15.4
+
+
+An immediate corollary of this exercise is the following:
+\begin{corollary}\label{cor:pontryagin-chern-formula} 
+If $E \to X$ is a complex vector bundle, then its Pontryagin classes are related to its Chern classes via the relation:
+\begin{align*}
+    \sum_{i\ge0} (-1)^i p_i &= \left( \sum_{j\ge0} (-1)^j c_j \right)\left( \sum_{k\ge0} c_k \right).
+\end{align*}
+\end{corollary}
+\begin{proof} Via \Cref{exer:complexified-complex-bundle} we have an isomorphism $E \otimes_\R \C \cong E \oplus \bar{E}$. Using the Whitney sum formula we get
+\begin{align*}
+    c(E \otimes_\R \C) = c(E) c(\bar{E}).
+\end{align*}
+The formula follows from this, together with the observation that $c_j(\bar{E}) = (-1)^j c_j(E)$.
+\end{proof}
+
+\begin{theorem}[{\cite[15.6]{MilnorStasheff}, \cite[4.10.2]{Hirzebruch}}]
+\label{thm:pontryagin-numbers-cpn} 
+If $h \in H^2(\CP^n,\Z)$ denotes the hyperplane class, then
+\begin{align*}
+    p(T\CP^n) = (1+h^2)^{n+1}.
+\end{align*}
+\end{theorem}
+\begin{proof} By \Cref{prop:chern-numbers-cpn} we have that $c(T\CP^n) = (1+h)^{n+1}$. Using the formula from \Cref{cor:pontryagin-chern-formula}, we get that
+\begin{align*}
+    \sum_{i\ge0} (-1)^i p_i(T\CP^n) &= c(T \CP^n) c(\overline{T\CP^n}) \\
+    &= (1+h)^{n+1}(1-h)^{n+1} = (1-h^2)^{n+1}.
+\end{align*}
+From this the result follows.
+\end{proof}
+
+\begin{example} We have that
+\begin{align*}
+    p(T \mathbb{P}^5) = 1 + 6h^2 + 15h^4 \in H^\ast(\CP^5,\Z),
+\end{align*}
+for instance.
+\end{example}
+
+\begin{exercise} For any $n\ge0$, prove that $p(TS^n)=1$. That is, all Pontryagin numbers of a sphere are zero.
+\end{exercise}
+
+
+
+
+
+\section{Cobordism}
+
+An important topic in algebraic topology is \emph{cobordism}. Roughly speaking, two manifolds are \emph{cobordant} if they jointly bound a manifold of one higher dimension. More precisely:
+
+\begin{definition}\label{def:cobordism} Let $M$ and $N$ be compact differentiable manifolds of real dimension $n$, without boundary
+\begin{enumerate}
+    \item we say that $M$ and $n$ are \emph{cobordant} if there exists a compact differentiable $(n+1)$ manifold $W$ with boundary, together with a diffeomorphism $\del W \cong M \amalg N$
+    \item if $M$ and $N$ are oriented, we say that $M$ and $N$ are \emph{oriented cobordant} if there exists an oriented differentiable $(n+1)$ manifold $W$ and an oriented diffeomorphism $\del W \cong M \amalg -N$, where $-N$ denotes $N$ with the reversed orientation.
+\end{enumerate}
+\end{definition}
+
+\begin{exercise} Show that cobordism is an equivalence relation.
+\end{exercise}
+
+\begin{definition}\label{def:cobordism-ring} \,
+\begin{enumerate}
+    \item Denote by $\Omega^O_n$ the free abelian group on compact $n$-dimensional differentiable manifolds modulo the relation generated by cobordism. By convention the zero element is the empty manifold.
+    \item Denote by $\Omega^{\SO}_n$ the free abelian group on \emph{oriented} compact differentiable $n$-dimensional manifolds modulo the relation generated by oriented cobordism.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition} Under the cartesian product of manifolds, we get graded rings
+\begin{align*}
+    \Omega^O_\ast &:= \oplus_{n\ge0} \Omega^O_n \\
+    \Omega^\SO_\ast &:= \oplus_{n\ge0} \Omega^\SO_n.
+\end{align*}
+These are called the \emph{cobordism ring} and the \emph{oriented cobordism ring}, respectively. We'll predominantly be dealing with the latter.
+\end{proposition}
+
+
+\begin{remark} There is also a notion of \emph{complex cobordism}, defined on stably complex manifolds. This gives rise to the \emph{complex cobordism ring} $\Omega^U_\ast$, which we'll talk about later.
+\end{remark}
+
+\begin{example} Any sphere $S^n$ represents the zero class in $\Omega^\SO_\ast$ since $S^n = \del B^{n+1}$.
+\end{example}
+
+\begin{proposition} We have that $\left[ \CP^{2k+1} \right]=0$ in $\Omega^{\SO}_{4k+2}$.
+\end{proposition}
+\begin{proof} We leverage a fibration
+\begin{align*}
+    \CP^1 \hookto \CP^{2k+1} \to \HP^k
+\end{align*}
+induced by the projection
+\begin{align*}
+    \C^{2k+2}-0 &\to \mathbb{H}^{k+1}-0 \\
+    (z_1, \ldots, z_{2k+2}) &\mapsto (z_1 + z_2j, \ldots, z_{2k+1}+z_{2k+2}j).
+\end{align*}
+The fiber has structure group $\SO(3)$ under the homeomorphism $\CP^1 \cong S^2$, hence we can think about it as the sphere bundle of an oriented rank three vector bundle. Extending to the disk bundle, we obtain a fiber sequence
+\begin{align*}
+    B^3 \hookto M \to \HP^k,
+\end{align*}
+where $\del M \cong \CP^{2k+1}$. Hence $\CP^{2k+1}$ bounds.
+\end{proof}
+
+\begin{theorem}[Thom]
+\label{thm:Q-algebra-generators-rational-omega-SO} 
+We have that the rational oriented cobordism ring is polynomial on the even complex projective spaces:
+\begin{align*}
+    \Omega_\ast^\SO \otimes\Q \cong \Q[\CP^2,\CP^4,\CP^6, \ldots].
+\end{align*}
+\end{theorem}
+\begin{proof} For a sketch, see \cite[Lecture~12]{Freed-bordism} or \cite[\S16]{MilnorStasheff}.
+\end{proof}
+
+
+\begin{theorem}[{\cite[2.24]{Freed-bordism}}] All torsion in $\Omega^{\SO}_\ast$ is 2-torsion, and is finite in each degree.
+\end{theorem}
+
+
+
+\begin{theorem}[{\cite[7.2.2]{Hirzebruch}, Thom}] If $i\not\equiv 0\pmod{4}$, then $\Omega_i$ is finite. We have that $\Omega^{4k}$ has free part $\Z^{\pi(k)}$ and a finite torsion part.
+\end{theorem}
+
+\begin{example} $\Omega_0\cong \Z$, as a compact oriented $0$-manifold is a finite set of signed points and the sum of the signs is a bordism invariant.
+\end{example}
+
+\begin{example} $\Omega^1\cong 0$, since every compact $1$-manifold is a disjoint union of circles, and all such manifolds bound. 
+\end{example}
+
+\begin{example} $\Omega_2\cong 0$, as every compact oriented $2$-manifold bounds. Can you find an example of one that doesn't bound if we dropped the word oriented?
+\end{example}
+
+\begin{example} $\Omega_3\cong 0$, this is a non-trivial result of Rokhlin.
+\end{example}
+
+\begin{example} $\Omega_4\cong \Z$, generated by $\CP^2$.
+\end{example}
+
+\begin{example} $\Omega_5 \cong \Z/2$, generated by $Y^5$, which is a smooth bidegree $(1,1)$ hypersurface in $\CP^2 \times \CP^4$.
+\end{example}
+
+\begin{remark} The odd degree generators were constructed by Dold. For any two integers $m,n\ge1$, consider the $C_2$-action on $S^m \times \CP^n$ given by the antipodal map on the left and the complex conjugation action on the right. Quotienting by this action we get a manifold we call $P(m,n)$ \cite{doldErzeugendeThomschenAlgebra1956}. This gives a fiber bundle over $\RP^m$ with fiber $\CP^n$ and structure group $C_2$. For suitable $m,n$, these can give generators of $\Omega^\SO_\ast$ in odd degrees (see \cite[Satz~3]{doldErzeugendeThomschenAlgebra1956}).
+\end{remark}
+
+
+\begin{example} $\Omega_6\cong 0$
+\end{example}
+
+\begin{example}\label{exa:omega-so-7-is-zero} 
+$\Omega_7\cong 0$.
+\end{example}
+
+\begin{example} $\Omega_8 \cong \Z \oplus \Z$, generated by $\CP^4$ and $\CP^2 \times \CP^2$
+\end{example}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
