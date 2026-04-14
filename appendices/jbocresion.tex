@@ -1,0 +1,206 @@
+% \documentclass[11pt]{article}
+% \include{commands}
+
+% \usepackage[textsize=tiny]{todonotes}
+% \title{Joaquim's Appendix}
+% \author{Joaquim Bocresion}
+% \date{Last compiled: \today}
+
+% \setcounter{section}{-1}
+\section{Overview}
+Thom's seminal 1954 paper included several novel notions in topology at its time of publication. Among them included the first definition of transversality in the literature, his question of realization of homology classes by submanifolds, and the following theorem and subject of this exposition:
+\begin{theorem}[\cite{Hirzebruch} Theorem 7.2.2; cf. \cite{thom} Theorem 4.15]
+The groups $\Omega^n$ are finite for $i\not\equiv 0\pmod 4$. In the case that $i\equiv 0\pmod 4$, we have $\Omega^{4k}=\Z^{\pi(k)}\oplus G$, for $\pi$ the partition function and $G$ a finite group.
+\end{theorem}
+We will work towards a modern-dress contextualization and proof of this theorem \`a la Thom. In doing so, we will develop some of the required homotopy theory and (co)bordism theory. 
+
+
+
+\section{Thom Spaces and Spectra}
+\subsection{Overview}
+We will construct Thom spaces following \cite{thom}. We will then generalize to the more modern notion of the Thom spectrum. 
+
+Fix $G\subset O(k)$ some closed subgroup. The universal bundle $\pi: EG\to BG$ classifies all (iso classes of) fiber bundles with structure group $G$ via pullback along (homotopy classes of) maps $X\to BG$. We can specialize to the case of $S^{k-1}$-bundles via taking the associated bundle $\pi':E'G=EG\times_G S^{k-1}\to BG$. With this data we can construct the \textit{mapping cylinder} of $\pi$,
+\[
+AG=\frac{E'G\times I\coprod BG}{(x,1)\sim \pi'(x)}.
+\]
+This cylinder has boundary $E'G=E'G\times \{0\}$. If we identify all points on this boundary, we obtain the \textit{Thom space} $M(G)=AG/E'G=AG/E'G\times\{0\}$. Alternatively, by removing the boundary of $AG$, we can construct the \textit{open mapping cylinder} $A^\circ G=AG-(E'G\times\{0\})$. If we take the one-point compactification of this open mapping cylinder, this also gives $M(G)$. This space has a canonical basepoint, the point at $\infty$. 
+
+The following lemma is the last bit of setup we need, and will prove very useful. We do not give a proof.
+
+\begin{lemma}[The Thom Isomorphism; cf. p.142-3 \cite{thom}]
+    for $r>0$, there is an isomorphism
+    \[H^{r-k}(BG)\cong H^r(M(G)).\]
+\end{lemma}
+
+Henceforth we will specialize to the case $M(SO(k))$ i.e. $G=SO(k)$, which is clearly a closed subgroup.
+
+\begin{notation}
+    After Thom, we denote by $\widehat G_k$ the oriented infinite Grassmanian, i.e. the space of $k$-planes in $\R^\infty$ together with an orientation. This is clearly a double cover of our usual Grassmanian $\Gr_\R(k,\infty)$, with the projection map corresponding to forgetting the orientation of a $k$-plane.
+\end{notation}
+This notation is of course useful since we know $BSO(k)=\widehat G_k$.
+
+In the case of $M(SO(k))$, we have $E'SO(k)=\{(p,v)|p\in \widehat G_k, v\in p, \|v\|=1\}$, where the norm is the standard Euclidean norm (we are already implicitly working in coordinates with $\widehat G_k$ being the space of oriented $k$-planes in $\R^\infty=\R\times\R\times\cdots$). Now, taking $ASO(k)$, note that the fibers of $E'SO(k)$ over a point (i.e. an oriented $k$-plane) in $BSO(k)$ are spheres, and when we take the product with $I$ and identify one end with the base point in $BG$, we get a bundle $AG\to BG$ naturally having closed $k$-disks as its fibers. From here, when we remove the boundary $E'SO(k)\times \{0\}$, we turn these fibers into open $k$-disks. Though adding the point at $\infty$ ruins this elegant bundle structure, we do obtain a natural basepoint.
+
+\begin{definition}[Eilenberg-MacLane Space]
+    Given any group $G$ and $n\geq 1$, there exists a space (in fact, a CW comples) $K(G,n)$, called an \textit{Eilenberg-MacLane space}, with the property that $\pi_i(K(G,n))=G$ for $i=n$ and $\pi_i(K(G,n))=0$ for all other $i\neq 0,n$.
+\end{definition}
+
+It is not obvious that Eilenberg-Maclane spaces exist, though it turns out that the spaces $K(G,n)$ exist for all $G$ and $n\geq 1$. Since Eilenberg-MacLane spaces are CW complexes, they are naturally based spaces 
+
+
+
+
+\section{Thom Spectra and Stable Homotopy}
+We develop the necessary homotopy theoretic tools for a modern-dress treatment of Thom's ideas. We follow Chapter 22 of \cite{maybook} and \cite{malkiewich}
+\begin{definition}[Spectrum]
+    A spectrum is a sequence of based spaces $E=\{E_n\}$ together with a collection of bonding maps 
+    \[\Sigma E_n\to E_{n+1}.\]
+\end{definition}
+We will be slightly abusive and denote by $E$ the data $E=\{E_n\}$ along with the bonding maps. More modern authors might instead define this as a prespectrum or sequential spectrum, though we will not need any of these more specific notions and use this definition of a spectrum. 
+
+The main benefit of spectra is that they allow us to define the \textit{stable homotopy groups}. By the functoriality of suspension, we get maps
+\begin{align*}
+    \pi_i(E_n)=[S^i, E_n]&\to [\Sigma S^i, \Sigma E_n]=[S^{i+1}, \Sigma E_n]=\pi_{i+1}(\Sigma E_{n})\\
+    [f]\hspace{10pt}&\mapsto \hspace{10pt}[\Sigma f].
+\end{align*}
+Via composition with the bonding maps we obtain a map
+\[\pi_i(E_n)\to \pi_{i+1}(\Sigma E_{n})\to \pi_{i+1}(E_{n+1}),\]
+and this allows us to make the following definition:
+\begin{definition}[Stable homotopy groups]
+    Given a spectrum $E$, we define the stable homotopy groups $\pi_i^s(E)$ by 
+    \[\pi_i^s(E)=\colim_n(\pi_{i+n}(E_n)),\]
+    where the diagram in question is 
+    \[\cdots\to\pi_{i+n-1}(E_{n-1})\to \pi_{i+n}(E_{n})\to \pi_{i+n+1}(E_{n+1})\to \cdots\]
+\end{definition}
+\begin{theorem}[Freudenthal's Suspension Theorem; cf. p.36 \cite{thom}]
+\label{theorem1/6}
+    If $X$ is an $n$-connected CW complex, then the natural suspension homomorphism $\pi_i(X)\to \pi_{i+1}(\Sigma X)$ is an isomorphism for $i\leq 2n$ and a surjection for $i=2n+1$
+\end{theorem}
+
+\begin{theorem}[``Thom's Suspension theorem"]
+    For $n<k$, homotopy groups $\pi_{n+k}(M(SO(k)))$ do not depend on $k$. 
+\end{theorem}
+\begin{proof}
+    proof to be added
+\end{proof}
+
+\begin{corollary}
+    The sequences $M(SO(k))$ along with bonding maps from the proof above furnish the data of a spectrum, which we call the \textit{Thom Spectrum}, and denote by $MSO$.
+\end{corollary}
+
+\begin{theorem}[Cobordism is Isomorphic to Homotopy]
+For any $k$ we have an isomorphism of groups
+    \[\pi_n^s(MSO)\cong\Omega^{SO}_n.\]
+\end{theorem}
+\begin{proof}
+    proof to be added
+\end{proof}
+
+\section{Constructing maps}
+\begin{theorem}[Brown Representability]
+    For any CW complex $X$, we have
+    \[[X,K(G,n)]_*\cong \widetilde H^n(X;G),\]
+    where the natural map is $[f]\mapsto f^*\iota$ for $\iota\in \widetilde H^n(K(G,n);G)=\End(G)$ the distinguished class corresponding to the identity map $G\to G$. Note that $[-,-]_*$ denotes the homotopy classes of maps of based spaces.
+\end{theorem}
+\begin{remark}
+    We have limited interest in $\pi_n(X)$ and $K(G,n)$ for $n=0$, so we can assume $n\geq 1$ and that all reduced (co)homology is just regular (co)homology.
+\end{remark}
+
+Note that this theorem guarantees the existence of a map $X\to K(G,n)$ with the required behavior on cohomology: given some $u\in \widetilde H^n(X;G)$, there exists a (homotopy class of) map $X\to K(G,n)$ with $f^*\iota=u$. However, Brown representability is very powerful and we can also construct maps $f:X\to K(G,n)$ with the desired property more manually. 
+
+
+We want to construct a map $f:X\to K(G,n)$ for $X$ a CW-complex which represents the class $u\in H^n(X;G)$ via pulling back the fundamental class of $K(G,n)$. First we pick a cocycle $z$ representing $u$. Then,  we can define $f_{n-1}:X^{n-1}\to K(G,n)$ by sending the $(n-1)$-skeleton $X^{n-1}$ of $X$ to the basepoint $*\in K(G,n)$. Now, for each $n$-cell $\sigma$ of $X$, the cocycle value $z(\sigma)\in G=\pi_n(K(G,n))$ determines, up to homotopy, a map $\sigma\simeq D^n\to K(G,n)$. This map must send $\partial \sigma$ to the basepoint $*\in K(G,n)$ and has degree $z(\sigma)\in G$. This defines $f_n:X^n\to K(G,n)$.  
+
+To further extend $f_n$, for each $(n+1)$-cell $\tau$, the previous step defines $f|_{\partial\tau}$. The obstruction to extending $f|_{\partial \tau}$ to a map defined on all of $\tau$ is $z(\partial \tau)\in \pi_n(K(G,n))=G$. However, $z$ is a cocycle, so that $z(\partial \tau)=0$. This shows that the obstruction vanishes, and that $f$ extends over all $(n+1)$-cells. Since $\pi_{n+j}(K(G,n))=0$ for all $j\geq 1$, there are no further obstructions in further extending $f$. From this we obtain the following fact:
+\begin{proposition}
+    For a CW-complex $X$ and $u\in H^n(X;G)$ with $n\geq 1$, there exists a map $f:X\to K(G,n)$, unique up to based homotopy, such that $f^*\iota=u$, where $\iota\in H^n(K(G,n);G)$ is the fundamental class.
+\end{proposition}
+We now specialize to the case $G=\Z$. Consider the space 
+\[Y=K(\Z,k)\times K(\Z, k+4)^{c(1)}\times  K(\Z, k+8)^{c(2)}\times\cdots\times K(\Z, k+4m)^{c(m)}\times\cdots\]
+where $c(m)=\dim_\Q H^{4m}(\widehat G_k;\Q)$. Since maps to a product are the same as tuples of maps to the factors, we
+have
+\[[X,Y]\cong [X,K(\Z,k)]\times[X,K(\Z,k+4)]\times\cdots \times [X,K(\Z, k+4m)]^{c(m)}\times\cdots\]
+\[\simeq \prod_{m\geq 0} \widetilde H^{k+4m}(X)^{c(m)}. \]
+\begin{proposition}
+    For $X=M(SO(k))$, this construction gives a map inducing an isomorphism on rational cohomology. 
+\end{proposition}
+\begin{proof}
+    Via the Thom isomorphism we have $\widetilde H^{k+4m}(M(SO(k)))\cong H^{4m}(\widehat G_k)$.
+    Now, note that we have 
+    \[H^\bullet(\widehat G_{2\ell};\Q)=\Q[p_1,\dots, p_{\ell-1},e],\text{ and }\]
+    \[H^\bullet(\widehat G_{2\ell+1};\Q)=\Q[p_1,\dots, p_{\ell}],\]
+    where $p_i\in H^{4i}(\widehat G_{2\ell};\Q)=H^{4i}(\widehat G_{2\ell})\otimes_\Z \Q$ is the $i$th Pontryagin class, and $e\in H^{2\ell}(\widehat G_k;\Q)$ is the Euler class. Note that in particular we only have nontrivial cohomology in even degrees, since the Pontryagin and Euler classes live in even degrees. 
+    
+    Note that the Euler class has degree $k$, and some nontrivial monomial $ep_{i_1}\cdots p_{i_r}$ containing $e$ has degree $k+4(i_1+\cdots +i_r)$. Thus, for this monomial to land in $H^{4m}(\widehat G_k;\Q)$, we need 
+    \[4\mid (k+4(i_1+\cdots +i_r))\implies 4\mid k,\]
+    and $m=k/4+i_1+\cdots+i_r$. This means that the $H^{4m}(\widehat G_k;\Q)$ can only contain multiples of the Euler class if $4\mid k$ and $m\geq k/4$.
+
+    We can now abuse this and \cref{theorem1/6}. By the Thom isomorphism, we have $\widetilde H^{i+k}(M(SO(k));\Q)\cong H^i(\widehat G_k;\Q)$. Note that since $\pi_{n+k}(M(SO(k)))$ does not depend on $k$ for $k>n$, we can pick $k > n\geq 4m$. Under these conditions, $e$ cannot appear in $H^{4m}(\widehat G_k;\Q)\cong H^{4m+k}(M(SO(k));\Q)$. In fact, the only monomials appearing in $H^{4m}(\widehat G_k;\Q)$ are monomials $p_{i_1}\cdots p_{i_r}$ with $m=i_1+\cdots+i_r$, since each $p_i$ is a weight-$4i$ monomial. The number of such expressions $m=i_1+\cdots i_r$ is just $\pi(m)$, the number of partitions of $m$. Thus, we see that 
+    \[c(m)=\dim_\Q H^{4m}(\widehat G_k;\Q)=\pi(m).\]
+
+    Now, we can define a map $M(SO(k))\to K(\Z, k+4m)$ for all $m$ whose pullback maps the fundamental class of $K(\Z, k+4m)$ to any desired class in $H^{k+4m}(M(SO(k)))$. Note that $Y$ has $c(m)=\pi(m)$-many factors of $K(\Z, k+4m)$, and that $H^{k+4m}(M(SO(k)))$ is generated over $\Q$ by $c(m)=\pi(m)$-many generators. This shows that for $u_1,\dots, u_{c(m)}$ integral cohomology classes corresponding to weight-$4m$ monomials in $p_1,\dots, p_\ell$ upon tensoring, we have maps $f_1,\dots, f_{c(m)}:M(SO(k))\to K(\Z, k+4m)$ with the property that $f_i^*\iota=u_i$. From here we obtain a map $\prod_{i=1}^{c(m)} f_i:M(SO(k))\to K(\Z, k+4m)^{c(m)}$, and further taking the product over all $m$ gives $F:M(SO(k))\to Y$. Note that in each degree, $F^*$ pulls back a basis of rational cohomology of $Y$ to a basis of rational cohomology of $M(SO(k))$. 
+\end{proof}
+With this identification done, one would hope to be able to relate the cohomology of $MSO(k)$ to the homotopy groups of $MSO(k)$, from which we could extract the stable homotopy groups $\pi^s_\bullet MSO$. Under nice circumstances, the Hurewicz theorem would prove a useful tool for this, but the standard Hurewicz theorem will not suffice for this problem. The solution ends up being a set of homological tools coming from Serre's theory of classes.
+
+\section{Detour: Serre's Class Theory}
+We follow Chapter 4 of \cite{millerLecturesAlgebraicTopology2021}. 
+\begin{definition}[Serre Class]
+    A Serre class $\mathscr C$ is a subcategory of $\Ab$ such that
+    \begin{enumerate}
+        \item $\mathscr C$ contains the trivial group, i.e. $0\in \mathscr C$,
+        \item For every short exact sequence $0\to A\to B\to C\to 0$, we have $A$ and $C\in \mathscr C$ if and only if $B\in \mathscr C$.
+    \end{enumerate}
+\end{definition}
+    We can also introduce the notion of a \textit{Serre Ring}
+\begin{definition}[Serre Ring]
+    A Serre class $\mathscr C$ is a \textit{Serre ring} if for all $A,B\in \mathscr C$ we also have $A\otimes_\Z B$ and $\Tor(A,B)\in \mathscr C$
+\end{definition}
+We might also want to do algebraic topology to Serre rings. Given any $A$ in a Serre ring $\mathscr C$, we can consider $K(A,1)$. Applying homology, we have, via the standard Hurewicz theorem, $H_1(K(A,1))=\pi_1(K(A,1))=A$. With this as motivation, we make the following definition
+\begin{definition}[Acyclic Serre Ring]
+    We say that a Serre ring $\mathscr C$ is \textit{acyclic} if, given any $A\in \mathscr C$, we have $H_i(K(A,1))\in\mathscr C$. 
+\end{definition}
+This may seem to come out of nowhere, but it is natural if we instead understand $H_1(K(A,1))\in \mathscr C$ as $H_1(K(A,1))\equiv 0\text{ mod }\mathscr C$. In this way, acyclicity is a standard generalization of acyclicity to the mod $\mathscr C$-context.
+
+Serre classes are useful because, for sufficiently nice Serre classes, we get mod-$\mathscr C$ versions of our favorite theorems. These include the following:
+\begin{theorem}[the Mod-$\mathscr C$ Hurewicz Theorem; cf. p.108 \cite{millerLecturesAlgebraicTopology2021}]
+    Assume that $\mathscr{C}$ is an acyclic Serre ring. Let $X$ be a simply connected space and let $n \geq 2$. Then $\pi_q(X) \in \mathscr{C}$ for all $q < n$ if and only if $\widetilde{H}_q(X) \in \mathscr{C}$ for all $q < n$, and in that case the Hurewicz map $\pi_n(X) \to H_n(X)$ is a mod $\mathscr{C}$ isomorphism.
+\end{theorem}
+
+\begin{theorem}[the Mod-$\mathscr C$ Whitehead Theorem; cf. p.109 \cite{millerLecturesAlgebraicTopology2021}]
+     Let $\mathscr{C}$ be an acyclic Serre ring\footnote{This theorem actually applies even further to Serre ideals, whose definitions consist of the same conditions as a Serre ring, but we only require one of $A$ or $B$ to lie in $\mathscr C$}, and $f : X \to Y$ a map of simply connected spaces. Fix $n \geq 2$. The following are equivalent.
+    \begin{enumerate}
+        \item[(i)] $f_* : \pi_i(X) \to \pi_i(Y)$ is a mod $\mathscr{C}$ isomorphism for $i \leq n-1$ and a mod $\mathscr{C}$ epimorphism for $i = n$, and
+        \item[(ii)] $f_* : H_i(X) \to H_i(Y)$ is a mod $\mathscr{C}$ isomorphism for $i \leq n-1$ and a mod $\mathscr{C}$ epimorphism for $i = n$.
+    \end{enumerate}
+\end{theorem}
+By epimorphism (resp. isomorphism) mod $\mathscr C$, we mean a morphism whose cokernel (resp. kernel and cokernel) lie in $\mathscr C$.
+\section{Proving Theorem 0.1}
+With a short primer on Serre's theory of classes out of the way, we can prove Thom's main theorem. Henceforth, let $\mathscr C$ denote the class of all finite groups. This is clearly an acyclic Serre ring. 
+\begin{proof}[Proof of Theorem 0.1]
+Firstly, we have $\Omega_n^{SO}\cong \pi_n^s(MSO)=\pi_{n+k}(MSO(k))$ for $k>n$. By \ref{result?}, we know that the map $F:MSO(k)\to Y$ induces an isomorphism on rational cohomology. This means that $F_*:H_i(M(SO(k));\Q)\to H_i(Y;\Q)$ is an isomorphism for all $i$. 
+
+We want to use this isomorphism on rational homology to get a mod $\mathscr C$ isomorphism on integral homology. We use the fact that $F_*:H_i(M(SO(k)))\to H_i(Y)$ is an isomorphism modulo finite groups iff $F_*:H_i(M(SO(k));\Q)\to H_i(Y;\Q)$ is an isomorphism and the groups $H_i(M(SO(k)))$ and $ H_i(Y)$ are finitely generated. To see that these groups are finitely generated, note that the Mod $\mathscr C$ Hurewicz theorem, for $k>1$, we have $Y$ simply connected (since by construction $\pi_1(Y)=0$), and $\pi_q(Y)$ are all finitely generated. We also have $H_i(M(SO(k));\Z)$ finitely generated, since we $\widetilde H^{k+i}(M(SO(k)))\cong H^i(\widehat G_k)$, and since $\widehat G_k$ is a CW complex with finitely many cells in all degrees (it is the inverse limit of a complex of finite Grassmanians), this cohomology is finitely generated. It follows that $H_i(M(SO(k));\Z)$ is finitely generated by the universal coefficient theorem.
+
+Lastly, since $M(SO(k))$ and $Y$ are simply connected for $k\geq 2$, we can fix $n$ and apply the mod $\mathscr C$ Whitehead theorem. Applying the theorem in degrees $q\leq k+n$ gives that $F_*:\pi_{k+n}(M(SO(k)))\to \pi_{k+n}(Y)$ is an isomorphism mod $\mathscr C$. By inducting on $n$ it follows that $F_*$ is an isomorphism mod $\mathscr C$ in all degrees. Lastly, we can read of the answer. We 
+\[\pi_i(Y)\equiv \begin{cases}
+    \Z^{c(m)}\text{ if }i=k+4m\text{ for some }m\geq 0\\
+    0\text{ else }
+\end{cases}\pmod{\mathscr C}.\]
+From this, note that $\pi_{k+n}(Y)=0$ if $4\nmid n$, meaning that $\pi_{i+k}(M(SO(k)))=\pi_n^s(MSO)\in \mathscr C$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ is finite. Otherwise, if $4\mid n$, we we have $\pi_{i+k}(M(SO(k)))=\pi_n^s(MSO)\equiv \Z^{c(m)}=\Z^{\pi(m)} \pmod{\mathscr C}$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ is has free part $\Z^{\pi(m)}$ for $\pi$ the partition function; and torsion part some finite group $G$.
+    
+
+\end{proof}
+
+
+
+
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \bibliography{zbib.bib}
+% \bibliographystyle{amsalpha}
+% \end{document}
