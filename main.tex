@@ -1,23 +1,18 @@
-\documentclass[11pt]{amsart}
+\documentclass[11pt]{book}
 \input{commands.tex}
 \usepackage[textsize=tiny]{todonotes}
-\title{The topology of algebraic manifolds}
+\title{The topology of algebraic manifolds \\
+\url{https://github.com/tbrazel/math231br}}
 \author{Thomas Brazelton}
 \date{Last compiled: \today}
 \begin{document}
 
-\begin{abstract}
-Course notes from MATH231b: algebraic topology II, taught at Harvard in Spring 2026.
-\end{abstract}
+% \begin{abstract}
+% Course notes from MATH231b: algebraic topology II, taught at Harvard in Spring 2026.
+% \end{abstract}
 
 \maketitle
 
-\begin{center}
-    \url{https://github.com/tbrazel/math231br}
-\end{center}
-
-
-\setcounter{section}{-1}
 \section{About}
 
 These notes are from a MATH213BR, a second-semester graduate algebraic topology class with a free-floating curriculum taught at Harvard in spring of 2026. This particular course is modeled off of Hirzebruch's amazing 1962 text \emph{Neue topologische Methoden in der algebraischen Geometrie}. Theorem counters and page references refer to the 1995 reprinting in English \cite{Hirzebruch}.
@@ -28,8 +23,6 @@ These notes are from a MATH213BR, a second-semester graduate algebraic topology 
 
 \textbf{Part 2}: We discuss oriented and complex cobordism, genera, the $L$-genus and Todd genus, and the index of a $4n$-manifold. We prove Hirzebruch's signature theorem and sketch the proof of Riemann-Roch for algebraic manifolds.
 
-\setcounter{tocdepth}{1}
-\tableofcontents{}
 
 \subsection{References}
 Aside from the main text, which we deviate from at various points, some other references which have informed the presentation here include:
@@ -46,6 +39,10 @@ Aside from the main text, which we deviate from at various points, some other re
 
 Thank you to Zo\"{e} Batterman, Vincent Costa, Frank Gubars, Grayson Kemplin, Luke Lelli, Gabe Ong, Brian Siew, and Greg Wong for offering suggestions and changes to the notes. Thanks to Gage Martin and Sidhanth Raman for helpful conversations in preparing this class.
 
+\setcounter{tocdepth}{1}
+\tableofcontents{}
+
+\chapter{Course notes}
 \section{Sheaves}
 
 The definition of a \emph{sheaf} in Hirzebruch is perhaps a bit different from what we're used to. He wants to think of sheaves as \emph{living over} a space $X$, whereas we might be comfortable thinking about sheaves as local data across a space. We'll see that these perspectives are equivalent.
@@ -3657,6 +3654,264 @@ Verify that the multiplicative series attached to the $L$-genus satisfies
 \end{exercise}
 
 
+\section{Hirzebruch's signature theorem}
+
+In this section we prove Hirzebruch's signature theorem, and explore some applications.
+
+\subsection{Linear algebra background}
+
+\begin{theorem}[Spectral theorem] Let $M\in \Mat_{n \times n}(\R)$ be a symmetric matrix with real entries. Then there exists an orthogonal matrix $P \in O(n)$ so that
+\begin{align*}
+    P^T M P = \begin{pmatrix} \lambda_1 \\ & \lambda_2 & \\
+    & & \ddots  \\
+    & & & \lambda_n\end{pmatrix} 
+\end{align*}
+where the $\lambda_i$'s are the eigenvalues of $M$.
+\end{theorem}
+
+\begin{corollary} A real symmetric matrix has all real eigenvalues.
+\end{corollary}
+
+So given a real matrix, a natural invariant to look at is how many eigenvalues are positive, how many are negative, and how many are zero. We will consider matrices with nonzero determinant, so that none of the eigenvalues are zero, they are all either positive or negative.
+
+\begin{theorem}[Sylvester's law of inertia] Let $M\in \Mat_{n \times n}(\R)$ be a symmetric matrix, and let $P \in \GL_n(\R)$ be any invertible matrix. Then the number of real/negative/zero eigenvalues of $M$ is the same as the number of real/negative/zero eigenvalues of $P^T M P$.
+\end{theorem}
+
+This is helpful for us, since if we have a symmetric bilinear form on a vector space, we have to \emph{choose} a basis in which to represent it. Sylvester's law of inertia tells us that this data about how many eigenvalues are positive/negative/zero is independent of this choice. The main source of such forms come from the cup product on even-dimensional manifolds. We define the following invariant:
+
+\begin{definition}\label{def:signature-of-symm-bilinear-form} Let $V$ be a finite-dimensional real vector space, and let
+\begin{align*}
+    Q \colon V \times V \to \R
+\end{align*}
+be a symmetric bilinear form. We define its \emph{signature} to be
+\begin{align*}
+    \sig(Q) := \#\left\{ \text{positive eigenvalues of }Q \right\} - \# \left\{ \text{negative eigenvalues of }Q \right\}.
+\end{align*}
+\end{definition}
+
+\begin{example} Let $V$ be 2-dimensional, pick any two linearly independent vectors $v_1$ and $v_2$ inside $V$, and use them to define a function 
+\begin{align*}
+    \text{XOR} \colon \{v_1,v_2\} \times \{v_1,v_2\} \to \{0,1\}
+\end{align*}
+which returns $1$ if the vectors plugged in are the same, and returns $0$ if they are different. Since $v_1$ and $v_2$ span $V$, we can extend this to a bilinear map
+\begin{align*}
+    Q \colon V \times V \to \R.
+\end{align*}
+We claim that $\sig(Q) = 0$. To see this, we represent $Q$ in the basis coming from $v_1$ and $v_2$, and we get the XOR matrix $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$. This has characteristic polynomial $\lambda^2-1$, hence eigenvalues $+1$ and $-1$. This has signature zero.
+\end{example}
+
+
+\begin{proposition}[{\cite[11.30]{Freed-bordism}}]
+\label{prop:sig-zero-if-half-dim-isotropic-subspace}
+Let $Q \colon V \times V\to \R$ be a nondegenerate bilinear form, and suppose $W \subseteq V$ satisfies $\dim W = \frac{1}{2}\dim V$, and suppose that $Q$ is identically zero when restricted to $V$. Then $\sig(Q) = 0$.
+\end{proposition}
+\begin{proof} For any nonzero $w_1\in W$, nondegeneracy of $Q$ implies there exists a $v_1\in V$ so that $Q(w_1,v_1) =1$. By shifting $v_1$ by some scalar multiple of $w_1$, we can arrange so that $Q(v_1,v_1) = 0$. Thus in the basis $\left\{ v_1,w_1 \right\}$ we have that $Q$ is of the form $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$. We can then take an orthogonal complement and iterate this construction.
+\end{proof}
+
+
+
+
+\subsection{The signature of $4n$-manifolds}
+
+
+\begin{proposition} Let $M$ be a $2n$-dimensional compact oriented manifold. Then the \emph{intersection form} is defined to be
+\begin{align*}
+    Q_M \colon H^n(M,\R) \times H^n(M,\R) &\to \R \\
+    (\alpha,\beta) &\mapsto \int_M \alpha \cup \beta.
+\end{align*}
+This is a bilinear form, and if $n=2k$ (that is, $M$ has dimension $4k$), then it is symmetric.
+\end{proposition}
+\begin{proof} Bilinearity follows from the cup product being an abelian group homomorphism, and integration being a map of real vector spaces. To see symmetry, we use this property that if $x\in H^a(M,\R)$ and $y\in H^b(M,\R)$ then $x\cup y = (-1)^{ab} y \cup x$ \cite[3.11]{Hatcher}. In our case when $a=b=n$, if $n$ is even then symmetry is immediate.
+\end{proof}
+
+
+\begin{definition}\label{def:signature-of-manifold} Let $M$ be a compact oriented $4n$-dimensional manifold. Then we define the \emph{signature} of $M$, denoted $\tau(M)$ (this is the notation in \cite{Hirzebruch}), to be the signature of its intersection form $Q_M$.
+\end{definition}
+
+\begin{example} Let $T^4$ denote the 4-torus. Then $\tau(T^4) = 0$.
+\end{example}
+\begin{proof} Write
+\begin{align*}
+    T^4 = S^1 \times S^1 \times S^1 \times S^1,
+\end{align*}
+and let's give it coordinates $(\theta_1,\theta_2,\theta_3,\theta_4)$, where $0 \le \theta_i < 2\pi$. Letting all the coordinates except one vary, we obtain a 3-dimensional subspace (in fact a 3-torus), which we could denote by $\Sigma_i$. For instance:
+\begin{align*}
+    \Sigma_2 := \{(\theta_1,\theta_2,\theta_3,\theta_4)\in T^4 \mid \theta_2 =  0\}.
+\end{align*}
+We have that $[\Sigma_i]\in H_3(T^4,\R) \cong H^1(T^4,\R)$ give a basis of the first cohomology as $i=1,2,3,4$, therefore $H^1(T^4,\R)\cong \R^4$.
+
+By the K\"{u}nneth isomorphism, we obtain an isomorphism of graded rings
+\begin{align*}
+    H^\ast(T^4,\R) \cong \wedge^\ast H^1(T^4,\R).
+\end{align*}
+In particular, if we let $\sigma_{ij}\in H^2(T^4,\R)$ denote the Poincar\'e dual to $[\Sigma_i \cap \Sigma_j]$, we get a basis for $H^2(T^4,\R) \cong \R^6$ given by
+\begin{align*}
+    \sigma_{12}, \sigma_{23}, \sigma_{14}, \sigma_{23}, \sigma_{24}, \sigma_{34}.
+\end{align*}
+We can compute the intersection form using the wedge product on cohomology, together with the knowledge that $\sigma_{12}\wedge \sigma_{34}$ is a preferred generator for $H^4(T^4,\Z)$ (it endows $T^4$ with its orientation).\footnote{When we take the graded tensor product of $H^\ast(S^1,\Z)$ with itself, we get $\Z[x,y]/(x^2,y^2,xy+yx) \cong \wedge^\ast \Z\{x,y\}$.} In this basis, we can write out the intersection form (row$\wedge$column) as
+\begin{center}
+    \begin{tabular}{c | c c c c c c}
+    & $\sigma_{12}$& $\sigma_{13}$& $\sigma_{14}$& $\sigma_{23}$& $\sigma_{24}$& $\sigma_{34}$ \\
+    \hline
+    $\sigma_{12}$ & $0$ & $0$ & $0$ & $0$ & $0$ & $1$ \\
+    $\sigma_{13}$ & $0$ & $0$ & $0$ & $0$ & $-1$ & $0$ \\
+    $\sigma_{14}$ & $0$ & $0$ & $0$ & $1$ & $0$ & $0$ \\
+    $\sigma_{23}$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\
+    $\sigma_{24}$ & $0$ & $-1$ & $0$ & $0$ & $0$ & $0$ \\
+    $\sigma_{34}$ & $1$ & $0$ & $0$ & $0$ & $0$ & $0$
+    \end{tabular}
+\end{center}
+This has characteristic polynomial $(\lambda-1)^3(\lambda+1)^3$, so its eigenvalues are $+1$ with multiplicity $3$ and $-1$ with multiplicity $3$, thus signature zero.
+% M = Matrix([
+%     [0,0,0,0,0,1],
+%     [0,0,0,0,-1,0],
+%     [0,0,0,1,0,0],
+%     [0,0,1,0,0,0],
+%     [0,-1,0,0,0,0],
+%     [1,0,0,0,0,0]
+%     ]);
+% factor(M.charpoly())
+\end{proof}
+
+\begin{example} We have that $\tau(S^{4n}) = 0$.
+\end{example}
+\begin{proof} This is just because $H^{2n}(S^{4n},\R) = 0$.
+\end{proof}
+
+\begin{example}\label{exa:signature-CP2k} We have that $\tau(\CP^{2k}) = 1$.
+\end{example}
+\begin{proof} We have that $H^{2k}(\CP^{2k},\R) \cong \R$, generated by a copy of $\CP^k \subseteq \CP^{2k}$. One way to represent this homology class by a submanifold is to take $k$ generically chosen linear forms in the homogeneous coordinates of $\CP^{2k}$ and intersect them. This homology class has self-intersection one (since the intersection of $2k$ generic linear forms gives a single point), hence the matrix representing the signature form is the $1\times1$ matrix $\begin{pmatrix} 1 \end{pmatrix}$, which has signature $1$.
+\end{proof}
+
+
+\begin{example}\label{exa:index-cubic-surface-by-cohomology} 
+If $X$ is a smooth complex cubic surface, we have that $H^2(X,\Z) \cong \Z^{\oplus7}$, given by the hyperplane class disjoint union the $E_6$ lattice. Its signature is then 
+\begin{align*}
+    \tau(X) = 1-6 = -5.
+\end{align*}
+\end{example}
+
+\begin{proposition}[{\cite[8.2.1(III)]{Hirzebruch}}]
+\label{prop:manifold-which-bounds-has-signature-zero} 
+Let $M$ be a $4k$-dimensional compact oriented manifold. If $M$ bounds then $\tau(M)=0$.
+\end{proposition}
+\begin{proof}
+Following \Cref{prop:sig-zero-if-half-dim-isotropic-subspace}, our strategy is to find a half-dimensional subspace of $H^{2k}(M,\Z)$ on which the intersection form is identically zero. Let $j \colon M \cong \del W \hookto W$ be the oriented embedding, and let $j^\ast \colon H^{2k}(W,\R) \to H^{2k}(M,\R)$ be the induced map on cohomology.
+The goal is to argue that the intersection form vanishes identically on $\im(j^\ast)$. Suppose we have $\alpha,\beta\in H^{2k}(W,\R)$. Then if $Q$ denotes the intersection form on $M$, we have that
+\begin{align*}
+    Q(j^\ast \alpha, j^\ast \beta) = \int_M j^\ast \alpha \cup j^\ast \beta = \int_M j^\ast(\alpha \cup \beta) = 0.
+\end{align*}
+This is true by the same idea as in \Cref{lem:pontryagin-numbers-of-boundary-are-zero}: we can pick a closed $4k$-form in $H^{4k}_\dR(W,\R)$ representing $\alpha\cup\beta$, then use Stokes' theorem.
+
+Thus $Q$ vanishes identically on $\im \left( H^{2k}(W,\R) \xto{j^\ast} H^{2k}(M,\R) \right)$. We now want to argue that $\dim \im(j^\ast) = \frac{1}{2}\dim H^{4k}(M,\R)$. This will follow from a diagram chase -- consider relative Poincar\'e duality for the pair $(W,M)$, giving the commutative diagram
+\[ \begin{tikzcd}
+    {H^{2k}(W,\R)}\rar["j^\ast"]\dar["\cong"] & {H^{2k}(M,\R)}\rar\dar["\cong" right, "i" left] &{H^{2k+1}(W,M,\R)} \dar["\cong"]\\
+    {H_{2k+1}(W,M,\R)}\rar & {H_{2k}(M,\R)}\rar["j_\ast" below]  & {H_{2k}(W,\R)}\\
+\end{tikzcd} \]
+For some element $x\in H^{2k}(M,\R)$, by diagram chasing we can see that $x\in \im(j)$ if and only if $i(x) \in \ker(j^\ast)$. Hence the image of $j^\ast$ is canonically isomorphic to the kernel of $j_\ast$ along the Poincar\'e duality isomorphism $i$. Thus
+\begin{align*}
+    \dim H^{2k}(M,\R) = \dim \im(j^\ast) + \dim \ker(j_\ast) = 2\dim \im(j^\ast).
+\end{align*}
+Therefore we are done by \Cref{prop:sig-zero-if-half-dim-isotropic-subspace}.
+\end{proof}
+
+
+
+\begin{theorem}[Signature is a genus]
+\label{thm:signature-is-a-genus}
+The signature defines a unital ring homomorphism
+\begin{align*}
+    \tau \colon \Omega^\SO_\ast \otimes \Q \to \Z,
+\end{align*}
+that is, it is a genus.
+\end{theorem}
+\begin{proof} Following \cite[8.2.1]{Hirzebruch} it suffices to show $\tau$ is a ring homomorphism and respects the oriented cobordism relations. It is clear that $\tau$ is additive and that it preserves additive inverses since reversing orientation will negate the signature.
+
+The first actual thing to prove is that $\tau$ is multiplicative. If $M$ is $4k$-dimensional and $M \cong V \times W$, then by the K\"{u}nneth isomorphism we have
+\begin{align*}
+    H^{2k}(M;\R) \cong \bigoplus_{s=0}^{2k} H^{s}(V;\R) \otimes_\R H^{2k-s}(W;\R).
+\end{align*}
+We can pick a clever basis in which the relation $\tau(M) = \tau(V)\tau(W)$ is clear (see \cite[p.~85]{Hirzebruch}).
+
+Finally we have to argue if $V$ bounds then $\tau(V)=0$, which we did in \Cref{prop:manifold-which-bounds-has-signature-zero}.
+\end{proof}
+
+
+\begin{theorem}[Hirzebruch signature theorem] The signature \emph{is} the $L$-genus.
+\end{theorem}
+\begin{proof} This follows immediately by \Cref{exa:signature-CP2k}, as we have previously argued the $L$-genus is the unique genus on oriented bordism taking the value on $1$ on each complex projective space of even complex dimension.
+\end{proof}
+
+This is a massive result in topology --- it states that the signature of a \emph{smooth closed oriented} manifold can be determined completely via its Pontryagin numbers. Let's see an example:
+
+\begin{example} For any smooth closed oriented $4$-manifold $M$, we have that
+\begin{align*}
+    \tau(M) = \left\langle \frac{p_1(M)}{3}, [M] \right\rangle.
+\end{align*}
+Moreover we know this is \emph{integral}! This says that $p_1$ of any $4$-manifold is always a multiple of $3$.
+\end{example}
+
+
+\begin{example} For any smooth closed oriented $8$-manifold $M$, we have that
+\begin{align*}
+    \tau(M) = \frac{7p_2 - p_1^2}{45},
+\end{align*}
+therefore its Pontryagin numbers satisfy
+\begin{align*}
+    p_1^2 - 7p_2 \equiv 0 \pmod{45}.
+\end{align*}
+\end{example}
+
+For example, consider $\CP^4$ as an 8-manifold. By \Cref{thm:pontryagin-numbers-cpn} it has $p_1 =5$ and $p_2 = 10$, so we get $5^2 - 7\cdot 10$ is indeed zero modulo 45.
+
+\begin{example}[An exotic 7-sphere] Suppose we had a compact smooth 8-manifold $W$ whose $p_1$ and signature $\tau$ we understood. We could solve for $p_2$ as
+\begin{align*}
+    p_2(W) = \frac{45\tau(W) + p_1(W)^2}{7}.
+\end{align*}
+%
+Since $p_2$ is an integer, we know that the numerator on the right hand side is zero modulo 7. That is, for any smooth closed oriented $8$-manifold $W$, we have that
+\begin{equation}\label{eqn:p2-mod-7-for-8-manifolds}
+\begin{aligned}
+    p_1(W)^2 + 45\tau(W) \equiv 2p_1(W)^2 - \tau(W) \equiv 0 \pmod{7}.
+\end{aligned}
+\end{equation}
+%
+Now, given some closed smooth oriented $7$-manifold $M$, we know that it is the boundary of some $8$-manifold by Thom's computation that $\Omega_7^\SO = 0$ (\Cref{exa:omega-so-7-is-zero}). However this manifold $W$ has boundary (it is not closed), hence it doesn't fall in the scope of the signature theorem, and there is no expectation that its $p_1,p_2,\tau$ must satisfy \Cref{eqn:p2-mod-7-for-8-manifolds}. A very natural idea, then, is to take a manifold $M^7$ and find a $W$ bounding it, then attach to it the residue of $2p_1(W)^2 - \tau(W)$ modulo $7$. Viewing this as a function from smooth closed oriented $7$-manifolds to $\Z/7$, this won't be well-defined, since $M$ can be the boundary of many $8$-manifolds, and there's again no expectation that these different $8$-manifolds have the same residue modulo $7$ for this combination of their $p_1$ and signature. However under some mild assumptions on the cohomology of $M$, this will turn out to be well-defined! Milnor proves in \cite[Theorem~1]{milnorManifoldsHomeomorphic7Sphere1956} that the following function is well-defined:
+\begin{align*}
+    \lambda \colon \left\{ \substack{\text{closed oriented smooth} \\ \text{7-manifolds }M^7 \text{ with }\\ H^3(M) = H^4(M)=0} \right\} &\to \Z/7 \\
+    M^7 = \del W^8 &\mapsto 2p_1(W^8)^2 - \tau(W^8).
+\end{align*}
+%
+As an example, we can consider $S^7$, which is the boundary of the ball $B^8$. Both $p_1$ and $\tau$ of the ball are zero, hence $\lambda(S^7) \equiv 0 \pmod{7}$.
+
+What would it mean to find a manifold $M^7$ which is homeomorphic to $S^7$ but which satisfies $\lambda(M^7) \not\equiv 0 \pmod{7}$? It would mean that the bounding $W^8$ does not satisfy the desired congruence modulo $7$, in particular the boundary of $W^8$ cannot be diffeomorphic to $S^7$. However the boundary of $W^8$ is $M^7$, which we said was homeomorphic to $S^7$. Hence the construction of such a manifold would be an exotic $7$-sphere. Milnor builds these as certain $D^4$-bundles over $S^4$, which are classified by the clutching construction $\pi_3(\SO(4))$. For details see \cite{milnorManifoldsHomeomorphic7Sphere1956}.
+\end{example}
+
+\begin{example}[{\cite[\S3]{hirzebruchSignatureTheoremReminiscences1971}}] Let $f \colon \C^7 \to \C$ be the function
+\begin{align*}
+    f(z_1, \ldots, z_7) = z_1^2 + z_2^2 + z_3^2 + z_4^2 + z_5^2 + z_6^3 + z_7^5,
+\end{align*}
+and let $\epsilon>0$ be a small positive number. Consider the manifold
+\begin{align*}
+    M^{12} = \left\{ z = (z_1, \ldots, z_7) \in \C^7 \mid f(z_1, \ldots, z_7) = \epsilon,\ ||z||\le 1 \right\}.
+\end{align*}
+This is a smooth 12-dimensional manifold with boundary. A computation of Brieskorn says that the boundary is homeomorphic to $S^{11}$. If we collapse by the boundary, we get a closed 12-dimensional manifold $N = M/\del M$ with signature $-8$.
+
+We furthermore have that $N$ is 5-connected, so its first five reduced homology groups vanish, and by universal coefficients, we see that $H^4(N)=0$ as well, in particular this implies $p_1(N) = 0$. By the signature theorem we get
+\begin{align*}
+    -8 = \tau(N) = \int_N L_3 = \frac{62p_3}{945}.
+\end{align*}
+We check that $\gcd(62,945)=1$, and since we are conflating $p_3$ with an integer along the isomorphism $H^{12}(N,\Z) \cong \Z$, we see there are no integral solutions to the above.
+
+Therefore $N$ does not admit any smooth structure, and therefore $\del M^{11}$ could not be diffeomorphic to an 11-sphere, only homeomorphic.
+\end{example}
+
+The other rather shocking fact that follows immediately from the Hirzebruch signature theorem is:
+
+\begin{corollary} The signature of a manifold depends only on the oriented homotopy type of the manifold.
+\end{corollary}
+
+
 
 
 
@@ -3664,6 +3919,7 @@ Verify that the multiplicative series attached to the $L$-genus satisfies
 
 \newpage
 \appendix
+\chapter{Appendices}
 
 \section{Category theory}
 If you are unfamiliar with colimits I really recommend reading Chapter 3 of \cite{riehlCategoryTheoryContext2016}.
@@ -4052,11 +4308,13 @@ The story for simplicial abelian groups can be found in \cite[VIII.6]{Maclane-ho
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{appendices/example-appendix}
-\include{appendices/david}
 
+\chapter{Student appendices}
 
-
+\include{appendices/jbocresion}
+\include{appendices/Kemplin_Appendix}
+\include{appendices/Vincent_Josh_Appendix}
+%\include{appendices/Draft_David}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
