@@ -4030,7 +4030,7 @@ In general, exhibiting what kinds of varieties can appear as representatives of 
 
 Similarly to how we showed Pontryagin numbers were oriented cobordism invariants, we want to see that Chern numbers give complex cobordism invariants. Recall we can define Chern classes for any complex vector bundle, in particular one coming from an almost complex structure. Since Chern classes are designed to be stable invariants (they are insensitive to adding on a trivial complex vector bundle), it makes sense to define their Chern numbers.
 
-\begin{notation} Let $M^{2n}$ be a compact $2n$-dimensional stably complex manifold, which is necessarily oriented.\footnote{Every stably almost complex manifold is oriented, coming from the orientation on $TM \oplus \epsilon_\R^k$.} Let $I = (i_1, \ldots, i_k)$ be a partition of $n$. Then we define the $I$th \emph{Chern number} of $M$ to be
+\begin{notation} Let $M^{2n}$ be a compact $2n$-dimensional stably almost complex manifold, which is necessarily oriented.\footnote{Every stably almost complex manifold is oriented, coming from the orientation on $TM \oplus \epsilon_\R^k$.} Let $I = (i_1, \ldots, i_k)$ be a partition of $n$. Then we define the $I$th \emph{Chern number} of $M$ to be
 \begin{align*}
     c_I(M) = \int_M c_{i_1}(TM) \cdots c_{i_k}(TM) \in H^{2n}(M,\Z) \cong \Z.
 \end{align*}
@@ -4052,9 +4052,9 @@ Let $R\in \CAlg_\Q$ be an integral domain which is a commutative unital algebra 
 
 Just as in the case of genera (for oriented cobordism), we can set up a correspondence to formal power series, now not necessarily assumed to be even. Now the Chern classes will play the role that the Pontryagin classes played for ordinary genera.
 
-\begin{theorem}\label{thm:complex-genera} For any unital integral domain $R\in\CAlg_\Q$, there is a bijection between complex genera and formal power series:
+\begin{theorem}\label{thm:complex-genera} For any unital integral domain $R\in\CAlg_\Q$, there is a bijection between complex genera and formal power series with constant term 1:
 \begin{align*}
-    \left\{ \text{complex genera valued in }R \right\} \leftrightarrow 1 + R[[x]].
+    \left\{ \text{complex genera valued in }R \right\} \leftrightarrow 1 + xR[[x]].
 \end{align*}
 A complex genus $\phi$ is uniquely determined by the values of $\phi([\CP^n])$ for all $n\ge1$.
 \end{theorem}
