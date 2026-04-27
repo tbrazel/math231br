@@ -1,189 +1,19 @@
-\section{Elliptic Genera and Their Connection to Elliptic Integrals, Curves, and Functions (Grayson Kemplin)}
 
-In this appendix, we flesh out the theory of logarithms in order to define a special class of genera, elliptic genera. We use the classical problem of arc lengths [in this case of the lemniscate] to motivate elliptic integrals, and then define elliptic genera and see how they solve natural problems both in elliptic integrals and in more abstract topology. We then use these genera to bridge the mysterious relationship between elliptic integrals, elliptic curves, and elliptic functions. We presume some familiarity with genera, its basic definition and how to define $\p_Q$ out of an even power series $Q$ with leading term $1$ via multiplicative sequences. 
+\section{Connecting Elliptic Integrals, Curves, and Functions through Elliptic Genera}
 
+In this appendix, we flesh out the theory of logarithms in order to define a special class of genera: elliptic genera. Our exploration is centered around the problem of bridging the mysterious relationship between elliptic integrals, elliptic curves, and elliptic functions, a collection of mathematical phenomena that may be encountered at an undergraduate level in disparate contexts (say, on courses on special functions, algebraic geometry/number theory, and complex analysis respectively) which all ostensibly were discovered when investigating the problem of studying arc lengths of curves. We use the classical problem of arc lengths (in this case of the lemniscate) to motivate elliptic integrals, and then use them to define elliptic genera, which turn out to have other useful characterizing properties. We then review how elliptic curves correspond to elliptic functions, and then define an elliptic genus out of an elliptic function, showing how these separate halves of the ``elliptic" world connect.
 
-\subsection{Logarithms of Genera}
-Before turning to our main subject matter, we begin with a slight expansion of our current general theory of genera. Throughout this section, we presume the codomain of a genus $\p: \Omega^{SO} \to R$ is a $\mathbb{Q}$-algebra, so it is uniquely determined by its values on $\Omega^{SO} \otimes \mathbb{Q}\cong \mathbb{Q}( [\mathbb{CP}^2], [\mathbb{CP}^4], \dots )$ [since any torsion will also vanish under $\p$]. We are already aware of how an even $R$-coefficient power series series starting with $1$, $Q(x) = 1 + \sum_{i=1}^\infty a_{2i} x^{2i}$, through its multiplicative sequence determines a genus $\p_Q$. 
-
-It is still somewhat of a mystery of whether this correspondence is one-to-one, or equivalently, whether one can recover $Q$ from some $\p_Q$. The lack of this connect may make $\p_Q$'s actual values still feel somewhat mysterious, as it is not always clear how to compute a large-degree multiplicative sequence out of a power series. Our short-term goal for this section will then be a way to provide this correspondence, and it turns out a simple modification brings all the needed characterization.
-
-Take our even power series $Q(x)$. Because our first term is $1 \neq 0$ [in fact any nonzero constant term is WLOG $1$ by scaling], we may take the algebraic reciprocal $1/Q(x)$ to be a power series as well [analytically, they would agree in some radius of convergence]. The formula for computing coefficents gives the first coefficient of $1/Q(x) $ is $\frac{1}{a_0} = \frac{1}{1} = 1$, so $1/Q(x)$ has leading term $1$. Finally, $Q(x)$ is even, which is equivalent to $Q(x) = Q(-x)$, from which it follows $\frac{1}{Q(x)} = \frac{1}{Q(-x)}$ so $1/Q(x)$ is also an even power series with leading term $1$. Then $f(x) = x/ Q(x)$ is an odd power series with leading term $x$, so its first derivative is nonzero, which means that it can be formally inverted to some unique $g$ [see \cite{Niven_1969} for more details]:
-
-\begin{definition}
-Given $\p_Q$ a genus defined some even power series $Q$, denote the inverse power series of $f(x) = \frac{x}{Q(x)}$ as the \textbf{logarithm} of $\p_Q$, $\log_{\p_Q}(x)$. We also sometimes label  $f(x)$ the \textbf{exponent} of $\p_Q$ and denote it via $\exp_{\p_Q} (x)$.  
-\end{definition}
-
-The logarithm of a genus, despite only ever needing the data of $Q$ turns out to encode a great amount of information about $\p_Q$:
-
-\begin{proposition}
-    Given a genus $\p_Q$ defined by an even power series $Q$, 
-    \[\log_{\p_Q} (x) = x + \frac{\p_Q ([\mathbb{CP}^2])}{3} x^3 + \frac{\p_Q ([\mathbb{CP}^4])}{5} x^5 + \dots\]
-\end{proposition}
-
-\begin{proof}
-Recall that the total Pontyagrin class of $\mathbb{CP}^n$ is $(1 + h^2)^{2n+1}$, where $h \in H^2 (\mathbb{CP}^n, \mathbb{Z})$ is a hyperplane class; clearly, breaking the Pontyagrin class apart by degrees, it follows that $p_1 = h^2$ [up to a choice of scaling], so we can also write $p = (1 + p_1)^{n+1}$.  
-
-Then examining the multiplicative sequence $\{K_j \}$ defined from $Q$ using $(1 + p_1) \cdots (1 + p_1) = 1 + p_1 + \dots + p_n = (1 + p_1)^{n+1}$, using the property of multiplicative sequences we get
-
-\[K(p_1, \dots, p_n) = K(p_1)^{n+1}.\]
-But there only being one elementary symmetric polynomial of the $x_i^2$ [recall that that is what the multiplicative sequence of an even power series is defined as evaluating on] means there is only one formal variable $x_1$ at play. So, writing the formulation of the multiplicative sequence $Q(x_1) \cdots Q(x_n)$ in the case where there is only one variable, we get $Q(x_1) = K(p_1)$. Therefore, recalling $\p([\mathbb{CP}^n]) = K_n (p_1, \dots, p_n)[\mathbb{CP}^n]$ and seeing that $1 + \dots + K_n(p_1, \dots, p_n) = K(p_1, \dots, p_n) =Q(x)^{n+1}$, it follows that $\p([\mathbb{CP}^n])$ should correspond to the coefficient of $x^n$ in the formal power series established by $Q(x)^{n+1}$. Here, \textit{in the case that $f$ converges}, complex analysis's connection to power series allows for computation via residue calculus, since via Cauchy's integral formula
-
-\[n^{\text{th}} \text{ coefficient of } Q(x)^{n+1} = \frac{1}{n!}  \left[ \frac{d^n}{dx^n} Q(x^{n+1}) \right] \Bigg{|}_{x = 0}  = \frac{1}{ 2 \pi i} \oint \frac{Q(x)^{n+1}}{x^{n+1}}  dx\]
-over some positively oriented curve around $0$ with winding number $1$. Using $\exp_{\p_Q}(x) = x/Q(x),$
-
-\[  \frac{1}{ 2 \pi i} \oint \frac{1}{\exp_{\p_Q}(x)^{n+1}}  dx.\]
-We now perform a substitution $y = \exp_{\p_Q}(x) \Rightarrow x = \log_{\p_Q}(y) \Rightarrow dx = \log_{\p_Q}'(y) dy$. We have to change the contour of integration, but because $\exp_{\p_Q} (x)$ has leading term $x$ and the winding number is not sensitive to higher-order effects, its image is still some positively oriented curve around $0$ with winding number $1$. Thus, via calculus and re-applying the same correspondence used above, we get
-
-\[ = \frac{1}{2 \pi i} \oint \frac{\log'_{\p_Q} (y)}{y^{n+1}} dy = n^{\text{th}} \text{ coefficient of } \log_{\p_Q}'.\]
-We might here by worried that $f$ may not converge,  but it turns out we may define a \textit{formal residue} over formal power series with all the same properties which we use here to pass from $Q(x)^{n+1}$ to $\log'(y)$, so this proof  may be generalized to any case. Finally, by formal differentiation of power series
-
-\[ = (n+1)\text{ coefficient of } \log_{\p_Q} = \p_Q ([\mathbb{CP}^n])\]
-as desired.
-\end{proof}
-
-Therefore, given any genus $\p$, we can compute $\log_\p$ as a power series, compute $\exp_\p$, and compute $Q$ out of it. This completes the one-to-one correspondence of even power series with leading term $1$ and genera. I therefore will drop the specification of $Q$ off of $\p$ in general for ease of notation. It is also clear that given an odd power series $L(x)$ with leading term $x$, we can take $Q(x) = \frac{x}{L^{-1} (x)}$ as an even power series and define a genus of which $L$ is the logarithm, or take $Q(x) = x / L(x)$ and make a genus where $L$ is the exponent; therefore, we may also say there is a one-to-one correspondence between odd power series with leading term $x$ and genera. 
-
-
-\subsection{Computing the Arc Length of a Lemniscate}
-Our central problem of study will be to compute the various arc lengths of the \textit{lemniscate of Bernoulli}, a planar curve determined by two foci, coordinates chosen to be $(-a, 0)$ and $(a, 0)$ such that $2a$ [$a > 0$] is the distance between the foci, containing all points such that the product of the distances to each foci equals $a^2$. This curve is more familiar as the usual symbol for infinity: 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/Lemniscate.png}
-    \caption{The Lemniscate of Bernoulli [$a = 7$]}
-\end{figure}
-
-
-[For an intuitive depiction of how the lemniscate is "drawn" from this condition, I encourage the reader to visit \href{https://demonstrations.wolfram.com/LemniscatePlottingDevice/}{this Wolfram demonstration}]. We already know the distance of $(x, y)$ to $(-a, 0)$ is $\sqrt{(x + a)^2 + y^2}$, and likewise the distance to $(a, 0)$ is $\sqrt{(x - a)^2 + y^2}$. The product of these by definition is $a^2$, and squaring on both sides gives the lemniscate as the locus of the equation
-\[[(x - a)^2 + y^2]  \cdot [(x + a)^2 + y^2] = [x^2 + y^2 - 2ax + a^2][x^2 + y^2 + 2ax + a^2] = a^4.\]
-
-A classical problem for planar curves, famously simple for circles and complex for ellipses, is to find the \textit{arc length} along the curve between any two points on it. Exploiting the symmetry of the lemniscate, we can fix one of the points to be the origin, and any point of equal distance away from the origin suffices for the other point. Thus, we seek to characterize the distance from the origin to any point on the lemniscate with distance $r$ from the origin. First, writing $r^2 = x^2 + y^2$ to bring distance from the origin into the parameterization above, we get
-
-\[[r^2 +a^2 - 2ax ][r^2+ a^2 + 2ax] = (r^2 + a^2)^2 - (2ax)^2   = a^4, \]
-\[ \Rightarrow r^4 + 2 a^2 r^2 - 4 a^2 x^2 = 0.\]
-Therefore, we have a parameterization of the $x$-coordinate of the lemniscate $x(r)$ such that $ 2 a^2 \cdot 2x(r)^2  = r^4 + 2 a^2  \cdot 
-r^2$ [the purpose of this odd way of writing the expression will become clear soon]. We need the $y$-coordinate as well, and we get it by plugging in $x^2 = r^2 - y^2$:
-
-\[ r^4 + 2 a^2 r^2 - 4 a^2 (r^2 - y^2) = r^4 - 2 a^2 r^2 - 4a^2 y^2 = 0   ,\]
-so we have $y(r)$ such that $ 2a^2 \cdot 2y(r)^2 =  2a^2 \cdot r^2 - r^4$. We can now take derivatives with respect to $r$ to get
-
-\[  2a^2 \cdot 4x(r) x'(r) = 4r^3 + 2 \cdot 2a^2 \cdot r \Rightarrow    2a^2 \cdot 2x(r) x'(r) = 2r^3 + 2 a^2 \cdot r\]
-and symmetrically
-\[ 2a^2 \cdot 2 y(r) y'(r) = 2a^2 \cdot r - 2r^3.\]
-We can then compute
-
-\[x'(r)^2 = \frac{(2a^2 \cdot r + 2 r^3)^2}{(2a^2 \cdot 2 y(r))^2} = \frac{r^2 (2a^2 + 2r^2)^2}{2a^2 \cdot 2 (2a^2 \cdot 2 y(r)^2)} =  \frac{r^2 (2a^2 + 2r^2)^2}{2a^2 \cdot 2 (r^4 + 2a^2 \cdot r^2) } = \frac{(2a^2 + 2r^2)^2}{2a^2 \cdot 2(r^2 + 2a^2) }\]
-and analogously
-\[y'(r)^2 =  \frac{(2a^2 - 2r^2)^2}{2a^2 \cdot 2(2a^2 - r^2) } .\]
-Then [and this is where keeping the $2a^2$ separate starts to becomes useful]
-
-\[ x'(r)^2 + y'(r)^2 = \frac{(2a^2 + 2r^2)^2  (2a^2 - r^2) +  (2a^2 - 2r^2)^2 (r^2 + 2a^2)} {2a^2 \cdot 2 (r^2 + 2a^2) (2a^2 - r^2)} =  \frac{16 a^6} {2a^2 \cdot 2 ((2a^2)^2 - r^4) }  =  \frac{(2a^2)^2} {(2a^2)^2 - r^4 } \]
-and thus, by the formula for arc length, the arc length of the lemniscate is
-
-\[\int_0^r \sqrt{x'(t)^2 + y'(t)^2}  \ dt = \int_0^r \frac{2a^2} { \sqrt{(2a^2)^2 - t^4 }}  \  dt .\]
-The $2a^2$ now cleanly separates out by a $u$-substitution $t^2 = 2a^2 \cdot u^2 \Rightarrow dt = \sqrt{2a^2}    \ du;$
-
-\[ = \int_0^{r / \sqrt{2a^2} }  \frac{2a^2} { \sqrt{(2a^2)^2 - (2a^2)^2 u^4}}  \  \sqrt{2a^2} du  = \int_0^{r / \sqrt{2a^2} }  \frac{2a^2} { 2a^2 \sqrt{1 -  u^4}}  \  \sqrt{2a^2} du  =  \sqrt{2a^2} \int_0^{r / \sqrt{2a^2} }  \frac{du} {\sqrt{1 -  u^4}}  .\]
-
-The latter will be our canonical formula of sorts. We will take as standard the case of $2a^2 = 1$, analyzing the cleaner integral for various choices of $r$
-\[\int_0^r \frac{dt}{\sqrt{1 - t^4}},\]
-and we see from the above formulation that all other cases are obtained by scaling and a different choice of $r$, as would intuitively make sense for increasing the lemniscate while holding the distance from the origin the same. An integral of the form above, $\int_0^r \frac{dt}{\sqrt{P(t)}}$ where $P(t) = 1 - 2 \delta t^2 + \epsilon t^4 $ is a polynomial of degree $\leq 4$ with no repeated roots [in our case the roots are $\pm 1, \pm i$] is known as an \textit{elliptic integral} (in the lemniscate case $\delta = 0, \epsilon = -1$) .We hit a major obstruction in our so-far elementary approach inasmuch as most elliptic integrals do not have solutions expressible in elementary functions. 
-
-\subsection{Elliptic Genera and their Applications}
-
-We can say something quite concrete about these kinds of integrals. Focusing on the integrand $\frac{1}{\sqrt{P(t)}}$, we know $P(t)$ is a formal power series [with terms higher than $4$ having coefficient $0$]. The square root of a formal power series can be expressed as a power series [see \cite{Niven_1969}], so the entire integrand is a formal power series. Furthermore, clearly $P(t)$ is even and so $\frac{1}{\sqrt{P(-t)}} = \frac{1}{\sqrt{P(t)}}$, so the integrand is an even power series with constant term is just $\frac{1}{\sqrt{P(0)}} = \frac{1}{1} = 1$. Taking formal antidifferentiation, we get that the elliptic integral  $\int_0^r \frac{dt}{\sqrt{P(t)}}$ is a formal power series of $r$  which is odd and has leading term $x$. This leads to the natural definition:
-
-\begin{definition}
-    A genus $\p: \Omega^{\text{SO}} \to R$ is \textbf{elliptic} precisely when its logarithm is of form $\log_\p (x) = \int_0^x \frac{dt}{\sqrt{1 - 2 \delta t^2 + \epsilon t^4}}$ for some $\delta, \epsilon \in R$. We call the term under the radical $P_\p (t)$.
-\end{definition}
-
-The following clean equivalent definition will be of use later, when verifying a particular kind of genus is elliptic: 
-\begin{proposition}
-    A genus $\p: \Omega^{\text{SO}} \to R$ taking values in some $\mathbb{Q}$-algebra is an elliptic genus if and only if the differential equation $(\exp_\p ')^2 = P(\exp_\p)$ holds for some $P$ of form $1 - 2 \delta t^2 + \epsilon t^4$.
-\end{proposition}
-
-\begin{proof}
-First, suppose $\p$ is an elliptic genus as defined above. Using the Fundamental Theory of Calculus on a formal level, it follows $\log_\p'(x) = \frac{1}{P(x)}$ for $P(t) = 1 - 2 \delta t^2 + \epsilon t^4$. Then
-
-\[\log'_\p (\exp_\p(y)) = \frac{1}{\sqrt{P(\exp_\p (y))}},\]
-\[\Rightarrow P (\exp_\p (y)) = \frac{1}{ [\log'_\p (\exp_\p(y))]^2} .\]
-But since $\exp_\p$, $\log_\p$ are inverses, $\log_\p (\exp_\p (y)) = y$.  Applying Chain Rules, it follows $\exp_\p' (y) \cdot \log_\p' (\exp_\p (y)) = 1$, so $\exp'_\p = \frac{1}{\log_\p' (\exp_\p (y)) }$. Thus substitution gives
-\[P(\exp_\p) = (\exp_\p')^2\]
-as desired. Now, suppose for some genus that  $(\exp_\p ')^2 = P(\exp_\p)$. But as we showed above $\log_\p'(x)  = \frac{1}{\exp_\p' (\log_\p(x))} = \frac{1}{\sqrt{P(\exp_\p (\log_\p (x)))}} = \frac{1}{\sqrt{P(x)}} \Rightarrow \log_\p (x) = \int \frac{1}{\sqrt{P(x)}}$ as desired. 
-\end{proof}
-
-Elliptic genera turn out to attain a host of satisfying properties, further justifying their existence. For example, their exponentials have a nice representation under addition:
-
-\begin{proposition}
-    For any elliptic genus $\p$,
-    \[\exp_\p(x + y) = \frac{\exp_\p (x) \exp_\p' (y) + \exp_\p' (x) \exp_\p yx)    }{1 - \epsilon \exp_\p (x)^2 \exp_\p (y)^2  }.\]
-\end{proposition}
-
-\begin{proof}
-    We derive this from the differential equation $(\exp_\p ')^2 = P(\exp_\p)$. Write $f:=\exp_\p $ and $R(x, y):= \frac{\exp_\p (x) \exp_\p' (y) + \exp_\p' (x) \exp_\p (y)    }{1 - \epsilon \exp_\p (x)^2 \exp_\p (y)^2  }$. We have the total differential $dR(x, y) = \frac{\partial R}{\partial x} dx + \frac{\partial R}{\partial y} dy$. By excruciating calculus, we get
-
-\[(1 - \epsilon f(x)^2 f(y)^2)^2 \frac{\partial R}{\partial x} = [f'(x) f'(y) + f''(x) f(y)] \cdot [1 - \epsilon f(x)^2 f(y)^2]\]
-\[ - [f(x) f'(y) + f'(x) f(y) ] \cdot [-2 \epsilon f(x) f'(x) f(y)^2],\]
-\[ = f'(x) f'(y) - \epsilon f(x)^2 f(y)^2 f'(x) f'(y) + f(y)  f''(x) - \epsilon f(x)^2 f(y)^3 f''(x)\]
-\[ + 2 \epsilon f(x)^2 f(y)^2 f'(x) f'(y) + 2 \epsilon f(x) f(y)^3 f'(x)^2 \]
-To simplify things down to the part that matters, we're only going to compute the \textit{non-symmetric} part of this derivative, treating any symmetric part as $0$ [a formal way of talking about this is considering this computation to be over the group of functions in $x, y$ and quotienting out by the subgroup of symmetric functions:]
-
-\[ \equiv f(y)  f''(x) - \epsilon f(x)^2 f(y)^3 f''(x)   + 2 \epsilon f(x) f(y)^3 f'(x)^2 \]
-
-
-    The only really mysterious piece here is $f''(x)$, but we can compute this from the differential equation:
-    \[f'(x)^2 = 1 -2 \delta f(x)^2 + \epsilon f(x)^4,\]
-\[\Rightarrow 2 f'(x) f''(x) = -4 \delta f(x) f'(x) + 4 \epsilon f(x)^3 f'(x),\]
-\[\Rightarrow f''(x) = -2 \delta f(x) + 2 \epsilon f(x)^3.\]
-We substitute this into the above equation, still only interested in the non-symmetric part:
-
-\[(1 - \epsilon f(x)^2 f(y)^2)^2 \frac{\partial R}{\partial x} \equiv f(y)(-2 \delta f(x) + 2 \epsilon f(x)^3)  - \epsilon f(x)^2 f(y)^3 (-2 \delta f(x) + 2 \epsilon f(x)^3)   + 2 \epsilon f(x) f(y)^3 f'(x)^2 ,\]
-\[ = -2 \delta f(x) f(y) + 2 \epsilon f(x)^3 f(y) + 2 \delta \epsilon f(x)^3 f(y)^3 - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 f'(x)^2 ,\]
-\[ \equiv 2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 f'(x)^2  .\]
-It is now easy to substitute in $f'^2 = 1 - 2 \delta f^2 + \epsilon f^4$;
-\[ =  2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 [1 - 2 \delta f(x)^2 + \epsilon f(x)^4]  , \]
-\[ =  2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3  +  2 \epsilon f(x) f(y)^3  - 4 \delta \epsilon f(x)^3 f(y)^3 + 2\epsilon^2 f(x)^5 f(y)^3, \]
-\[ = (2 \epsilon f(x)^3 f(y)  +  2 \epsilon f(x) f(y)^3  ) - 4 \delta \epsilon f(x)^3 f(y)^3 ,\]
-\[ \equiv 0.\]
-Thus $(1 - \epsilon f(x)^2 f(y)^2) \cdot \frac{\partial R}{\partial x}$ is symmetric. Since $(1 - \epsilon f(x)^2 f(y)^2) $ is never $0$ in this context, we can divide by it and get that $\frac{\partial R}{\partial x}$ is symmetric, call it $s(x, y)$. But clearly $s(x, y) = s(y, x) = \frac{\partial R}{\partial y}$ as well, so now $dR(x, y) = s(x, y) dx + s(x, y) dy = dR(x, y) \cdot d[x + y]$. Now, along the curve $x + y = c$, we get $dR(x, y) = s(x, y) \cdot 0 = 0$, from which it follows that $R(x, y)$ is constant along this curve. To determine which constant, we evaluate $R(0, c) =  \frac{\exp_\p (0) \exp_\p' (c) + \exp_\p' (0) \exp_\p (c)    }{1 - \epsilon \exp_\p (0)^2 \exp_\p (c)^2  } $. But since $\exp_\p$ is an odd power series with leading term $x$ it evaluates to $0$ at $0$ and its derivative evaluates to $1$, so $ = \frac{\exp_\p (c)}{1} = \exp_\p (x + y)$. Since this is true for any choice of $c$ and consequently for any choice of $(x, y)$, we get $\exp_\p (x + y) = R(x, y)$ exactly as desired.
-\end{proof}
-
-Although this formula may seem obscure, it was discovered by Euler in connection to very concrete mathematical problems. For instance, Giulio Fagano was classically interested in the \textit{duplication of the arc}; given some arc $A$ of the lemniscate, he wanted to find the distance where the length of the arc from the origin was twice $A$, and in particular see whether that distance had a nice relation to the original distance defining $A$ [in particular, whether it was constructible in Euclidean geometry]. So say we have the arc which begins at $0$ and ends at some distance $r$ away from the origin, so the arc length is $\int_0^r \frac{1}{\sqrt{1 - t^4}}$  [again, an elliptic curve for $\delta = 0, \epsilon = -1$]. We can write this distance as $x = \log_\p (r)$, so $r = \exp_\p (x)$. The parameter we are interested in is 
-\[\exp_\p (2x) = \exp_\p (x + x) = \frac{2\exp_\p(x) \exp_\p'(x)}{1 + \exp_\p(x)^4}.\]
-Utilizing $\exp^{'2}_\p = P(\exp_\p) \Rightarrow \exp' = \sqrt{P(\exp_\p)}$ and $r = \exp_\p (x)$, we get
-
-\[ =\frac{2r \sqrt{1 - r^4} }{1 + r^4}.\]
-Noting that sums, products, and square roots are all derivable in Euclidean geometry gives a full resolution to this line of inquiry. 
-
-We conclude this sequence by directing the reader to a bevy of desirable properties and results about elliptic genera. For instance, one may still wonder at this point whether $\delta$ and $\epsilon$ have any direct meaning with respect to the genus [and in particular why we've chosen to adopt $P(t) = 1 - 2 \delta t^2 + \epsilon t^4$ with an unnatural coefficient in the second term]. The answer for $\delta$ can already made apparent; taking the expansion of $[\log_{\p} (x)]' = \frac{1}{\sqrt{1 - 2 \delta x^2 + \epsilon x^4}} = 1 + \delta x^2 + \dots$ immediately gives by recalling that $\log_\p (x) = x + \frac{\p([\mathbb{CP}^2])}{3} x^3 + \dots $ that $\p ([\mathbb{CP}^2]) = \delta$. Similarly, for $\mathbb{HP}^2$ the quaternionic projective plane one can show that $\p([\mathbb{HP}^2]) = \epsilon$. For this computation see \cite{MMF}.  
-  
-We are secretly already familiar with another elliptic genus other than the case of the lemniscate. In the case of $\delta = \epsilon = 1$, We see that $P_\p(t) = 1 - 2 t^2 + t^4 = (1 - t^2)^2$, so the corresponding elliptic genus $\p$ is determined by the data
-\[\log_{\p}(x) = \int_0^x \frac{dt}{1 - t^2} = \tanh^{-1}(x),\]
-\[ \Rightarrow \exp_\p (x) = \tanh(x) \Rightarrow Q(x) = \frac{x}{\tanh(x)},\]
-which means $\p$ is precisely the $L$-genus which assigns to any manifold [up to oriented cobordism] its signature. The signature is an especially useful example because it has many desirable properties to take inspiration from. For instance, the signature maintains a stronger kind of multiplicative property over fiber bundles as shown by \cite{Chern_Hirzebruch_Serre_1957}: under particularly nice conditions, when $E \to B$ is a principal-$G$ bundle and $G$ acts on a manifold $M$, $\text{signature}(E \times_G M) = \text{signature}(B) \text{signature}(M) $. This property has broader analogues among elliptic genera:
-
-\begin{theorem}
-    Take$\p$ an elliptic genus, $E \to B$ a principal bundle with fiber $G$ a compact connected Lie group, $B$ closed and oriented manifold, and $V$ some closed spin manifold with a smooth $G$-action. Then $\p(E \times_G V) = \p(B) \p(V)$. 
-\end{theorem}
-This result is equivalent to the Rigidity Theorem, conjectured by Witten and proved by Bott and Taubes in \cite{Bott_Taubes_1989}. A more direct and perhaps satisfying analogue is to note that in the case of $\xi: E \to B$ a complex vector bundle of dimension $k$, $\mathbb{CP}(\xi)$ its projectivization fiberwise [a fiber bundle over the unitary group $U(k)$], we can use multiplicativty of signature over fiber bndles to get $\text{signature} [\mathbb{CP}(\xi)] = \text{signature}(B) \text{signature}(\mathbb{CP}^{k-1})$. In the case where $k$ is even $\Rightarrow k - 1$ odd, this must equal $0$ since $\mathbb{CP}^{k-1}$ is a nullbordant space. Ochanine in \cite{Ochanine_1987}:
-
-\begin{theorem}
-    A genus $\p$ is elliptic if and only if $\p(\mathbb{CP}[\xi]) = 0$ for all $\xi$ even-dimensional complex vector bundles.
-\end{theorem}
-
-\subsection{Connecting Elliptic Curves and Elliptic Functions}
+\subsection{Elliptic Curves Correspond to Elliptic Functions}
 
 Any reader who has experienced the slightest brush with number theory, algebraic geometry, or even cryptography is likely to have encountered the following rich object of inquiry:
 
 \begin{definition}
-    An \textbf{elliptic curve} is a smooth curve of genus $1$ with a distinguished point in the projective plane. In the case where the underlying field of the plane is not of characteristic $2$ or $3$,  its points $[x: y] \in \mathbb{P}^2$ recognizably satisfy $y^2 = x^3 + ax +b$ for some choice of $a, b$. 
+    An \textbf{elliptic curve} is a smooth curve of genus $1$ with a distinguished point in the projective plane. 
 \end{definition}
-
-A student in an introductory complex analysis class is also likely to see the following phenomena:
+In the case where the underlying field of the plane is not of characteristic $2$ or $3$,  its points $[x: y] \in \mathbb{P}^2$ satisfy $y^2 = x^3 + ax +b$ for some choice of $a, b$, which is perhaps a more recognizable definition of an elliptic curve. A student in an introductory complex analysis class is also likely to see the following phenomena:
 
 \begin{definition}
-A meromorphic function  $f: \mathbb{C} \to \mathbb{C}$ is an \textbf{elliptic function} precisely when it is doubly periodic, that is, when there are two $\omega_1, \omega_2 \in \mathbb{C}$ such that $\omega_2/\omega_1 \notin \mathbb{R} \cup \{\infty \}$ and $f(z + a \omega_1 + b \omega_2) = f(z)$ $\forall z \in \mathbb{C}, a, b \in \mathbb{Z}$. $L = \{a \omega_1 + b \omega_2 \mid a, b \in \mathbb{Z} \}$ is its corresponding \textbf{period lattice}; one can therefore also define an elliptic function as a meromorphic function out of the quotient $\mathbb{C} / L$, which is homeomorphic to a torus and can be characterized by the \textbf{fundamental domain} $\{ a \omega_1 + b \omega_2 \mid 0 \leq a, b \leq 1\}$ [a parallelogram]. 
+A meromorphic function  $f: \mathbb{C} \to \mathbb{C}$ is an \textbf{elliptic function} precisely when it is doubly periodic, that is, when there are two $\omega_1, \omega_2 \in \mathbb{C}$ such that $\omega_2/\omega_1 \notin \mathbb{R} \cup \{\infty \}$ and $f(z + a \omega_1 + b \omega_2) = f(z)$ $\forall z \in \mathbb{C}, a, b \in \mathbb{Z}$. $L = \{a \omega_1 + b \omega_2 \mid a, b \in \mathbb{Z} \}$ is its corresponding \textbf{period lattice}; one can therefore also define an elliptic function as a meromorphic function out of the quotient $\mathbb{C} / L$, which is homeomorphic to a torus and can be characterized by the \textbf{fundamental domain} $\{ a \omega_1 + b \omega_2 \mid 0 \leq a, b \leq 1\}$ (a parallelogram). 
 \end{definition}
 
 And maybe even has encountered the following definition, confusing when compared to the one above:
@@ -192,13 +22,13 @@ And maybe even has encountered the following definition, confusing when compared
     In the context of complex analysis, an \textbf{elliptic curve} is a quotient $\mathbb{C} / L$ where $L$ is some lattice as defined above, or equivalently, the embedding of a torus into the complex projective plane. 
 \end{definition}
 
-A usual part of the pedagogy for both concepts is to note that they emerged in the study of the arc length of ellipses i.e. in examining exactly the kinds of elliptic integrals we have been examining above. It is usually very unclear from a student's how these topics are related; our goal is to use the elliptic genus to exhibit this connection. 
+A usual part of the pedagogy for both concepts is to note that they emerged in the study of the arc length of ellipses i.e. in examining exactly the kinds of elliptic integrals we have been examining above. It is usually very unclear from a student's perspective how these topics are related; our goal is to use the elliptic genus to exhibit this connection. 
 
-The first thing to get straight is this strange incongruency between our two separate definitions of an elliptic curve. Once we do so, it will be clear to see how elliptic functions relate to elliptic curves; they are functions on elliptic curves [as defined in the $\mathbb{C}/ L$ sense]. It is not so hard to see that an "algebraic" elliptic curve gives us a "complex" one when accepting general definition of an elliptic curve as a genus $1$ Riemann surface, at which point it is analytically isomorphic to a torus. A more intuitive and evocative picture comes straight out of the equational description in the case where $x^3 + ax + b = (x - e_1) (x - e_2) (x - e_3)$  has three distinct roots. In this case, we can think about $y = \pm \sqrt{x^3 + ax + b}$ as two sheeted, where reach sheet is the projectivization of the plane i.e. the Riemann sphere. For positive and negative to be well-defined on the complex plane for square roots, however, we need branch cuts, say one from $e_1 $ to $e_2$ and another from $e_3$ to $\infty$. It is not hard to see that a [Riemann] sphere with two cuts is homeomorphic to a cylinder $S^1 \times [0, 1]$, where each side of the boundary is one of the branch cuts. Then to form the entire elliptic curve, the positive and negative sheets are "glued together at the $0$s" i.e. along the branch cuts. This corresponds to gluing the cylinders together by their ends, forming a torus. The following diagram from \cite{Gulden_Janas_Kamenev_2014} may help\footnote{If the reader has access to it, I also strongly recommend looking at the diagram in \cite{Penrose_2004} p. 137}:
+The first thing to get straight is this strange incongruency between our two separate definitions of an elliptic curve. Once we do so, it will be clear to see how elliptic functions relate to elliptic curves; they are functions on elliptic curves (as defined in the $\mathbb{C}/ L$ sense). It is not so hard to see that an ``algebraic" elliptic curve gives us a ``complex" one when accepting general definition of an elliptic curve as a genus $1$ Riemann surface, at which point it is analytically isomorphic to a torus. A more intuitive and evocative picture comes straight out of the equational description in the case where $x^3 + ax + b = (x - e_1) (x - e_2) (x - e_3)$  has three distinct roots. In this case, we can think about $y = \pm \sqrt{x^3 + ax + b}$ as two-sheeted, where each sheet is the projectivization of the plane i.e. the Riemann sphere. For positive and negative to be well-defined on the complex plane for square roots, however, we need branch cuts, say one from $e_1 $ to $e_2$ and another from $e_3$ to $\infty$. It is not hard to see that a Riemann sphere with two cuts is homeomorphic to a cylinder $S^1 \times [0, 1]$, where each side of the boundary is one of the branch cuts. Then to form the entire elliptic curve, the positive and negative sheets are ``glued together at the $0$s" i.e. along the branch cuts. This corresponds to gluing the cylinders together by their ends, forming a torus. The following diagram from \cite{Gulden_Janas_Kamenev_2014} may help\footnote{If the reader has access to it, I also strongly recommend looking at the diagram in \cite{Penrose_2004} p. 137}:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.75\linewidth]{figs/Elliptic-Gluing.jpg}
+    \includegraphics[width=0.75\linewidth]{Elliptic Gluing.jpg}
     \label{fig:placeholder}
 \end{figure}
 
@@ -223,50 +53,270 @@ With this noted, we may now state:
 \end{proposition}
 
 \begin{proof}
-    Since the series is absolutely convergent and $\frac{1}{([-z] - \omega)^2} - \frac{1}{\omega^2} = \frac{1}{(z + \omega^2)} - \frac{1}{\omega^2}$ for any $\omega$, substituting $-z$ for $z$ merely rearranges the terms of the sum and so maintains the same value $\wp(-z) = \wp(z)$. To show that it is elliptic, we look at the derivative
+    Since the series is absolutely convergent and $\frac{1}{((-z) - \omega)^2} - \frac{1}{\omega^2} = \frac{1}{(z + \omega^2)} - \frac{1}{\omega^2}$ for any $\omega$, substituting $-z$ for $z$ merely rearranges the terms of the sum and so maintains the same value $\wp(-z) = \wp(z)$. To show that it is elliptic, we look at the derivative
 
 \[\wp'(z) = \sum_{\omega \in L}{\frac{-2}{(z - \omega)^3}}:\]
-    It is evident that $\wp'$ is periodic on $L$, since any perturbation by $q \in L$ merely rearranges the terms, no problem by continued absolute convergence. Therefore, $\wp(z)$ and $\wp(z + \omega_1)$ [where $L$ the lattice is generated by $\omega_1, \omega_2$] have the same derivative everywhere and therefore may only differ by some constant; but $\wp(\omega_1/2) = \wp(- \omega_1/2) = \wp(\omega_1/2 - \omega_1)$, forcing that constant to be $0$ so $\wp(z) = \wp(z + \omega _1)$. A totally symmetric argument shows $\wp (z)  =\wp(z + \omega_2)$, showing $\wp$ elliptic as desired.   
+    It is evident that $\wp'$ is periodic on $L$, since any perturbation by $q \in L$ merely rearranges the terms, which does not change the sum by continued absolute convergence. Therefore, $\wp(z)$ and $\wp(z + \omega_1)$ (where $L$ the lattice is generated by $\omega_1, \omega_2$) have the same derivative everywhere and therefore may only differ by some constant; but $\wp(\omega_1/2) = \wp(- \omega_1/2) = \wp(\omega_1/2 - \omega_1)$, forcing that constant to be $0$ so $\wp(z) = \wp(z + \omega _1)$. A totally symmetric argument shows $\wp (z)  =\wp(z + \omega_2)$, showing $\wp$ elliptic as desired.   
 \end{proof}
 
 The Weierstrass function encodes the data of an algebraic elliptic curve through the following result:
 
 \begin{proposition}
     The Weierstrass $\wp$-function for any lattice $L$ satisfies the following differential equation:
-\[\wp' (z)^2 = 4 \wp(z)^3 - g_2 \wp(z)- g_3,\]where $g_2 = 60 \cdot \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^4}$, $g_3 = 140 \cdot \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^6}$. 
+\[\wp' (z)^2 = 4 \wp(z)^3 - g_2 \wp(z)- g_3,\]where $g_2 = 60 \cdot \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^4}$ and $g_3 = 140 \cdot \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^6}$. 
 \end{proposition}
 
 \begin{proof}[Sketch]
     The basic idea is to find the power series of $\wp(z)$ in terms of $p$. Using the power series for $\frac{1}{(z - c)^2} = \frac{1}{c^2} \cdot \frac{1}{(1 - \frac{z}{c})} = \frac{1}{c^2} (\sum_{n=1}^\infty  (z/c)^{n})^2$, we get
 
 \[\wp(z) = \frac{1}{z^2} + \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^2} \left( 1 + \frac{z}{\omega} \dots \right)^2 - \frac{1}{\omega^2},\]
-\[ = \frac{1}{z^2} + \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^2} \left( 1 + \frac{2 z}{\omega} + \dots \right) - \frac{1}{\omega^2}  = \frac{1}{z^2} + \sum_{\omega \in L \setminus \{ 0\}} [\frac{2z}{\omega^3} + \dots]\]
-and using this derive power series for $\wp(z)^3, \wp'(z)^2$. It can be checked by looking at the terms only of degree $\leq 0$ for $\wp, \wp^3, \wp'^2$ that $\wp'^2 - 4 \wp^3 + g_2 \wp + g_3$ only has terms of degree $2$ and up. But this means it is an elliptic function with no poles, therefore bounded [bounded certainly in the fundamental parallelogram by convexity, and then across all of $\mathbb{C}$ by periodicity], and thus by Liouville's theorem a constant, thus [by the expansion having no term of degree $0$] the difference equals $0$ as desired. For full details see \cite{Lang_1987}.
+\[ = \frac{1}{z^2} + \sum_{\omega \in L \setminus \{ 0\}} \frac{1}{\omega^2} \left( 1 + \frac{2 z}{\omega} + \dots \right) - \frac{1}{\omega^2}  = \frac{1}{z^2} + \sum_{\omega \in L \setminus \{ 0\}} \left( \frac{2z}{\omega^3} + \dots\right) \]
+and using this derive power series for $\wp(z)^3, \wp'(z)^2$. It can be checked by looking at the terms only of degree $\leq 0$ for $\wp, \wp^3, \wp'^2$ that $\wp'^2 - 4 \wp^3 + g_2 \wp + g_3$ only has terms of degree $2$ and up. But this means it is an elliptic function with no poles, therefore bounded [bounded certainly in the fundamental parallelogram by convexity, and then across all of $\mathbb{C}$ by periodicity], and thus by Liouville's theorem a constant, thus (by the expansion having no term of degree $0$) the difference equals $0$ as desired. For full details see \cite{Lang_1987}.
 \end{proof}
 
-Note that this differential equation is already in the form of an algebraic elliptic curve; what this tells us is that $ \{ (\wp(z): \wp'(z): 1) \mid z \in \mathbb{C} \} \subseteq \mathbb{CP}^2$ parameterizes an elliptic curve, giving a clear way to unite the different definitions of an elliptic curve \footnote{Indeed, this parameterization is a very valuable result when considering that nondegenerate elliptic curves cannot be rationally parameterized.}. It can be shown that every elliptic curve is given by form $4 \wp(z)^3 - g_2 \wp(z)- g_3$ for some choice of $L$. It is clear that we can recover a specific elliptic curve from any elliptic function [namely, the one that comprises its domain], and we have defined a specific elliptic function $\wp$ for any given elliptic curve. The following impressive result finishes this correspondence:
+Note that this differential equation is already in the form of an algebraic elliptic curve; what this tells us is that $ \{ (\wp(z): \wp'(z): 1) \mid z \in \mathbb{C} \} \subseteq \mathbb{CP}^2$ parameterizes an elliptic curve, giving a clear way to unite the different definitions of an elliptic curve \footnote{Indeed, this parameterization is a very valuable result when considering that nondegenerate elliptic curves cannot be rationally parameterized.}. It can be shown that every elliptic curve is given by form $4 \wp(z)^3 - g_2 \wp(z)- g_3$ for some choice of $L$. It is clear that we can recover a specific elliptic curve from any elliptic function (namely, the one that comprises its domain), and we have defined a specific elliptic function $\wp$ for any given elliptic curve. The following impressive result finishes this correspondence:
 
 \begin{theorem}
     Any elliptic function over a lattice $L$ can be written of form $A(\wp(z)) + B( \wp '(z))$ for some rational functions $A(z), B(z)$. 
 \end{theorem}
 
 \begin{proof}[Sketch]
-    We write any elliptic function as a sum of an odd and even elliptic function; an odd elliptic function evaluated on $\wp'$ is even [as $\text{odd} \circ \text{odd} = \text{even}$ for functions], so it suffices to show any even elliptic function is a rational function composed with $\wp$. This is done by counting the zeros and poles mod $L$; see \cite{Lang_1987} for the technical details.
+    We write any elliptic function as a sum of an odd and even elliptic function; an odd elliptic function evaluated on $\wp'$ is even (as $\text{odd} \circ \text{odd} = \text{even}$ for functions), so it suffices to show any even elliptic function is a rational function composed with $\wp$. This is done by counting the zeros and poles mod $L$; see \cite{Lang_1987} for the technical details.
 \end{proof}
+
+
+
+\subsection{Logarithms of Genera}
+We now turn to a slight expansion of our current general theory of genera, which will be needed to \textit{define} our useful notion of an elliptic genus. Throughout this section, we presume the codomain of a genus $\p: \Omega^{SO} \to R$ is a $\mathbb{Q}$-algebra, so it is uniquely determined by its values on $\Omega^{SO} \otimes \mathbb{Q}\cong \mathbb{Q}( [\mathbb{CP}^2], [\mathbb{CP}^4], \dots )$ (since any torsion will also vanish under $\p$). We are already aware of how an even $R$-coefficient power series series starting with $1$, $Q(x) = 1 + \sum_{i=1}^\infty a_{2i} x^{2i}$, through its multiplicative sequence determines a genus $\p_Q$. 
+
+It may still be unclear, however, whether this correspondence is one-to-one, or equivalently, whether one can recover $Q$ from some $\p_Q$. It is also not always  clear how to compute a large-degree multiplicative sequence out of a power series, and therefore we may wish for a more elegant way to specify genera and determine their values. Our short-term goal for this section will then be a way to provide this correspondence, and it turns out a simple modification brings all the needed characterization.
+
+Take our even power series $Q(x)$. Because our first term is $1 \neq 0$ (in fact any nonzero constant term is without loss of generality $1$ by scaling), we may take the algebraic reciprocal $1/Q(x)$ to be a power series as well (analytically, they would agree in some radius of convergence). The formula for computing coefficents gives the first coefficient of $1/Q(x) $ is $\frac{1}{a_0} = \frac{1}{1} = 1$, so $1/Q(x)$ has leading term $1$. Finally, $Q(x)$ is even, which is equivalent to $Q(x) = Q(-x)$, from which it follows $\frac{1}{Q(x)} = \frac{1}{Q(-x)}$ so $1/Q(x)$ is also an even power series with leading term $1$. Then $f(x) = x/ Q(x)$ is an odd power series with leading term $x$, so its first derivative is nonzero, which means that it can be formally inverted to some unique $g$ (see \cite{Niven_1969} for more details):
+
+\begin{definition}
+Given $\p_Q$ a genus defined some even power series $Q$, denote the compositional inverse power series of $f(x) = \frac{x}{Q(x)}$ as the \textbf{logarithm} of $\p_Q$, $\log_{\p_Q}(x)$. We correspondingly denote $f(x)$ the \textbf{exponent} of $\p_Q$ and denote it via $\exp_{\p_Q} (x)$.  
+\end{definition}
+
+The logarithm of a genus, despite only ever needing the data of $Q$, turns out to encode a great amount of information about $\p_Q$:
+
+\begin{proposition}
+    Given a genus $\p_Q$ defined by an even power series $Q$, we have that
+    \[\log_{\p_Q} (x) = x + \frac{\p_Q ([\mathbb{CP}^2])}{3} x^3 + \frac{\p_Q ([\mathbb{CP}^4])}{5} x^5 + \dots\]
+\end{proposition}
+
+\begin{proof}
+Recall that the total Pontyagrin class of $\mathbb{CP}^n$ is $(1 + h^2)^{2n+1}$, where $h \in H^2 (\mathbb{CP}^n, \mathbb{Z})$ is a hyperplane class; clearly, breaking the Pontyagrin class apart by degrees, it follows that $p_1 = h^2$ (up to a choice of scaling), so we can also write $p = (1 + p_1)^{n+1}$.  
+
+Then examining the multiplicative sequence $\{K_j \}$ defined from $Q$ using $(1 + p_1) \cdots (1 + p_1) = 1 + p_1 + \dots + p_n = (1 + p_1)^{n+1}$, using the property of multiplicative sequences we get
+
+\[K(p_1, \dots, p_n) = K(p_1)^{n+1}.\]
+But there only being one elementary symmetric polynomial of the $x_i^2$ (recall that that is what the multiplicative sequence of an even power series is defined as evaluating on) means there is only one formal variable $x_1$. So, writing the formulation of the multiplicative sequence $Q(x_1) \cdots Q(x_n)$ in the case where there is only one variable, we get $Q(x_1) = K(p_1)$. Therefore, recalling $\p([\mathbb{CP}^n]) = K_n (p_1, \dots, p_n)[\mathbb{CP}^n]$ and seeing that $1 + \dots + K_n(p_1, \dots, p_n) = K(p_1, \dots, p_n) =Q(x)^{n+1}$, it follows that $\p([\mathbb{CP}^n])$ should correspond to the coefficient of $x^n$ in the formal power series established by $Q(x)^{n+1}$. Here, \textit{in the case that $f$ converges}, complex analysis's connection to power series allows for computation via residue calculus, since via Cauchy's integral formula
+
+\[n^{\text{th}} \text{ coefficient of } Q(x)^{n+1} = \frac{1}{n!}  \left[ \frac{d^n}{dx^n} Q(x^{n+1}) \right] \Bigg{|}_{x = 0}  = \frac{1}{ 2 \pi i} \oint \frac{Q(x)^{n+1}}{x^{n+1}}  dx\]
+over some positively oriented curve around $0$ with winding number $1$. Using $\exp_{\p_Q}(x) = x/Q(x),$
+
+\[  =\frac{1}{ 2 \pi i} \oint \frac{1}{\exp_{\p_Q}(x)^{n+1}}  dx.\]
+We now perform a substitution $y = \exp_{\p_Q}(x),$ or equivalently $x = \log_{\p_Q}(y), dx = \log_{\p_Q}'(y) dy$. We have to change the contour of integration, but because $\exp_{\p_Q} (x)$ has leading term $x$ and the winding number is not sensitive to higher-order effects, its image is still some positively oriented curve around $0$ with winding number $1$. Thus, via calculus and re-applying the same correspondence used above, we get
+
+\[ = \frac{1}{2 \pi i} \oint \frac{\log'_{\p_Q} (y)}{y^{n+1}} dy = n^{\text{th}} \text{ coefficient of } \log_{\p_Q}'.\]
+We might here by worried that $f$ may not converge,  but it turns out we may define a \textit{formal residue} over formal power series with all the same properties which we use here to pass from $Q(x)^{n+1}$ to $\log'(y)$, so this proof  may be generalized to any case. Finally, by formal differentiation of power series
+
+\[ = (n+1)\text{ coefficient of } \log_{\p_Q} = \p_Q ([\mathbb{CP}^n])\]
+as desired.
+\end{proof}
+
+Therefore, given any genus $\p$, we can compute $\log_\p$ as a power series, compute $\exp_\p$, and compute $Q$ out of it. This completes the one-to-one correspondence of even power series with leading term $1$ and genera. One therefore is free to drop the specification of $Q$ off of $\p$ in general for ease of notation. It is also clear that given an odd power series $L(x)$ with leading term $x$, we can take $Q(x) = \frac{x}{L^{-1} (x)}$ as an even power series and define a genus of which $L$ is the logarithm, or take $Q(x) = x / L(x)$ and make a genus where $L$ is the exponent; therefore, we may also say there is a one-to-one correspondence between odd power series with leading term $x$ and genera. 
+
+
+\subsection{Computing the Arc Length of a Lemniscate}
+Our central problem of study will be to compute the various arc lengths of the \textit{lemniscate of Bernoulli}, a planar curve determined by two foci, coordinates chosen to be $(-a, 0)$ and $(a, 0)$ such that $2a$ [$a > 0$] is the distance between the foci, containing all points such that the product of the distances to each foci equals $a^2$. This curve is more familiar as the usual symbol for infinity: 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Lemniscate.png}
+    \caption{The Lemniscate of Bernoulli [$a = 7$]}
+\end{figure}
+
+
+[For an intuitive depiction of how the lemniscate is ``drawn" from this condition, I encourage the reader to visit \href{https://demonstrations.wolfram.com/LemniscatePlottingDevice/}{this Wolfram demonstration}]. We already know the distance of $(x, y)$ to $(-a, 0)$ is $\sqrt{(x + a)^2 + y^2}$, and likewise the distance to $(a, 0)$ is $\sqrt{(x - a)^2 + y^2}$. The product of these by definition is $a^2$, and squaring on both sides gives the lemniscate as the locus of the equation
+\[((x - a)^2 + y^2)  \cdot ((x + a)^2 + y^2) = (x^2 + y^2 - 2ax + a^2)(x^2 + y^2 + 2ax + a^2) = a^4.\]
+
+A classical problem for planar curves, famously simple for circles and complex for ellipses, is to find the \textit{arc length} along the curve between any two points on it. Exploiting the symmetry of the lemniscate, we can fix one of the points to be the origin, and any point of equal distance away from the origin suffices for the other point. Thus, we seek to characterize the distance from the origin to any point on the lemniscate with distance $r$ from the origin. First, writing $r^2 = x^2 + y^2$ to bring distance from the origin into the parameterization above, we get
+
+\[(r^2 +a^2 - 2ax )(r^2+ a^2 + 2ax) = (r^2 + a^2)^2 - (2ax)^2   = a^4,\]
+and algebra gives
+\[ r^4 + 2 a^2 r^2 - 4 a^2 x^2 = 0.\]
+Therefore, we have a parameterization of the $x$-coordinate of the lemniscate $x(r)$ such that $ 2 a^2 \cdot 2x(r)^2  = r^4 + 2 a^2  \cdot 
+r^2$ (the purpose of this odd way of writing the expression will become clear soon). We need the $y$-coordinate as well, and we get it by plugging in $x^2 = r^2 - y^2$:
+
+\[ r^4 + 2 a^2 r^2 - 4 a^2 (r^2 - y^2) = r^4 - 2 a^2 r^2 - 4a^2 y^2 = 0   ,\]
+so we have $y(r)$ such that $ 2a^2 \cdot 2y(r)^2 =  2a^2 \cdot r^2 - r^4$. We can now take derivatives with respect to $r$ to get
+
+\[  2a^2 \cdot 4x(r) x'(r) = 4r^3 + 2 \cdot 2a^2 \cdot r, \]
+so 
+\[ 2a^2 \cdot 2x(r) x'(r) = 2r^3 + 2 a^2 \cdot r\]
+and symmetrically
+\[ 2a^2 \cdot 2 y(r) y'(r) = 2a^2 \cdot r - 2r^3.\]
+
+Using this, we can prove the arc length formula:
+
+\begin{proposition}
+For the lemniscate of Bernoulli defined with respect to parameter $a > 0$, its arc length from the origin to a point of distance $r$ away is 
+
+\[ \sqrt{2a^2} \int_0^{r / \sqrt{2a^2} }  \frac{du} {\sqrt{1 -  u^4}}  . \]
+\end{proposition}
+
+\begin{proof}
+This reduces to a computation by the above parameterization and the formula for arc length from elementary calculus. First, taking derivatives,
+\[x'(r)^2 = \frac{(2a^2 \cdot r + 2 r^3)^2}{(2a^2 \cdot 2 y(r))^2} = \frac{r^2 (2a^2 + 2r^2)^2}{2a^2 \cdot 2 (2a^2 \cdot 2 y(r)^2)} =  \frac{r^2 (2a^2 + 2r^2)^2}{2a^2 \cdot 2 (r^4 + 2a^2 \cdot r^2) } \]
+\[ = \frac{(2a^2 + 2r^2)^2}{2a^2 \cdot 2(r^2 + 2a^2) } \]
+
+and analogously
+\[y'(r)^2 =  \frac{(2a^2 - 2r^2)^2}{2a^2 \cdot 2(2a^2 - r^2) } .\]
+Then (and this is where keeping the $2a^2$ term separate starts to becomes useful)
+
+\[ x'(r)^2 + y'(r)^2 = \frac{(2a^2 + 2r^2)^2  (2a^2 - r^2) +  (2a^2 - 2r^2)^2 (r^2 + 2a^2)} {2a^2 \cdot 2 (r^2 + 2a^2) (2a^2 - r^2)}, \]
+\[ =  \frac{16 a^6} {2a^2 \cdot 2 ((2a^2)^2 - r^4) }  =  \frac{(2a^2)^2} {(2a^2)^2 - r^4 }\]
+and thus, by the formula for arc length, the arc length of the lemniscate is
+
+\[\int_0^r \sqrt{x'(t)^2 + y'(t)^2}  \ dt = \int_0^r \frac{2a^2} { \sqrt{(2a^2)^2 - t^4 }}  \  dt .\]
+The $2a^2$ now cleanly separates out by a $u$-substitution $t^2 = 2a^2 \cdot u^2, dt = \sqrt{2a^2}    \ du;$
+
+\[ = \int_0^{r / \sqrt{2a^2} }  \frac{2a^2} { \sqrt{(2a^2)^2 - (2a^2)^2 u^4}}  \  \sqrt{2a^2} du  \]
+\[= \int_0^{r / \sqrt{2a^2} }  \frac{2a^2} { 2a^2 \sqrt{1 -  u^4}}  \  \sqrt{2a^2} du   ,\]
+\[ =  \sqrt{2a^2} \int_0^{r / \sqrt{2a^2} }  \frac{du} {\sqrt{1 -  u^4}}\]
+as desired.
+\end{proof}
+ We will take as standard the case of $2a^2 = 1$, analyzing the cleaner integral for various choices of $r$
+\[\int_0^r \frac{dt}{\sqrt{1 - t^4}},\]
+and we see from the above formulation that all other cases are obtained by scaling and a different choice of $r$, as would intuitively make sense for increasing the lemniscate while holding the distance from the origin the same. The above integral falls into a larger, well-known family:
+
+\begin{definition}
+    An integral of form $\int_0^r \frac{dt}{\sqrt{P(t)}}$, where $P(t) = 1 - 2 \delta t^2 + \epsilon t^4 $ is a polynomial of degree $\leq 4$ with no repeated roots, is an \textbf{elliptic integral}.
+\end{definition}
+
+Specifically, the arc length formula above is an elliptic integral where $\delta = 0, \epsilon = -1$, and the roots $\pm 1, \pm i$ of $1 - t^4$ are distinct. We hit a major obstruction in our so-far elementary approach inasmuch as most elliptic integrals do not have solutions expressible in elementary functions. To learn anything more about them will require a change in perspective.
+
+\subsection{Elliptic Genera and their Properties}
+
+Focusing on the integrand $\frac{1}{\sqrt{P(t)}}$, we know $P(t)$ is a formal power series (with terms higher than $4$ having coefficient $0$). The square root of a formal power series can be expressed as a power series (see \cite{Niven_1969}), so the entire integrand is a formal power series. Furthermore, clearly $P(t)$ is even and so $\frac{1}{\sqrt{P(-t)}} = \frac{1}{\sqrt{P(t)}}$, so the integrand is an even power series with constant term is just $\frac{1}{\sqrt{P(0)}} = \frac{1}{1} = 1$. Taking formal antidifferentiation, we get that the elliptic integral  $\int_0^r \frac{dt}{\sqrt{P(t)}}$ is a formal power series of $r$  which is odd and has leading term $x$. This leads to the natural definition:
+
+\begin{definition}
+    A genus $\p: \Omega^{\text{SO}} \to R$ is \textbf{elliptic} precisely when its logarithm is of form 
+    \[\log_\p (x) = \int_0^x \frac{dt}{\sqrt{1 - 2 \delta t^2 + \epsilon t^4}}\]
+for some $\delta, \epsilon \in R$. We call the term under the radical $P_\p (t)$.
+\end{definition}
+
+The following clean equivalent definition will be of use later, when verifying a particular kind of genus is elliptic: 
+\begin{proposition}
+    A genus $\p: \Omega^{\text{SO}} \to R$ taking values in some $\mathbb{Q}$-algebra is an elliptic genus if and only if the differential equation $(\exp_\p ')^2 = P(\exp_\p)$ holds for some $P$ of form $1 - 2 \delta t^2 + \epsilon t^4$.
+\end{proposition}
+
+\begin{proof}
+First, suppose $\p$ is an elliptic genus as defined above. Using the Fundamental Theory of Calculus on a formal level, it follows $\log_\p'(x) = \frac{1}{P(x)}$ for $P(t) = 1 - 2 \delta t^2 + \epsilon t^4$. Then
+
+\[\log'_\p (\exp_\p(y)) = \frac{1}{\sqrt{P(\exp_\p (y))}},\]
+so via rearranging
+\[ P (\exp_\p (y)) = \frac{1}{ (\log'_\p (\exp_\p(y)))^2} .\]
+But since $\exp_\p$, $\log_\p$ are inverses, $\log_\p (\exp_\p (y)) = y$.  Applying Chain Rule, it follows $\exp_\p' (y) \cdot \log_\p' (\exp_\p (y)) = 1$, so $\exp'_\p = \frac{1}{\log_\p' (\exp_\p (y)) }$. Thus substitution gives
+\[P(\exp_\p) = (\exp_\p')^2\]
+as desired. Now, suppose for some genus that  $(\exp_\p ')^2 = P(\exp_\p)$. But as we showed above $\log_\p'(x)  = \frac{1}{\exp_\p' (\log_\p(x))} = \frac{1}{\sqrt{P(\exp_\p (\log_\p (x)))}} = \frac{1}{\sqrt{P(x)}} $, so via anti-differentiation $ \log_\p (x) = \int \frac{1}{\sqrt{P(x)}}$ as desired. 
+\end{proof}
+
+Elliptic genera attain a host of desirable properties which we will now focus on, further justifying their existence. For example, their exponentials have a nice representation under addition:
+
+\begin{proposition}
+    For any elliptic genus $\p$,
+    \[\exp_\p(x + y) = \frac{\exp_\p (x) \exp_\p' (y) + \exp_\p' (x) \exp_\p yx)    }{1 - \epsilon \exp_\p (x)^2 \exp_\p (y)^2  }.\]
+\end{proposition}
+
+\begin{proof}
+    We derive this from the differential equation $(\exp_\p ')^2 = P(\exp_\p)$. Write $f:=\exp_\p $and
+\[ R(x, y):= \frac{\exp_\p (x) \exp_\p' (y) + \exp_\p' (x) \exp_\p (y)    }{1 - \epsilon \exp_\p (x)^2 \exp_\p (y)^2  }.\]
+We have the total differential $dR(x, y) = \frac{\partial R}{\partial x} dx + \frac{\partial R}{\partial y} dy$. By excruciating calculus, we get
+
+\[(1 - \epsilon f(x)^2 f(y)^2)^2 \frac{\partial R}{\partial x} = [f'(x) f'(y) + f''(x) f(y)] \cdot [1 - \epsilon f(x)^2 f(y)^2]\]
+\[ - [f(x) f'(y) + f'(x) f(y) ] \cdot [-2 \epsilon f(x) f'(x) f(y)^2],\]
+\[ = f'(x) f'(y) - \epsilon f(x)^2 f(y)^2 f'(x) f'(y) + f(y)  f''(x) - \epsilon f(x)^2 f(y)^3 f''(x)\]
+\[ + 2 \epsilon f(x)^2 f(y)^2 f'(x) f'(y) + 2 \epsilon f(x) f(y)^3 f'(x)^2 \]
+To simplify things down to the part that matters, we're only going to compute the \textit{non-symmetric} part of this derivative, treating any symmetric part as $0$ (a formal way of talking about this is considering this computation to be over the group of functions in $x, y$ and quotienting out by the subgroup of symmetric functions:)
+
+\[ \equiv f(y)  f''(x) - \epsilon f(x)^2 f(y)^3 f''(x)   + 2 \epsilon f(x) f(y)^3 f'(x)^2 \]
+
+
+    The only really mysterious piece here is $f''(x)$, but we can compute this from the differential equation:
+    \[f'(x)^2 = 1 -2 \delta f(x)^2 + \epsilon f(x)^4,\]
+    so by taking derivatives
+\[ 2 f'(x) f''(x) = -4 \delta f(x) f'(x) + 4 \epsilon f(x)^3 f'(x),\]
+from which it follows
+\[ f''(x) = -2 \delta f(x) + 2 \epsilon f(x)^3.\]
+We substitute this into the above equation, still only interested in the non-symmetric part:
+
+\[(1 - \epsilon f(x)^2 f(y)^2)^2 \frac{\partial R}{\partial x} \equiv f(y)(-2 \delta f(x) + 2 \epsilon f(x)^3)  - \epsilon f(x)^2 f(y)^3 (-2 \delta f(x) + 2 \epsilon f(x)^3) +\]
+\[   2 \epsilon f(x) f(y)^3 f'(x)^2 ,\]
+\[ = -2 \delta f(x) f(y) + 2 \epsilon f(x)^3 f(y) + 2 \delta \epsilon f(x)^3 f(y)^3 - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 f'(x)^2 ,\]
+\[ \equiv 2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 f'(x)^2  .\]
+We now substitute in $f'^2 = 1 - 2 \delta f^2 + \epsilon f^4$;
+\[ =  2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3 + 2 \epsilon f(x) f(y)^3 [1 - 2 \delta f(x)^2 + \epsilon f(x)^4]  , \]
+\[ =  2 \epsilon f(x)^3 f(y) - 2 \epsilon^2 f(x)^5 f(y)^3  +  2 \epsilon f(x) f(y)^3  - 4 \delta \epsilon f(x)^3 f(y)^3 + 2\epsilon^2 f(x)^5 f(y)^3, \]
+\[ = (2 \epsilon f(x)^3 f(y)  +  2 \epsilon f(x) f(y)^3  ) - 4 \delta \epsilon f(x)^3 f(y)^3 ,\]
+\[ \equiv 0.\]
+Thus $(1 - \epsilon f(x)^2 f(y)^2) \cdot \frac{\partial R}{\partial x}$ is symmetric. Since $(1 - \epsilon f(x)^2 f(y)^2) $ is never $0$ in this context, we can divide by it and get that $\frac{\partial R}{\partial x}$ is symmetric and write it as $s(x, y)$. But clearly $s(x, y) = s(y, x) = \frac{\partial R}{\partial y}$ as well, so now $dR(x, y) = s(x, y) dx + s(x, y) dy = dR(x, y) \cdot d[x + y]$. Now, along the curve $x + y = c$, we get $dR(x, y) = s(x, y) \cdot 0 = 0$, from which it follows that $R(x, y)$ is constant along this curve. To determine which constant, we evaluate
+
+\[R(0, c) =  \frac{\exp_\p (0) \exp_\p' (c) + \exp_\p' (0) \exp_\p (c)    }{1 - \epsilon \exp_\p (0)^2 \exp_\p (c)^2  } .\]
+
+But since $\exp_\p$ is an odd power series with leading term $x$ it evaluates to $0$ at $0$ and its derivative evaluates to $1$, so $ = \frac{\exp_\p (c)}{1} = \exp_\p (x + y)$. Since this is true for any choice of $c$ and consequently for any choice of $(x, y)$, we get $\exp_\p (x + y) = R(x, y)$ exactly as desired.
+\end{proof}
+
+Although this formula may seem obscure, it was discovered by Euler in connection to very concrete mathematical problems. For instance, Giulio Fagano was classically interested in the \textit{duplication of the arc}; given some arc $A$ of the lemniscate, he wanted to find the distance where the length of the arc from the origin was twice $A$, and in particular see whether that distance had a nice relation to the original distance defining $A$ (in particular, whether it was constructible in Euclidean geometry). So say we have the arc which begins at $0$ and ends at some distance $r$ away from the origin, so the arc length is $\int_0^r \frac{1}{\sqrt{1 - t^4}}$  (again, an elliptic curve for $\delta = 0, \epsilon = -1$). We can write this distance as $x = \log_\p (r)$, so $r = \exp_\p (x)$. The parameter we are interested in is 
+\[\exp_\p (2x) = \exp_\p (x + x) = \frac{2\exp_\p(x) \exp_\p'(x)}{1 + \exp_\p(x)^4}.\]
+Utilizing $\exp^{'2}_\p = P(\exp_\p)$ i.e. $\exp'_\p = \sqrt{P(\exp_\p)}$ and $r = \exp_\p (x)$, we get
+
+\[ =\frac{2r \sqrt{1 - r^4} }{1 + r^4}.\]
+Noting that sums, products, and square roots are all derivable in Euclidean geometry gives a positive resolution to this line of inquiry. 
+
+We conclude this sequence by directing the reader to a bevy of desirable properties and results about elliptic genera. For instance, one may still wonder at this point whether $\delta$ and $\epsilon$ have any direct meaning with respect to the genus (and in particular why we've chosen to adopt $P(t) = 1 - 2 \delta t^2 + \epsilon t^4$ with an unnatural coefficient in the second term). The answer for $\delta$ can already made apparent; taking the expansion of $[\log_{\p} (x)]' = \frac{1}{\sqrt{1 - 2 \delta x^2 + \epsilon x^4}} = 1 + \delta x^2 + \dots$ immediately gives by recalling that $\log_\p (x) = x + \frac{\p([\mathbb{CP}^2])}{3} x^3 + \dots $ that $\p ([\mathbb{CP}^2]) = \delta$. Similarly, for $\mathbb{HP}^2$ the quaternionic projective plane one can show that $\p([\mathbb{HP}^2]) = \epsilon$. For this computation see \cite{MMF}.  
+  
+We are secretly already familiar with another elliptic genus other than the case of the lemniscate:
+
+\begin{proposition}
+    The $L$-genus [i.e. the genus which evaluates any oriented cobordism class of manifolds to its signature] is an elliptic genus.
+\end{proposition}
+
+\begin{proof}
+    In the case of $\delta = \epsilon = 1$, We see that $P_\p(t) = 1 - 2 t^2 + t^4 = (1 - t^2)^2$, so the corresponding elliptic genus $\p$ is determined by the data
+\[\log_{\p}(x) = \int_0^x \frac{dt}{1 - t^2} = \tanh^{-1}(x),\]
+so via compositional inverse
+\[  \exp_\p (x) = \tanh(x) \] so 
+\[ Q(x) = \frac{x}{\tanh(x)},\]
+which we have previously proven is the power series determining the $L$-genus.
+\end{proof}
+
+This is inspiring, since the signature is has many desirable properties to take inspiration from. For instance, the signature maintains a stronger kind of multiplicative property over fiber bundles as shown by \cite{Chern_Hirzebruch_Serre_1957}: under particularly nice conditions, when $E \to B$ is a principal-$G$ bundle and $G$ acts on a manifold $M$, $\text{signature}(E \times_G M) = \text{signature}(B) \text{signature}(M) $. This property has broader analogues among elliptic genera:
+
+\begin{theorem}
+    Take $\p$ an elliptic genus, $E \to B$ a principal bundle with fiber $G$ a compact connected Lie group, $B$ closed and oriented manifold, and $V$ some closed spin manifold with a smooth $G$-action. Then $\p(E \times_G V) = \p(B) \p(V)$. 
+\end{theorem}
+This result is equivalent to the Rigidity Theorem\footnote{This theorem is normally presented in much more complicated form, involving elliptic operators from partial differential equations and sequences of representations. It is not expected for the reader to know of this alternative statement.}, conjectured by Witten and proved by Bott and Taubes in \cite{Bott_Taubes_1989}. A more direct and perhaps satisfying analogue is to note that in the case of $\xi: E \to B$ a complex vector bundle of dimension $k$, $\mathbb{CP}(\xi)$ its projectivization fiberwise (a fiber bundle over the unitary group $U(k)$), we can use multiplicativity of signature over fiber bundles to get $\text{signature} [\mathbb{CP}(\xi)] = \text{signature}(B) \text{signature}(\mathbb{CP}^{k-1})$. In the case where $k$ is even [$k - 1$ odd], this must equal $0$ since $\mathbb{CP}^{k-1}$ is a nullbordant space. Ochanine in \cite{Ochanine_1987} shows this intuition is essential to the nature of elliptic genera:
+
+\begin{theorem}
+    A genus $\p$ is elliptic if and only if $\p(\mathbb{CP}[\xi]) = 0$ for all $\xi$ even-dimensional complex vector bundles.
+\end{theorem}
+
 
 \subsection{Connecting Elliptic Curves to Elliptic Genera}
 
-We now have a bridge between elliptic genera and elliptic curves, as well as between elliptic curves and elliptic functions. All that remains to complete our project of understanding the "elliptic" nature of these object is to show that a concept from one side connects to a concept from another side. The most straightforward way to do this is to show that the data of an elliptic curve can be used to create some elliptic genus. Fix some lattice $L = \{a \omega_1 + b \omega_2 \}$ corresponding to an elliptic curve $\mathbb{C} / L$ and form its $\wp$-function $\wp: \mathbb{C} / L \to \mathbb{C}$. We see that $\wp$ has exactly one pole of order two on $\mathbb{C} / L$ [by its power series], so $\wp'$ has a pole of order three. We use the following result of Liouville:
+We now have a bridge between elliptic genera and elliptic curves, as well as between elliptic curves and elliptic functions. All that remains to complete our project of understanding the ``elliptic" nature of these object is to show that a concept from one side connects to a concept from another side. The most straightforward way to do this is to show that the data of an elliptic curve can be used to create some elliptic genus. Fix some lattice $L = \{a \omega_1 + b \omega_2 \}$ corresponding to an elliptic curve $\mathbb{C} / L$ and form its $\wp$-function $\wp: \mathbb{C} / L \to \mathbb{C}$. We see that $\wp$ has exactly one pole of order two on $\mathbb{C} / L$ (by its power series), so $\wp'$ has a pole of order three. We use the following result of Liouville:
 
 \begin{lemma}
-    For any non-constant elliptic function $f: \mathbb{C} / L \to \mathbb{C}$, $f$ has the same number of zeroes and poles [both counting multiplicity].
+    For any non-constant elliptic function $f: \mathbb{C} / L \to \mathbb{C}$, $f$ has the same number of zeroes and poles (both counting multiplicity).
 \end{lemma}
 
 \begin{proof}[Sketch]
     Consider $f' / f$, which is clearly also an elliptic function defined out of $\mathbb{C}/L$. Another result of Liouville's gives that the sum of the residues of poles of an elliptic function must be zero; but by the Argument Principle, this sum is also the number of zeroes of $f$ minus the number of poles of $f$.
 \end{proof}
 
-Therefore, we expect $\wp'$ to have three zeroes. Now, for any $z \in \mathbb{C}$ such that $2z \in L$, it follows from $\wp'$ being odd [the derivative of an even function] that $\wp'(z) = \wp'(z - 2z) =\wp'(-z) = - \wp'(z) $, which forces $\wp'(z) = 0$ or $\infty$. There are four such points in the fundamental parallelogram: $0, \omega_1/2, \omega_2/2, $ and $(\omega_1 + \omega_2)/2$, and since only $0$ is a pole the rest must be exactly the three zeroes of $\wp'$.  It follows that these three points cannot be poles of $\wp$, else they would be poles of $\wp'$; thus we can label
+Therefore, we expect $\wp'$ to have three zeroes. Now, for any $z \in \mathbb{C}$ such that $2z \in L$, it follows from $\wp'$ being odd (as the derivative of an even function) that $\wp'(z) = \wp'(z - 2z) =\wp'(-z) = - \wp'(z) $, which forces $\wp'(z) = 0$ or $\infty$. There are four such points in the fundamental parallelogram: $0, \omega_1/2, \omega_2/2, $ and $(\omega_1 + \omega_2)/2$, and since only $0$ is a pole the rest must be exactly the three zeroes of $\wp'$.  It follows that these three points cannot be poles of $\wp$, else they would be poles of $\wp'$; thus we can label
 \[e_1 := \wp(\omega_1/2), e_2:=\wp(\omega_2/2), e_3 := \wp([\omega_1 + \omega_2]/2).\]
 Since $0, \omega_1/2, \omega_2/2, $ and $(\omega_1 + \omega_2)/2$ are exactly the zeroes of $\wp$' and therefore also of $\wp' (z)^2 = 4 \wp(z)^3 - g_2 \wp(z)- g_3,$ it follows that we get a factorization
 \[4 \wp(z)^3 - g_2 \wp(z)- g_3 = 4(\wp(z) - e_1) (\wp(z)  - e_2) (\wp(z) - e_3)\]
@@ -274,14 +324,14 @@ which multiplies out to
 \[e_1 + e_2 + e_3 = 0,\]
 \[4(e_1 e_2 + e_1 e_3 + e_2 e_3) = - g_2,\]
 \[ 4 e_1 e_2 e_3 = g_3 .\]
-Finally, remark that since $\wp$ has a pole of order $2$, it takes each value twice up to multiplicity, and the points at which those values coincide at the same point [i.e. $\wp(z) - x$ has a double zero] exactly correspond to those values on which $\wp'(z) = 0$ so $x = e_1, e_2, e_3$ exactly. 
+Finally, remark that since $\wp$ has a pole of order $2$, it takes each value twice up to multiplicity, and the points at which those values coincide at the same point (i.e. $\wp(z) - x$ has a double zero) exactly correspond to those values on which $\wp'(z) = 0$ so $x = e_1, e_2, e_3$ exactly. 
 
-Thus, the function $\wp(z) - e_1: \mathbb{C}/L \to \mathbb{C}$ admits a double zero and so can be written as $(z - \omega_1/2)^2 h(z)$, where $h(z)$ is holomorphic and nonzero at $\omega_1/2$. Since we are working with domain $\mathbb{C}/L$, in fact, $h(z)$ is nonzero everywhere, so up to a sign we can pick a nonzero holomorphic $\sqrt{h(z)}$. This in turn gives us a choice of $\sqrt{\wp(z) - e_1} = (z - \omega_1/2)  \sqrt{h(z)}$ [whose only $0$ is at $\omega_1/2$]; let's go on ahead and fix this sign by taking $\sqrt{\wp(z) - e_1} = \sqrt{\frac{1}{z^2} - e_1 + \dots} = \frac{1}{z} + \dots$. In turn we get
+Thus, the function $\wp(z) - e_1: \mathbb{C}/L \to \mathbb{C}$ admits a double zero and so can be written as $(z - \omega_1/2)^2 h(z)$, where $h(z)$ is holomorphic and nonzero at $\omega_1/2$. Since we are working with domain $\mathbb{C}/L$, in fact, $h(z)$ is nonzero everywhere, so up to a sign we can pick a nonzero holomorphic $\sqrt{h(z)}$. This in turn gives us a choice of $\sqrt{\wp(z) - e_1} = (z - \omega_1/2)  \sqrt{h(z)}$ (whose only $0$ is at $\omega_1/2$); let's go on ahead and fix this sign by taking $\sqrt{\wp(z) - e_1} = \sqrt{\frac{1}{z^2} - e_1 + \dots} = \frac{1}{z} + \dots$. In turn we get
 
 \[\frac{1}{\sqrt{\wp(z) - e_1}} = \frac{1}{(z - \omega_1 / 2) \sqrt{h(z)}}.\]
-This function is clearly meromorphic and has one pole of order $1$ at $\omega_1/2$. Bafflingly, we can immediately tell that this can't be an elliptic function on $\mathbb{C}/L$ as a result, because as we stated previously the sums of residues of poles must equal $0$ and this can't happen for one pole of order $1$; this is because there is still some monodromy up to a sign, which is hidden analytically but is captured in the topology of the torus $\mathbb{C} / L$ itself [this is called a quasi-elliptic function]. However, we can fix this by defining a new lattice $L' = \{2a \omega_1 +  b \omega_2 \mid a, b \in \mathbb{Z} \}$, on which $f(z) = \frac{1}{\sqrt{\wp(z) - e_1}}$ is an elliptic function with two poles [at $\omega_1/2$ and $3\omega_1/2$] with the property that $f(z + \omega_1) = -f(z)$ for all $z$ [reflecting its previous quasi-elliptic nature]. 
+This function is clearly meromorphic and has one pole of order $1$ at $\omega_1/2$. Bafflingly, we can immediately tell that this can't be an elliptic function on $\mathbb{C}/L$ as a result, because as we stated previously the sums of residues of poles must equal $0$ and this can't happen for one pole of order $1$; this is because there is still some monodromy up to a sign, which is hidden analytically but is captured in the topology of the torus $\mathbb{C} / L$ itself (this is called a quasi-elliptic function). However, we can fix this by defining a new lattice $L' = \{2a \omega_1 +  b \omega_2 \mid a, b \in \mathbb{Z} \}$, on which $f(z) = \frac{1}{\sqrt{\wp(z) - e_1}}$ is an elliptic function with two poles (at $\omega_1/2$ and $3\omega_1/2$) with the property that $f(z + \omega_1) = -f(z)$ for all $z$ (reflecting its previous quasi-elliptic nature). 
 
-Now, some magic happens. Clearly $\wp(z) - e_1$ is even since $\wp$ is even, and $\wp(z) - e_1 = \frac{1}{z^2} - e^1 + \dots = \frac{1}{z^2} (1 - e_1 z^2 + \dots)$. Then we get $\sqrt{\wp(z) - e_1}$ [by our choice of sign] $= \frac{1}{z} \sqrt{1 - e_1 z^2 + \dots}$ so $\frac{1}{\sqrt{\wp(z) - e_1}} = z \cdot \frac{1}{\sqrt{1 - e_1 z^2 + \dots}}$.  The crucial detail is that, as discussed before, the latter term can be expressed as a power series, which is clearly even since it is the radical of the even $1 - e_1 z^2 + \dots$, and evaluating at $z = 0$ gives $1$. Thus $\frac{1}{\sqrt{1 - e_1 z^2 + \dots}}$ is an even power series with leading term $1$, so  $\frac{1}{\sqrt{\wp(z) - e_1}}$ is an odd power series with leading term $x$. We recognize that this means it can define a genus, either by setting it to be the exponential or logarithm. Looking ahead, we see that elliptic integrals must be the logarithm, so the natural thing to do is to set it equal to the exponential. The following result is as we desire:
+Now, some magic happens. Clearly $\wp(z) - e_1$ is even since $\wp$ is even, and $\wp(z) - e_1 = \frac{1}{z^2} - e^1 + \dots = \frac{1}{z^2} (1 - e_1 z^2 + \dots)$. Then we get $\sqrt{\wp(z) - e_1}$ (by our choice of sign) $= \frac{1}{z} \sqrt{1 - e_1 z^2 + \dots}$ so $\frac{1}{\sqrt{\wp(z) - e_1}} = z \cdot \frac{1}{\sqrt{1 - e_1 z^2 + \dots}}$.  The crucial detail is that, as discussed before, the latter term can be expressed as a power series, which is clearly even since it is the radical of the even $1 - e_1 z^2 + \dots$, and evaluating at $z = 0$ gives $1$. Thus $\frac{1}{\sqrt{1 - e_1 z^2 + \dots}}$ is an even power series with leading term $1$, so  $\frac{1}{\sqrt{\wp(z) - e_1}}$ is an odd power series with leading term $x$. We recognize that this means it can define a genus, either by setting it to be the exponential or logarithm. Looking ahead, we see that elliptic integrals must be the logarithm, so the natural thing to do is to set it equal to the exponential. The following result is as we desire:
 
 \begin{theorem}
     Define an elliptic genus $\p$ such that $\exp_\p(z) = \frac{1}{\sqrt{\wp(z) - e_1}} $ for $\wp$ over some lattice $L$. Then $\p$ is an elliptic genus, where $\delta = \frac{3}{2} e_1$ and $\epsilon = (e_1 - e_2) (e_1 - e_3)$.
@@ -291,16 +341,21 @@ Now, some magic happens. Clearly $\wp(z) - e_1$ is even since $\wp$ is even, and
     By a previous proposition, it suffices to show that $(\exp_\p ')^2 = P(\exp_\p)$ for $P(t) = 1 - 2 \delta t^2 + \epsilon t^4 $. Write $\xi  = \exp_\p, \eta = \exp_\p', x = \wp(z), y = \wp'(z)$. Then we get
 
 
-\[ \xi = \frac{1}{\sqrt{x - e_1}} \Rightarrow \sqrt{x - e_1} =  \xi^{-1} \Rightarrow x = \xi^{-2} + e_1, \]
+\[ \xi = \frac{1}{\sqrt{x - e_1}}, \] 
+so via rearrangement
+\[x = \xi^{-2} + e_1, \]
 \[\eta = [(\wp(z) - e_1)^{-1/2}]' =  -\frac{1}{2} (\wp(z) - e_1)^{-3/2} \cdot \wp'(z),\]
 \[  = -\frac{y}{2} ([x-e_1)^{-1/2}]^3 = - \frac{y}{2} \xi^3,\]
-\[\Rightarrow y = -2 \eta \xi^{-3}.\]
+so via rearrangement
+\[ y = -2 \eta \xi^{-3}.\]
 Since we have via the differential equation of the Weierstrass function and its factorization, we have
 
-\[y^2 = 4(x - e_1))(x - e_2)(x - e_3),\]
-\[ \Rightarrow 4 \eta^2 \xi^{-6} = 4 (\xi^{-2} + e_1 - e_1)(\xi^{-2} + e_1 - e_2) (\xi^{-2} + e_1 - e_3),\]
+\[y^2 = 4(x - e_1))(x - e_2)(x - e_3).\]
+Substituting in gives
+\[ 4 \eta^2 \xi^{-6} = 4 (\xi^{-2} + e_1 - e_1)(\xi^{-2} + e_1 - e_2) (\xi^{-2} + e_1 - e_3),\]
 \[ = 4 \eta^{-2} (\xi^{-2} + e_1 - e_2) (\xi^{-2} + e_1 - e_3), \]
-\[\Rightarrow \eta^2 = \xi^4 (\xi^{-2} + e_1 - e_2) (\xi^{-2} + e_1 - e_3). \]
+and multiplying both sides by $4 \xi^6$ gives
+\[ \eta^2 = \xi^4 (\xi^{-2} + e_1 - e_2) (\xi^{-2} + e_1 - e_3). \]
 Splitting $\xi^4 = \xi^2 \cdot \xi^2$ and distributing one of each to the two other terms, 
 \[ = (1 + \xi^2 [e_1 - e_2] ) (1 + \xi^2 [e_1 - e_3]).\]
 Multiplying out gives
@@ -310,8 +365,8 @@ But we computed earlier that $e_1 + e_2 + e_3 = 0$, so
 
 \[ = 1 + 3 e_1 \xi^2 + (e_1 - e_2)(e_1 - e_3) \xi^4 = 1 - 2 \delta \xi^2 + \epsilon \xi^4,\]
 \[ = P(\xi).\]
-This shows $\eta^2  = P(\xi) \Rightarrow [\exp_\p']^2 = P(\exp_\p)$ exactly as desired.
+This shows $\eta^2  = P(\xi)$ i.e. $[\exp_\p']^2 = P(\exp_\p)$ exactly as desired.
 \end{proof}
 
 
-This finally gives us a direct relationship between elliptic functions [which inform the exponent] and elliptic integrals [the logarithm]. Using the fact that the logarithm is the inverse power series of the exponent, we can say, in a precise way that would have been quite difficult to see prior to the theory of genera, that the inverse function to an elliptic integral is an elliptic function.
+This finally gives us a direct relationship between elliptic functions (which inform the exponent of the elliptic genus) and elliptic integrals (the logarithm of the genus). Using the fact that the logarithm is the inverse power series of the exponent, we can say, in a precise way that would have been quite difficult to see prior to the theory of genera, that the inverse function to an elliptic integral is an elliptic function.
