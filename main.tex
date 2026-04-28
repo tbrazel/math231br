@@ -4436,6 +4436,149 @@ for all $p\ge0$. Let $\pi \colon X^\Delta \to X$ denote the pullback, then $\pi^
 
 
 
+\section{Hirzebruch-Riemann-Roch}
+In a 1953 letter to Kodaira and Spencer, Serre conjectured that, for $X$ a complex manifold and $W \to X$ a holomorphic vector bundle, the holomorphic Euler characteristic $\chi(X,W)$ was expressible in terms of the Chern classes of $W$. The general statement is now known as Riemann-Roch, or Hirzebruch-Riemann-Roch:
+
+\begin{theorem}\label{thm:HRR}
+\label{thm:hirzebruch-riemann-roch}
+Let $X$ be a compact complex manifold. Then we have that
+\begin{align*}
+    \Td(X) = \chi(X,\mathcal{O}_X).
+\end{align*}
+That is, its Todd genus and holomorphic Euler characteristic agree.
+\end{theorem}
+\begin{proof}[Proof sketch]
+Hirzebruch's original proof states it in the case where $X$ is an \emph{algebraic} manifold. \footnote{Meaning a manifold with a holomorphic embedding into some $\CP^N$.} Let $X^\Delta$ denote the total flag space over $X$. We know that $\Td(X) = \Td(X^\Delta)$ by \Cref{cor:Td-X-XDelta}, and that $\chi(X,\mathcal{O}_X) = \chi(X^\Delta, \mathcal{O}_{X^\Delta})$ by \Cref{thm:chi-X-XDelta}, and moreover by a result of Borel we know that if $X$ is algebraic then $X^\Delta$ will be as well. So it suffices to reduce to the case where $X$ is a split complex algebraic manifold.
+
+In this context, we can start taking hyperplane sections of $X$ (this is where we use our assumption that $X$ is algebraic), and we can use this to define the so-called virtual Euler characteristic and Todd genera $\chi_y(L_1, \ldots, L_k)$ and $T_y(L_1, \ldots, L_k)$, which take in a sequence of line bundles and output a polynomial in a single indeterminate $y$. Since $X$ is split, we have that $TX \cong L_1 \oplus \ldots \oplus L_n$ for some line bundles $L_i$, so we use this to derive the relations
+\begin{align*}
+    (1+y)^m \chi(X) &= \sum_{l=0}^m y^m \sum_{i_1 < \cdots < i_l} \chi_y(L_{i_1}, \ldots, L_{i_l}) \\
+    (1+y)^m T(X) &= \sum_{l=0}^m y^m \sum_{i_1 < \cdots < i_l} T_y(L_{i_1}, \ldots, L_{i_l}).
+\end{align*}
+Thus we just need to show that $\chi_y = T_y$ for some $y\ne -1$. When $y=1$, this reduces to a particular extension of the Hirzebruch signature theorem!
+\end{proof}
+
+\begin{remark} Hirzebruch uses that $X$ is K\"{a}hler and algebraic throughout, and these assumptions can be dropped but not with his original proof strategy. They are removed when this result is placed in the larger context of index theory and is reproven using the Atiyah-Singer index theorem.
+\end{remark}
+
+An immediate corollary is:
+
+\begin{corollary} The Todd genus of any compact complex manifold is an integer. Therefore for any such $X$:
+\begin{enumerate}
+    \item If $\dim_\C X = 1$ then $\int_X c_1(TX) \equiv 0 \pmod{2}$. In particular its Euler characteristic $\chi(X)$ is even.
+    \item If $\dim_\C(X) = 2$ then $\int_X c_1(TX)^2 + c_2(TX) \equiv 0 \pmod{12}$
+    \item If $\dim_\C(X) = 3$ then $\int_X c_1(TX)c_2(TX)\equiv 0 \pmod{24}$
+    \item and so on...
+\end{enumerate}
+\end{corollary}
+
+\begin{example}[Noether's formula] If $X$ is a 2D complex surface, then HRR tells us
+\begin{align*}
+    \chi(X,\mathcal{O}_X) = \frac{1}{12} \left( c_1(TX)^2 + c_2(TX) \right).
+\end{align*}
+Note that $c_2(TX) = \chi(X)$ is the Euler characteristic. Similarly $-c_1(TX) = K_X$ is sometimes called the canonical class. So we can rewrite the above as
+\begin{align*}
+    \chi(X,\mathcal{O}_X) = \frac{1}{12} \left( K_X^2 + \chi(X) \right).
+\end{align*}
+This is often known as \emph{Noether's formula}, and it is a core result in complex surface theory.
+\end{example}
+
+Two more corollaries which are worth highlighting:
+
+\begin{corollary} The holomorphic Euler characteristic depends only on the homotopy type of the complex manifold.
+\end{corollary}
+
+\begin{corollary} The holomorphic Euler characteristic is a complex bordism invariant.
+\end{corollary}
+
+
+\subsection{A mild generalization}
+
+More generally, we have not just $\chi(X,\mathcal{O}_X)$ but $\chi(X,E)$ for any holomorphic vector bundle $E$. Should this be equal to something involving the Todd genus? The answer is yes, and it takes very little extra effort to state.
+
+\begin{definition}\label{def:chern-character} Let $E \to X$ be a complex vector bundle on an arbitrary space, and let $\xi_1, \ldots, \xi_n$ denote its Chern roots. We define the \emph{Chern character} of $E$ to be
+\begin{align*}
+    \ch(E) = e^{\xi_1} + \ldots + e^{\xi_n}.
+\end{align*}
+\end{definition}
+
+\begin{example}
+Since $\mathcal{O}_X$ is the sheaf of holomorphic sections of the trivial complex line bundle, all its higher Chern classes are $1$, so $\ch(\mathcal{O}_X) = 1$.
+\end{example}
+
+\begin{theorem}[HRR with coefficients] Let $X$ be a compact complex manifold and $E \to X$ a holomorphic line bundle. Then we have that
+\begin{align*}
+    \chi(X,E) = \int_X \ch(E) \td(TX).
+\end{align*}
+\end{theorem}
+
+As an example, we recover Riemann-Roch as classically stated.
+
+\begin{example} Let $X$ be a Riemann surface, and $L \to X$ a line bundle. On the left hand side, the cohomology vanishes above the dimension of $X$, so we get
+\begin{align*}
+    \chi(X,L) = h^0(X,L) - h^1(X,L).
+\end{align*}
+On the right hand side, in $H^\ast(X,\Q)$, all terms above degree two vanish, so we get
+\begin{align*}
+    \ch(L) &= 1 + c_1(L)  \\
+    \td(TX) &= 1 + \frac{c_1(TX)}{2}.
+\end{align*}
+We multiply and integrate:
+\begin{align*}
+    \int_X \ch(E) \td(X) = \int_X (1 + c_1(L))(1 + \frac{c_1(TX)}{2}) = \int_X c_1(L) + \int_X \frac{c_1(TX)}{2} = \deg(L) + \frac{1}{2}\chi(X).
+\end{align*}
+Hence HRR says
+\begin{align*}
+    h^0(X,L) - h^1(X,L) = \deg(L) + \frac{1}{2}\chi(X).
+\end{align*}
+\end{example}
+
+\begin{example} If $X$ is 2-dimensional and $L \to X$ is a line bundle, we get
+\begin{align*}
+    \chi(X,L) = \frac{c_1(L)^2}{2} + \frac{c_1(L)c_1(TX)}{2} + \frac{c_1(TX)^2 + c_2(TX)}{12}.
+\end{align*}
+We can recognize the rightmost term as the holomorphic Euler characteristic of $X$ by HRR, so we can rearranage all this to say
+\begin{align*}
+    \chi(X,L) - \chi(X,\mathcal{O}_X) = \frac{1}{2} \left( c_1(L)^2 + c_1(L) c_1(TX) \right).
+\end{align*}
+If we call $D = c_1(L)$ and $K_X = -c_1(TX)$ the divisor and canonical class, we rewrite this as
+\begin{align*}
+    \chi(X,L) - \chi(X,\mathcal{O}_X) = \frac{1}{2} \left( D\cdot D - D \cdot K_X \right).
+\end{align*}
+\end{example}
+
+A last application that I really enjoy is, when we understand the base space fairly well, we can derive constraints on Chern classes of holomorphic vector bundles.
+
+\begin{example} Let $E \to \CP^3$ be any holomorphic vector bundle. Then $c_1(E)c_2(E) + c_3(E)$ is even.
+\end{example}
+\begin{proof} The Chern character of $E$ is similar, but we need to add on one more term. If we compute correctly, we'll get
+\begin{align*}
+    \ch(E) &= \text{rank}(E) + c_1(E) + \frac{c_1(E)^2 - 2c_2(E)}{2} + \frac{c_1(E)^3 - 3c_1(E) c_2(E) + 3c_3(E)}{6} \\
+    \td(T\CP^3) &= 1 + 2h + \frac{22}{12}h^2 + h^3.
+\end{align*}
+Putting everything together we get
+\begin{align*}
+    \chi(\CP^3,E) &= \int_{\CP^3} \text{rank}(E) h^3 + \frac{11}{6}c_1(E)h^2 + (c_1(E) - 2c_2(E))h + \frac{c_1(E)^3- 3c_1(E) c_2(E) + 3c_3(E)}{6}.
+\end{align*}
+Throwing out everything that isn't obviously an integer, we are left with
+\begin{align*}
+    \int_{\CP^3} \frac{11c_1(E)h^2 + c_1(E)^3 - 3c_1(E)c_2(E)}{6} \in \Z.
+\end{align*}
+Therefore (by conflating cohomology classes in different degrees by multiplying by appropriate powers of the hyperplane class), we have that
+\begin{align*}
+    11c_1(E) + c_1(E)^3 - 3c_1(E) c_2(E) + 3c_3(E)\equiv 0 \pmod{6}.
+\end{align*}
+We can rearrange this to
+\begin{align*}
+    c_1(E)^3 - c_1(E) + 3c_1(E) c_2(E) + 3c_3(E) \equiv 0 \pmod{6}.
+\end{align*}
+But $x^3 - x \equiv 0$ in $\Z/6$ always, so we are left with $3(c_1(E) c_2(E)+c_3(E)) \equiv 0 \pmod{6}$, or:
+\begin{align*}
+    c_1(E) c_2(E) + c_3(E)\equiv 0 \pmod{2}.
+\end{align*}
+\end{proof}
+
+
 
 
 
