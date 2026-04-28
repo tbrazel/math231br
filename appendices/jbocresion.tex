@@ -1,16 +1,7 @@
-% \documentclass[11pt]{article}
-% \include{commands}
-
-% \usepackage[textsize=tiny]{todonotes}
-% \title{Joaquim's Appendix}
-% \author{Joaquim Bocresion}
-% \date{Last compiled: \today}
-
-% \setcounter{section}{-1}
 \section{Thom's computation of $\MSO_\ast$ (Joaquim Bocresion)}
 \subsection{Overview}
 Thom's seminal 1954 paper included several novel notions in topology at its time of publication. Among them included the first definition of transversality in the literature, his question of realization of homology classes by submanifolds, and the following theorem and subject of this exposition:
-\begin{theorem}[\cite{Hirzebruch} Theorem 7.2.2; cf. \cite{thom} Theorem 4.15]
+\begin{theorem}[\cite{Hirzebruch} Theorem 7.2.2; cf. \cite{thomQuelquesProprietesGlobales1954} Theorem 4.15]
 The groups $\Omega^n$ are finite for $i\not\equiv 0\pmod 4$. In the case that $i\equiv 0\pmod 4$, we have $\Omega^{4k}=\Z^{\pi(k)}\oplus G$, for $\pi$ the partition function and $G$ a finite group.
 \end{theorem}
 We will work towards a modern-dress contextualization and proof of this theorem \`a la Thom. In doing so, we will develop some of the required homotopy theory and (co)bordism theory. 
@@ -18,19 +9,18 @@ We will work towards a modern-dress contextualization and proof of this theorem 
 
 
 \subsection{Thom Spaces and Spectra}
-\subsubsection{Overview}
-We will construct Thom spaces following \cite{thom}. We will then generalize to the more modern notion of the Thom spectrum. 
+We will construct Thom spaces following \cite{thomQuelquesProprietesGlobales1954}. We will then generalize to the more modern notion of the Thom spectrum. 
 
-Fix $G\subset O(k)$ some closed subgroup. The universal bundle $\pi: EG\to BG$ classifies all (iso classes of) fiber bundles with structure group $G$ via pullback along (homotopy classes of) maps $X\to BG$. We can specialize to the case of $S^{k-1}$-bundles via taking the associated bundle $\pi':E'G=EG\times_G S^{k-1}\to BG$. With this data we can construct the \textit{mapping cylinder} of $\pi$,
+Fix $G\subset O(k)$ some closed subgroup. The universal bundle $\pi: EG\to BG$ classifies all (iso classes of) fiber bundles with structure group $G$ via pullback along (homotopy classes of) maps $X\to BG$. We can specialize to the case of $S^{k-1}$-bundles via taking the associated bundle $\pi':E'G=EG\times_G S^{k-1}\to BG$. With this data we can construct the \textit{mapping cylinder} of $\pi'$,
 \[
 AG=\frac{E'G\times I\coprod BG}{(x,1)\sim \pi'(x)}.
 \]
-This cylinder has boundary $E'G=E'G\times \{0\}$. If we identify all points on this boundary, we obtain the \textit{Thom space} $M(G)=AG/E'G=AG/E'G\times\{0\}$. Alternatively, by removing the boundary of $AG$, we can construct the \textit{open mapping cylinder} $A^\circ G=AG-(E'G\times\{0\})$. If we take the one-point compactification of this open mapping cylinder, this also gives $M(G)$. This space has a canonical basepoint, the point at $\infty$. 
+This cylinder has boundary $E'G=E'G\times \{0\}$. If we identify all points on this boundary, we obtain the \textit{Thom space} $M(G)=AG/E'G=AG/E'G\times\{0\}$. Alternatively, by removing the boundary of $AG$, we can construct the \textit{open mapping cylinder} $A^\circ G=AG-(E'G\times\{0\})$. If we take the one-point compactification $(A^\circ G)^+$ of this open mapping cylinder, this also gives $M(G)$. This space has a canonical basepoint, the point at $\infty$. 
 
 The following lemma is the last bit of setup we need, and will prove very useful. We do not give a proof.
 
-\begin{lemma}[The Thom Isomorphism; cf. p.142-3 \cite{thom}]
-    for $r>0$, there is an isomorphism
+\begin{lemma}[The Thom Isomorphism; cf. p.142-3 \cite{thomQuelquesProprietesGlobales1954}]
+    for $r>0$ and $EG$ is orientable, there is an isomorphism
     \[H^{r-k}(BG)\cong H^r(M(G)).\]
 \end{lemma}
 
@@ -44,10 +34,10 @@ This notation is of course useful since we know $BSO(k)=\widehat G_k$.
 In the case of $M(SO(k))$, we have $E'SO(k)=\{(p,v)|p\in \widehat G_k, v\in p, \|v\|=1\}$, where the norm is the standard Euclidean norm (we are already implicitly working in coordinates with $\widehat G_k$ being the space of oriented $k$-planes in $\R^\infty=\R\times\R\times\cdots$). Now, taking $ASO(k)$, note that the fibers of $E'SO(k)$ over a point (i.e. an oriented $k$-plane) in $BSO(k)$ are spheres, and when we take the product with $I$ and identify one end with the base point in $BG$, we get a bundle $AG\to BG$ naturally having closed $k$-disks as its fibers. From here, when we remove the boundary $E'SO(k)\times \{0\}$, we turn these fibers into open $k$-disks. Though adding the point at $\infty$ ruins this elegant bundle structure, we do obtain a natural basepoint.
 
 \begin{definition}[Eilenberg-MacLane Space]
-    Given any group $G$ and $n\geq 1$, there exists a space (in fact, a CW comples) $K(G,n)$, called an \textit{Eilenberg-MacLane space}, with the property that $\pi_i(K(G,n))=G$ for $i=n$ and $\pi_i(K(G,n))=0$ for all other $i\neq 0,n$.
+    Given any abelian group $G$ and $n\geq 1$ (or $G$ any group and $n=1$), there exists a space (in fact, a CW complex) $K(G,n)$, called an \textit{Eilenberg-MacLane space}, with the property that $\pi_i(K(G,n))=G$ for $i=n$ and $\pi_i(K(G,n))=0$ for all other $i\neq 0,n$.
 \end{definition}
 
-It is not obvious that Eilenberg-Maclane spaces exist, though it turns out that the spaces $K(G,n)$ exist for all $G$ and $n\geq 1$. Since Eilenberg-MacLane spaces are CW complexes, they are naturally based spaces 
+It is not obvious that Eilenberg-Maclane spaces exist, though it turns out that the spaces $K(G,n)$ exist for all abelian $G$ with $n\geq 1$ or any $G$ with $n=1$. Since Eilenberg-MacLane spaces are CW complexes, they are naturally based spaces.
 
 
 
@@ -74,16 +64,55 @@ and this allows us to make the following definition:
     where the diagram in question is 
     \[\cdots\to\pi_{i+n-1}(E_{n-1})\to \pi_{i+n}(E_{n})\to \pi_{i+n+1}(E_{n+1})\to \cdots\]
 \end{definition}
-\begin{theorem}[Freudenthal's Suspension Theorem; cf. p.36 \cite{thom}]
+\begin{theorem}[Freudenthal's Suspension Theorem; cf. p.36 \cite{thomQuelquesProprietesGlobales1954}]
 \label{theorem1/6}
     If $X$ is an $n$-connected CW complex, then the natural suspension homomorphism $\pi_i(X)\to \pi_{i+1}(\Sigma X)$ is an isomorphism for $i\leq 2n$ and a surjection for $i=2n+1$
 \end{theorem}
 
 \begin{theorem}[``Thom's Suspension theorem"]
-    For $n<k$, homotopy groups $\pi_{n+k}(M(SO(k)))$ do not depend on $k$. 
-\end{theorem}
+For $n\leq k-3$, the homotopy groups $\pi_{n+k}(M(SO(k)))$ do not depend on $k$.\end{theorem}
 \begin{proof}
-    proof to be added
+    Consider the inclusion $SO(k-1)\hookrightarrow SO(k)$ given by $M\mapsto M\oplus (1)=\begin{pmatrix}
+        M&\\&1
+    \end{pmatrix}$. The image of this inclusion is the stabilizer of $e_k\in \R^k$, i.e. where $e_k$ is the $k$-th standard basis vector. On classifying spaces this induces a map $Bi:\widehat G_{k-1}\to \widehat G_k$, given by $W\mapsto W\oplus \R e_k$ (i.e. we take a $(k-1)$-plane and orthogonally direct sum the $e_k$-direction). Denote by $I$ an open interval. Following Thom, we denote by $A^\circ SO(k-1)\otimes I$ the fiberwise join of the bundles $A^\circ SO(k-1)\to \widehat G_{k-1}$ and $I\to *$, where the latter is just the interval sitting over a point. For our purposes, this just means that we take the product of each fiber in $A^\circ SO(k-1)\to \widehat G_{k-1}$ with $I$. Since the fibers of $A^\circ SO(k-1)\to \widehat G_{k-1}$ are open $(k-1)$-disks, this produces an open $k$-disk bundle over $\widehat G_{k-1}$. With this, we can produce the following obvious map lifting $Bi$:
+    \[
+        f:A^\circ SO(k-1)\otimes I\to A^\circ SO(k),
+    \]
+    and this map intertwines with $Bi$ via the bundle projections. Now, let $X=(A^\circ SO(k-1)\otimes I)^+$ be the one-point compactification, with compactifying point $x$. We can extend $f$ by $x\mapsto \infty\in M(SO(k))$ to produce a continuous map
+    \[
+        g:X\to M(SO(k)).
+    \]
+    Our goal now is to understand how $g$ acts on cohomology. Note that $A^\circ SO(k-1)\otimes I$ is the associated open disk bundle of the rank-$k$ oriented bundle $\widehat E_{k-1}(\R^\infty)\oplus\epsilon^1$ over $\widehat G_{k-1}$, where $\widehat E_{k}(\R^\infty)$ is denoting the tautological bundle over the oriented Grassmannian $\widehat G_k$; $\epsilon^1$ is a copy of the trivial rank $1$ vector bundle; and the fiber over $W\in\widehat G_{k-1}$ is accordingly $W\times I\cong W\oplus \R e_k$, an open $k$-disk). From this it follows that its one-point compactification $X$ is obtained from this induced bundle by the same mapping-cylinder/one-point-compactification construction used to define $M(SO(k))$, and $g:X\to M(SO(k))$ is the map induced by $Bi$. Since $(Bi)^*\widehat E_k(\R^\infty)\cong\widehat E_{k-1}(\R^\infty)\oplus\epsilon^1$ canonically, the bundle map $\widehat E_{k-1}(\R^\infty)\oplus\epsilon^1\to\widehat E_k(\R^\infty)$ covering $Bi$ induces on Thom spaces exactly our $g$. Naturality of the Thom isomorphism for bundle maps then yields the commutative square
+    \[
+    \begin{tikzcd}[column sep=large]
+        \widetilde H^{k+i}(M(SO(k))) \ar[r,"g^*"] \ar[d,"\cong"'] & \widetilde H^{k+i}(X) \ar[d,"\cong"] \\
+        H^i(\widehat G_k) \ar[r,"(Bi)^*"'] & H^i(\widehat G_{k-1})
+    \end{tikzcd}
+    \]
+    with vertical Thom isomorphisms, so it suffices to analyze $(Bi)^*$. The Gysin sequence of the oriented $(k-1)$-sphere bundle $S^{k-1}\cong SO(k)/SO(k-1)\to\widehat G_{k-1}\xrightarrow{Bi}\widehat G_k$ looks like
+    \[
+        \cdots\to H^{i-k}(\widehat G_k)\xrightarrow{\cup e}H^i(\widehat G_k)\xrightarrow{(Bi)^*}H^i(\widehat G_{k-1})\to H^{i-k+1}(\widehat G_k)\to\cdots,
+    \]
+    where $e\in H^k(\widehat G_k)$ is the Euler class of $\widehat E_k(\R^\infty)$. For $i\leq k-2$ both flanking terms $H^{i-k}(\widehat G_k)$ and $H^{i-k+1}(\widehat G_k)$ are zero, so $(Bi)^*$ is an isomorphism; for $i=k-1$ the left flank is zero and the right is $H^0(\widehat G_k)=\Z$, so $(Bi)^*$ is an injection. Using the commutative square, we can see that $g^*$ is an isomorphism on $\widetilde H^{k+i}$ for $i\leq k-2$ and an injection for $i=k-1$.
+
+    Next, note that $X$ and $M(SO(k))$ are both $(k-1)$-connected. For simple connectivity when $k\geq 2$, we can apply van Kampen to $M(SO(k))=A^\circ SO(k)\cup V$, where $V$ is a contractible open neighbourhood of $\infty$ meeting $A^\circ SO(k)$ along an open sphere-bundle tube. Since $A^\circ SO(k)$ deformation retracts onto the simply connected $\widehat G_k=BSO(k)$ and $V$ is contractible, we get $\pi_1(M(SO(k)))=0$, and likewise for $X$. Combined with $\widetilde H^{<k}=0$ from the Thom isomorphism, Hurewicz forces $\pi_{<k}=0$. Moreover $H^\bullet(\widehat G_k)$ is finitely generated in each degree (see the argument in the proof of Theorem 0.1), and via the Thom isomorphism so are $\widetilde H^\bullet(M(SO(k)))$ and $\widetilde H^\bullet(X)$.
+
+    The universal coefficient theorem then dualizes the cohomological conclusion to a homological one: $g_*:H_{k+i}(X)\to H_{k+i}(M(SO(k)))$ is an isomorphism for $i\leq k-2$ and a surjection for $i=k-1$. Since $g$ is a map of simply connected spaces, a theorem of Whitehead (see Theorem II.6 in \cite{thomQuelquesProprietesGlobales1954}) shows that for $i\leq k-2$ we have
+    \[
+        g_*:\pi_{k+i}(X)\xrightarrow{\sim} \pi_{k+i}(M(SO(k))).
+    \]
+    Lastly, we identify $X$ with a suspension of $M(SO(k-1))$. Following Thom's notation, let $T(k-1)$ be the suspension of $M(SO(k-1))$ with poles $p,p'$ (i.e. the two ends $\{0\}\times M(SO(k-1))$ and $\{1\}\times M(SO(k-1))$ which are identified to points in the suspension), let $a=\infty\in M(SO(k-1))$, and let $h:T(k-1)\to X$
+    be the map collapsing the arc $[pap']\subset T(k-1)$ (the meridian through the basepoint of $M(SO(k-1))$) to the compactifying point $x$. Concretely, $T(k-1)=M(SO(k-1))\times[0,1]/(M(SO(k-1))\times\{0,1\})$, and under the identification $M(SO(k-1))=(A^\circ SO(k-1))^+$, the subspace $A^\circ SO(k-1)\times (0,1)\subset T(k-1)$ maps homeomorphically onto $A^\circ SO(k-1)\otimes I\subset X$ (taking the interval $I$ from before to be $I=(0,1)$), while the complement (the collapsed sides $\{0\}\times M(SO(k-1))$ and $\{1\}\times M(SO(k-1))$) together with the meridian $\{a\}\times[0,1]$) map to $x$. Thus $X\cong T(k-1)/[pap']$, and since $[pap']$ is a contractible subcomplex, $h$ is a homotopy equivalence. In particular $X\simeq \Sigma M(SO(k-1))$.
+
+    Finally, $M(SO(k-1))$ is $(k-2)$-connected, so by the Freudenthal suspension theorem ($\ref{theorem1/6}$) the suspension map
+    \[
+        E:\pi_{k-1+i}(M(SO(k-1)))\to \pi_{k+i}(T(k-1))
+    \]
+    is an isomorphism for $k-1+i\leq 2(k-2)$, i.e. for $i\leq k-3$. Assembling these,
+    \[
+        \pi_{k-1+i}(M(SO(k-1)))\xrightarrow{E}\pi_{k+i}(T(k-1))\xrightarrow{h_*}\pi_{k+i}(X)\xrightarrow{g_*}\pi_{k+i}(M(SO(k)))
+    \]
+    is a chain of isomorphisms whenever $i\leq k-3$. It follows that for fixed $n$, $\pi_{n+k}(M(SO(k)))$ stabilizes as $k\to\infty$.
 \end{proof}
 
 \begin{corollary}
@@ -91,16 +120,15 @@ and this allows us to make the following definition:
 \end{corollary}
 
 \begin{theorem}[Cobordism is Isomorphic to Homotopy]
-For any $k$ we have an isomorphism of groups
+There exists an isomorphism of groups
     \[\pi_n^s(MSO)\cong\Omega^{SO}_n.\]
 \end{theorem}
-\begin{proof}
-    proof to be added
-\end{proof}
+    Unfortunately, this proof relies a good deal on Thom's theory of realization of homology classes by submanifolds. Though it is the crucial step to translating homotopy theoretic statements about the Thom spectrum into statements about the cobordism groups and ring, I think it is best to blackbox it, as not to veer too far off course.
 
 \subsection{Constructing maps}
-\begin{theorem}[Brown Representability]
-    For any CW complex $X$, we have
+The goal of this section is to construct maps out of $M(SO(k))$ into spaces chosen such that such maps induce isomorphisms on homotopy groups. We can do this with varying degrees of abstraction. Probably the most powerful, though least insightful and intuitive way, is to use Brown Representability: 
+\begin{theorem}[{Brown Representability; cf. \cite[Theorem 4E.1]{Hatcher}}]
+    Let $G$ be an abelian group with $n\geq 1$. For any CW complex $X$we have
     \[[X,K(G,n)]_*\cong \widetilde H^n(X;G),\]
     where the natural map is $[f]\mapsto f^*\iota$ for $\iota\in \widetilde H^n(K(G,n);G)=\End(G)$ the distinguished class corresponding to the identity map $G\to G$. Note that $[-,-]_*$ denotes the homotopy classes of maps of based spaces.
 \end{theorem}
@@ -108,12 +136,21 @@ For any $k$ we have an isomorphism of groups
     We have limited interest in $\pi_n(X)$ and $K(G,n)$ for $n=0$, so we can assume $n\geq 1$ and that all reduced (co)homology is just regular (co)homology.
 \end{remark}
 
-Note that this theorem guarantees the existence of a map $X\to K(G,n)$ with the required behavior on cohomology: given some $u\in \widetilde H^n(X;G)$, there exists a (homotopy class of) map $X\to K(G,n)$ with $f^*\iota=u$. However, Brown representability is very powerful and we can also construct maps $f:X\to K(G,n)$ with the desired property more manually. 
+Note that Brown Representability guarantees the existence of a map $X\to K(G,n)$ with the required behavior on cohomology: given some $u\in \widetilde H^n(X;G)$, there exists a (homotopy class of) map $X\to K(G,n)$ with $f^*\iota=u$. However, Brown representability is very powerful and we can also construct maps $f:X\to K(G,n)$ with the desired property more manually. 
 
+We want to construct a map $f:X\to K(G,n)$ for $X$ a CW-complex which represents the class $u\in H^n(X;G)$ via pulling back the fundamental class of $K(G,n)$. To do this, we dip our toes into obstruction theory. The idea behind obstruction theory is not too arcane. In our case, if $(A,B)$ is a pair of a CW complex $A$ and a subcomplex $B$, and $h:B\to C$ is a map, one might want to know when $h$ admits extension over the skeleta of $A$. At each stage there is an obstruction class which potentially prevents extension of the map from $n-1$ skeleta to $n$ skeleta. More precisely, the obstruction to extending a map from $A^{n-1}\cup B$ to $A^n\cup B$ lives in a relative cohomology group with coefficients in $\pi_{n-1}(C)$. Amazingly, the vanishing of the obstruction class is equivalent to the existence of an extension. In our case this becomes especially simple, because
+\[
+\pi_j(K(G,n))=
+\begin{cases}
+G & j=n,\\
+0 & j\neq n.
+\end{cases}
+\]
+Thus the only potentially nontrivial obstruction occurs when extending from the $n$-skeleton to the $(n+1)$-skeleton, and beyond that there are no further obstructions. 
 
-We want to construct a map $f:X\to K(G,n)$ for $X$ a CW-complex which represents the class $u\in H^n(X;G)$ via pulling back the fundamental class of $K(G,n)$. First we pick a cocycle $z$ representing $u$. Then,  we can define $f_{n-1}:X^{n-1}\to K(G,n)$ by sending the $(n-1)$-skeleton $X^{n-1}$ of $X$ to the basepoint $*\in K(G,n)$. Now, for each $n$-cell $\sigma$ of $X$, the cocycle value $z(\sigma)\in G=\pi_n(K(G,n))$ determines, up to homotopy, a map $\sigma\simeq D^n\to K(G,n)$. This map must send $\partial \sigma$ to the basepoint $*\in K(G,n)$ and has degree $z(\sigma)\in G$. This defines $f_n:X^n\to K(G,n)$.  
+We now apply this to the case of constructing maps $X\to K(G,n)$. First, pick a cocycle $z$ representing $u$. Then we can define $f_{n-1}:X^{n-1}\to K(G,n)$ by sending the $(n-1)$-skeleton $X^{n-1}$ of $X$ to the basepoint $*\in K(G,n)$. Now, for each $n$-cell $\sigma$ of $X$, the cocycle value $z(\sigma)\in G=\pi_n(K(G,n))$ determines, up to homotopy, a map $\sigma\simeq D^n\to K(G,n)$. This map must send $\partial \sigma$ to the basepoint $*\in K(G,n)$ and represents the class $z(\sigma)\in \pi_n(K(G,n))\cong G$. This defines $f_n:X^n\to K(G,n)$.  
 
-To further extend $f_n$, for each $(n+1)$-cell $\tau$, the previous step defines $f|_{\partial\tau}$. The obstruction to extending $f|_{\partial \tau}$ to a map defined on all of $\tau$ is $z(\partial \tau)\in \pi_n(K(G,n))=G$. However, $z$ is a cocycle, so that $z(\partial \tau)=0$. This shows that the obstruction vanishes, and that $f$ extends over all $(n+1)$-cells. Since $\pi_{n+j}(K(G,n))=0$ for all $j\geq 1$, there are no further obstructions in further extending $f$. From this we obtain the following fact:
+To further extend $f_n$, for each $(n+1)$-cell $\tau$, the previous step defines $f|_{\partial\tau}$. The obstruction to extending $f|_{\partial \tau}$ to a map defined on all of $\tau$ is $(\delta z)(\tau)\in \pi_n(K(G,n))=G$. However, $z$ is a cocycle, so that $(\delta z)( \tau)=0$. This shows that the obstruction vanishes, and that $f$ extends over all $(n+1)$-cells. Since $\pi_{n+j}(K(G,n))=0$ for all $j\geq 1$, there are no further obstructions in further extending $f$. From this we obtain the following fact:
 \begin{proposition}
     For a CW-complex $X$ and $u\in H^n(X;G)$ with $n\geq 1$, there exists a map $f:X\to K(G,n)$, unique up to based homotopy, such that $f^*\iota=u$, where $\iota\in H^n(K(G,n);G)$ is the fundamental class.
 \end{proposition}
@@ -123,7 +160,7 @@ where $c(m)=\dim_\Q H^{4m}(\widehat G_k;\Q)$. Since maps to a product are the sa
 have
 \[[X,Y]\cong [X,K(\Z,k)]\times[X,K(\Z,k+4)]\times\cdots \times [X,K(\Z, k+4m)]^{c(m)}\times\cdots\]
 \[\simeq \prod_{m\geq 0} \widetilde H^{k+4m}(X)^{c(m)}. \]
-\begin{proposition}
+\begin{proposition}\label{result?}
     For $X=M(SO(k))$, this construction gives a map inducing an isomorphism on rational cohomology. 
 \end{proposition}
 \begin{proof}
@@ -137,12 +174,12 @@ have
     \[4\mid (k+4(i_1+\cdots +i_r))\implies 4\mid k,\]
     and $m=k/4+i_1+\cdots+i_r$. This means that the $H^{4m}(\widehat G_k;\Q)$ can only contain multiples of the Euler class if $4\mid k$ and $m\geq k/4$.
 
-    We can now abuse this and \cref{theorem1/6}. By the Thom isomorphism, we have $\widetilde H^{i+k}(M(SO(k));\Q)\cong H^i(\widehat G_k;\Q)$. Note that since $\pi_{n+k}(M(SO(k)))$ does not depend on $k$ for $k>n$, we can pick $k > n\geq 4m$. Under these conditions, $e$ cannot appear in $H^{4m}(\widehat G_k;\Q)\cong H^{4m+k}(M(SO(k));\Q)$. In fact, the only monomials appearing in $H^{4m}(\widehat G_k;\Q)$ are monomials $p_{i_1}\cdots p_{i_r}$ with $m=i_1+\cdots+i_r$, since each $p_i$ is a weight-$4i$ monomial. The number of such expressions $m=i_1+\cdots i_r$ is just $\pi(m)$, the number of partitions of $m$. Thus, we see that 
+    We can now abuse this and Thom's suspension theorem. By the Thom isomorphism, we have $\widetilde H^{i+k}(M(SO(k));\Q)\cong H^i(\widehat G_k;\Q)$. Note that since $\pi_{n+k}(M(SO(k)))$ does not depend on $k$ for $k>n+3$, we can pick $k > n\geq 4m$. Under these conditions, $e$ cannot appear in $H^{4m}(\widehat G_k;\Q)\cong H^{4m+k}(M(SO(k));\Q)$. In fact, the only monomials appearing in $H^{4m}(\widehat G_k;\Q)$ are monomials $p_{i_1}\cdots p_{i_r}$ with $m=i_1+\cdots+i_r$, since each $p_i$ is a weight-$4i$ monomial. The number of such expressions $m=i_1+\cdots i_r$ is just $\pi(m)$, the number of partitions of $m$. Thus, we see that 
     \[c(m)=\dim_\Q H^{4m}(\widehat G_k;\Q)=\pi(m).\]
 
     Now, we can define a map $M(SO(k))\to K(\Z, k+4m)$ for all $m$ whose pullback maps the fundamental class of $K(\Z, k+4m)$ to any desired class in $H^{k+4m}(M(SO(k)))$. Note that $Y$ has $c(m)=\pi(m)$-many factors of $K(\Z, k+4m)$, and that $H^{k+4m}(M(SO(k)))$ is generated over $\Q$ by $c(m)=\pi(m)$-many generators. This shows that for $u_1,\dots, u_{c(m)}$ integral cohomology classes corresponding to weight-$4m$ monomials in $p_1,\dots, p_\ell$ upon tensoring, we have maps $f_1,\dots, f_{c(m)}:M(SO(k))\to K(\Z, k+4m)$ with the property that $f_i^*\iota=u_i$. From here we obtain a map $\prod_{i=1}^{c(m)} f_i:M(SO(k))\to K(\Z, k+4m)^{c(m)}$, and further taking the product over all $m$ gives $F:M(SO(k))\to Y$. Note that in each degree, $F^*$ pulls back a basis of rational cohomology of $Y$ to a basis of rational cohomology of $M(SO(k))$. 
 \end{proof}
-With this identification done, one would hope to be able to relate the cohomology of $MSO(k)$ to the homotopy groups of $MSO(k)$, from which we could extract the stable homotopy groups $\pi^s_\bullet MSO$. Under nice circumstances, the Hurewicz theorem would prove a useful tool for this, but the standard Hurewicz theorem will not suffice for this problem. The solution ends up being a set of homological tools coming from Serre's theory of classes.
+With this identification done, one would hope to be able to relate the cohomology of $M(SO(k))$ to the homotopy groups of $M(SO(k))$, from which we could extract the stable homotopy groups $\pi^s_\bullet MSO$. Under nice circumstances, the Hurewicz theorem would prove a useful tool for this, but the standard Hurewicz theorem will not suffice for this problem. The solution ends up being a set of homological tools coming from Serre's theory of classes.
 
 \subsection{Detour: Serre's Class Theory}
 We follow Chapter 4 of \cite{millerLecturesAlgebraicTopology2021}. 
@@ -179,7 +216,7 @@ By epimorphism (resp. isomorphism) mod $\mathscr C$, we mean a morphism whose co
 \subsection{Proving Theorem 0.1}
 With a short primer on Serre's theory of classes out of the way, we can prove Thom's main theorem. Henceforth, let $\mathscr C$ denote the class of all finite groups. This is clearly an acyclic Serre ring. 
 \begin{proof}[Proof of Theorem 0.1]
-Firstly, we have $\Omega_n^{SO}\cong \pi_n^s(MSO)=\pi_{n+k}(MSO(k))$ for $k>n$. By \ref{result?}, we know that the map $F:MSO(k)\to Y$ induces an isomorphism on rational cohomology. This means that $F_*:H_i(M(SO(k));\Q)\to H_i(Y;\Q)$ is an isomorphism for all $i$. 
+Firstly, we have $\Omega_n^{SO}\cong \pi_n^s(MSO)=\pi_{n+k}(M(SO(k)))$ for $k>n+3$. By \cref{result?}, we know that the map $F:M(SO(k))\to Y$ induces an isomorphism on rational cohomology. This means that $F_*:H_i(M(SO(k));\Q)\to H_i(Y;\Q)$ is an isomorphism for all $i$. 
 
 We want to use this isomorphism on rational homology to get a mod $\mathscr C$ isomorphism on integral homology. We use the fact that $F_*:H_i(M(SO(k)))\to H_i(Y)$ is an isomorphism modulo finite groups iff $F_*:H_i(M(SO(k));\Q)\to H_i(Y;\Q)$ is an isomorphism and the groups $H_i(M(SO(k)))$ and $ H_i(Y)$ are finitely generated. To see that these groups are finitely generated, note that the Mod $\mathscr C$ Hurewicz theorem, for $k>1$, we have $Y$ simply connected (since by construction $\pi_1(Y)=0$), and $\pi_q(Y)$ are all finitely generated. We also have $H_i(M(SO(k));\Z)$ finitely generated, since we $\widetilde H^{k+i}(M(SO(k)))\cong H^i(\widehat G_k)$, and since $\widehat G_k$ is a CW complex with finitely many cells in all degrees (it is the inverse limit of a complex of finite Grassmanians), this cohomology is finitely generated. It follows that $H_i(M(SO(k));\Z)$ is finitely generated by the universal coefficient theorem.
 
@@ -188,20 +225,5 @@ Lastly, since $M(SO(k))$ and $Y$ are simply connected for $k\geq 2$, we can fix 
     \Z^{c(m)}\text{ if }i=k+4m\text{ for some }m\geq 0\\
     0\text{ else }
 \end{cases}\pmod{\mathscr C}.\]
-From this, note that $\pi_{k+n}(Y)=0$ if $4\nmid n$, meaning that $\pi_{i+k}(M(SO(k)))=\pi_n^s(MSO)\in \mathscr C$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ is finite. Otherwise, if $4\mid n$, we we have $\pi_{i+k}(M(SO(k)))=\pi_n^s(MSO)\equiv \Z^{c(m)}=\Z^{\pi(m)} \pmod{\mathscr C}$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ is has free part $\Z^{\pi(m)}$ for $\pi$ the partition function; and torsion part some finite group $G$.
-    
-
+From this, note that $\pi_{k+n}(Y)=0$ if $4\nmid n$, meaning that $\pi_{n+k}(M(SO(k)))=\pi_n^s(MSO)\in \mathscr C$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ is finite. Otherwise, if $4\mid n$, we we have $\pi_{n+k}(M(SO(k)))=\pi_n^s(MSO)\equiv \Z^{c(m)}=\Z^{\pi(m)} \pmod{\mathscr C}$, i.e. $\pi_n^s(MSO)=\Omega_n^{SO}$ has free part $\Z^{\pi(m)}$ for $\pi$ the partition function; and torsion part some finite group $G$.
 \end{proof}
-
-
-
-
-
-
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \bibliography{zbib.bib}
-% \bibliographystyle{amsalpha}
-% \end{document}
