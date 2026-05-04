@@ -300,7 +300,7 @@ In fact, as conjectured by Kodaira and proven, in the case of elliptic surfaces,
 
 \subsection{$H_{\overline{\partial}}^{(r,s)}(\mathbf{M_{p,q}})$ Groups}
 
-We now characterise the $\overline\partial$-cohomology $\mathbf{M_{p,q}}.$ We start with some basic definitions. Some knowledge of spectral sequences for fiber bundles will be assumed. Sufficient background can be found in the other appendices or in Ch. 3, Sec. 5 of Griffiths and Harris' exposition \cite{harris}. We closely follow Borel's exposition in Appendix II to Hirzebruch's book \cite{Hirz}, to which we owe the main theorems presented below and their proofs.
+We now characterise the $\overline\partial$-cohomology $\mathbf{M_{p,q}}.$ We start with some basic definitions. Some knowledge of spectral sequences for fiber bundles will be assumed. Sufficient background can be found in the other appendices or in Ch. 3, Sec. 5 of Griffiths and Harris' exposition \cite{griffithsPrinciplesAlgebraicGeometry1978}. We closely follow Borel's exposition in Appendix II to Hirzebruch's book \cite{Hirzebruch}, to which we owe the main theorems presented below and their proofs.
 
 \begin{definition}[$\overline\partial$-cohomology groups $H_{\overline{\partial}}^{p,q}(M)$]
     Let $M$ be complex $n$-manifold. Since $\overline{\partial}^2 = 0,$ we have the cochain complex (\textit{p-th Dolbeault complex})
@@ -352,7 +352,7 @@ Notably, $E^{p,q,s,t}_r = 0$ if $p+q = s+t$ or any index is negative. We have th
     \end{enumerate}
 \end{theorem}
 
-A proof for Theorem \ref{thm:hirz} can be found in Borel's exposition in Appendix II of Hirzebruch' book \cite{Hirz} but is otherwise beyond the scope of this paper.
+A proof for Theorem \ref{thm:hirz} can be found in Borel's exposition in Appendix II of Hirzebruch' book \cite{Hirzebruch} but is otherwise beyond the scope of this paper.
 
 We can now turn to characterising the $\bar \partial$-cohomology of $\mathbf{M_{p,q}}.$ We denote the connected component of the group of biholomorphic automorphisms on $X$ a compact, complex manifold containing its identity by $\mathrm{Aut}^0(X).$ This is the group consisting of $g\in\mathrm{Aut}(X)$ for which there is a continuous family of complex automorphisms $f_{t\in [0,1]}\in \mathrm{Aut}$ with $f_0 = I, f_t = g.$ 
 
