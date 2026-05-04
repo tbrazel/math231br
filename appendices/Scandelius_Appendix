@@ -1,0 +1,418 @@
+\section{The Calabi-Eckmann Manifolds and their $\bar\partial$-Cohomology (Carl Scandelius)}
+
+
+\noindent The following explores the class of compact, simply-connected complex manifolds $\mathbf{M_{p,q}}$ discovered by Eugenio Calabi and Beno Eckmann \cite{CE1953}. We construct the spaces and then, after some K\"ahler geometry preliminaries, we prove that $\mathbf{M_{p,q}}$ do not admit a K\"ahler metric and are thus non-algebraic. We end with a note on their $\bar\partial$-cohomology.
+
+\subsection{Construction of $\mathbf{M_{p,q}}$}
+
+We want to specify a complex structure on $S^{2p+1} \times S^{2q + 1},$ where $p,q \in \mathbb{Z}.$ We will then realise this as the total space of a principal fiber bundle over $\mathbb{C}\mathbf{P}^{p+q}.$
+
+Let $V_{\alpha\beta}$ be the complement of the zero set of $(z_\alpha, z_\beta'),$ the $(\alpha,\beta)$-th components of the coordinates on $\mathbb{C}^{p+1}\times \mathbb{C}^{q+1}.$ These are open by continuity of the restrictions of coordinate projections. Any $(z,z')\in S^{p+1}\times S^{q+1}$ has some nonzero component in each product sphere. So, $\{V_{\alpha\beta}\}_{\alpha = 0,\dots, p, \beta = 0,\dots, q}$ cover $S^{p+1}\times S^{q+1}.$ 
+
+\begin{theorem}
+    Each cover element $V_{\alpha\beta}$ can be furnished with local holomorphic coordinates. In particular, let $\mathbf{T}_{(1,\tau)} \cong \mathbb{C}^2/(\mathbb{Z} \oplus \mathbb{Z}\tau)$ be the complex $2$-torus for a fixed $\tau \in \mathbb{C}-\mathbb{R}.$ We claim we can produce the sequence
+    \[
+    V_{\alpha\beta} \xrightarrow{\mathbf{\Phi_{\alpha\beta}}} \mathbb{C}^{p+q}\times \mathbf{T}_{(1,\tau)} \xrightarrow{\{\zeta_\ell\}_\ell} \mathbb{C}^{p+q+1}
+    \]
+    where $\mathbf{\Phi_{\alpha \beta}}$ is a homeomorphism and $\{\zeta_\ell\}_\ell$ a complex atlas. We can then pull back the complex structure on $\mathbb{C}^{p+q}\times \mathbf{T}_{(1,\tau)}$ to $V_{\alpha \beta}.$
+\end{theorem}
+
+We will take this construction in two steps. First, we construct the homeomorphism $\mathbf{\Phi}.$ Let $(w_\alpha, w'_\beta):V_{\alpha \beta} \rightarrow \mathbb{C}^p \times \mathbb{C}^q$ define smooth maps on each chart $V_{\alpha \beta}$ component-wise as follows:
+    \[
+    w_{\alpha, j} = \frac{z_j}{z_\alpha}, \quad w_{\beta, k}' = \frac{z_k'}{z_\beta'}, \qquad j = 0,\dots, p, \quad  k = 0,\dots, q. \label{eq:w}\tag{I}
+    \]
+    Fix $\tau \in \mathbb{C} - \mathbb{R}.$ We define the map $t_{\alpha\beta}:V_{\alpha\beta} \rightarrow \mathbf{T}_{(1, \tau)}$ by
+    \[
+    t_{\alpha \beta} = \frac{1}{2\pi i}(\log z_\alpha + \tau \cdot \log z_\beta')\mod (1,\tau),\label{eq:t}\tag{II}
+    \]
+    noting $\log$ is single-valued over the fundamental lattice domain. This is differentiable and well-defined on the equivalence classes of $\mathbf{T}_{(1,\tau)}.$ In fact, we claim $\mathbf{\Phi_{\alpha\beta}} := (w_\alpha, w'_\beta, t_{\alpha \beta})$ defines our desired homeomorphism from the lemma. 
+    
+
+    \begin{proof}[Proof 1/2.]
+    Fix $\alpha, \beta.$ Take any point in $\mathbb{C}^p \times \mathbb{C}^q\times \mathbf{T}_{(1,\tau)},$ denoted by $(p_{\alpha, j}, p_{\beta, k}', t\mod (1,\tau))_{j\neq \alpha, k\neq \beta}.$ We are free to choose $p_{\alpha, \alpha} = p_{\beta, \beta}' = 1.$ Any point $(z_0, \dots, z_p, z'_0, \dots, z'_q) \in \mathbf{\Phi_{\alpha\beta}}^{-1}(\mathbb{C}^p \times \mathbb{C}^q \times \mathbf{T}_{(1,\tau)})$ in the preimage must satisfy $\sum_0^p |z_j|^2 = \sum_0^p |z_j'|^2 = 1,$ for $z_\alpha, z_\beta \neq 0.$ So, using (\ref{eq:w}),
+    \[
+    \left(\sum_0^p |p_{\alpha, j}|^2\right)^{-1} = |z_\alpha|^2, \quad \left(\sum_0^p |p_{\beta, k}|^2\right)^{-1} = |z_\beta '|^2,\quad  z_\alpha, z_\beta \neq 0.
+    \]
+    Similarly, using $\log z -\log |z|= i\arg z,$ we re-write (\ref{eq:t}) to
+    \[
+    \arg z_\alpha + \tau \arg z_\beta' = 2\pi t + i(\log |z_\alpha| + \tau \log |z_\beta'|) \mod(2\pi, 2\pi \tau).
+    \]
+    Since $\tau \notin \mathbb{R}, \arg (\cdot) \in \mathbb{R},$ this uniquely determines $\arg z_\alpha + \tau \arg z_\beta'\mod 2\pi,$ varying continuously with $t_{\alpha \beta}, |z_\alpha|, |z_\beta'|.$ Combining these two results, $z_\alpha, z_\beta$ are determined uniquely by the initial choice of point in $\mathbb{C}^p\times \mathbb{C}^q,$ and vary continuously with it. The rest of the coordinates are defined via (\ref{eq:w}) by $z_j = p_{\alpha, j}z_\alpha,$ and $z'_k = p'_{\beta, k} z_\beta '.$ The resulting $(z, z')$ has $|z| = |z'| = 1$ and uniquely $\mathbf{\Phi_{\alpha\beta}}(z,z') = (p_\alpha, p_\beta, t).$ Since $(z, z')$ varies continuously with $(p_\alpha, p_\beta, t),$ and we already have forward continuity, we conclude $\mathbf{\Phi_{\alpha\beta}}$ defines a homeomorphism $V_{\alpha\beta} \xrightarrow{\cong} \mathbb{C}^{p+q}\times \mathbf{T}_{(1,\tau)}.$
+\end{proof}
+
+Since $\mathbb{C}^{p+q}\times \mathbf{T}_{(1,\tau)}$ is a complex manifold, we can pull back its complex structure under $\mathbf{\Phi}$ to $V_{\alpha \beta}$. It remains to show that these charts on $V_{\alpha \beta}$ are biholomorphically compatible across $\alpha, \beta.$ 
+
+\begin{proof}[Proof 2/2.]
+On any $V_{\alpha \beta} \cap V_{\gamma \delta},$ for coordinates $(w_{\alpha}, w'_{\beta}), (w_{\gamma}, w'_{\delta})$ we set $w_{\alpha\alpha} = w_{\beta\beta}' =w_{\gamma\gamma} =w_{\delta\delta}' = 1,$ we have transition maps $V_{\alpha\beta}\rightarrow V_{\gamma\delta}$ on each subchart:
+    \[
+    w_{\gamma j} = \frac{w_{\alpha j}}{w_{\alpha \gamma}}, \quad w_{\delta, k}' = \frac{w_{\beta k}'}{w_{\beta \delta}'},
+    \]
+    \[
+    t_{\gamma \delta} = t_{\alpha \beta} + \frac{1}{2\pi i} (\log w_{\alpha \gamma} + \tau \log w_{\beta \gamma}') \mod(1,\tau), \label{eq:str}\tag{III}
+    \]
+    and since $w_{\alpha \gamma}, w'_{\beta \delta} \neq 0$ over $V_{\alpha \beta}\cap V_{\gamma \delta},$ we have biholomorphic transition maps.
+\end{proof}
+
+We denote the complex manifold formed from the product space $S^{2p+1}\times S^{2q+1}$ endowed with the above complex structure by $\mathbf{M_{p,q, \tau}}.$ The choice of $\tau$ will not be of interest to us, so we will often omit it from the subscript.
+
+\begin{theorem}
+    We can realise $\mathbf{M_{p,q,\tau}}$ as the total space of a principal fiber bundle over $\mathbb{C}\mathbf{P}^{p+q}.$
+\end{theorem}
+
+\begin{proof}
+
+Let $\pi:z\in\mathbb{C}^{p+1} \mapsto \mathrm{span}_\mathbb{C}(z).$ Under restriction, $\pi: S^{2p+1} \rightarrow \mathbb{C}\mathbf{P}^p$ homogenises affine coordinates: $z=(z_0, \dots, z_p) \mapsto [z_0:\dots:z_p].$ This defines a surjection with great circles $\pi^{-1}\pi(z) = \{\lambda z:|\lambda| =1\}\cong S^1$ as the fibers. That is, $\pi$ gives the well-known \textit{Hopf fibration}
+\[
+S^1 \hookrightarrow S^{2p+1} \xrightarrow{\pi} \mathbb{C}\mathbf{P}^p.
+\]
+Let $\pi'$ denote the same map from $\mathbb{C}^{q+1}.$ We define the product map $\Pi: (z,z') \mapsto (\pi(z), \pi(z'))$ and restrict its domain to $S^{2p+1} \times S^{2q+1}.$ By scaling invariance, our earlier $w_{\alpha j}, w'_{\beta k}$ coordinates descend via $\Pi$ to give holomorphic affine coordinates on $\mathbb{C}\mathbf{P}^p\times \mathbb{C}\mathbf{P}^q.$ As such, $\Pi$ is the (holomorphic) fiber surjection with fibers $\Pi^{-1} \Pi (w_{\alpha j}, w'_{\beta k} , t_{\alpha \beta}) = (w_{\alpha j}, w'_{\beta k} , \mathbf{T}_{(1,\tau)}).$ We have the fiber sequence
+    \[
+    \mathbf{T}_{(1,\tau)} \hookrightarrow \mathbf{M_{p,q,\tau}} \xrightarrow{\Pi} \mathbb{C}\mathbf{P}^p \times \mathbb{C}\mathbf{P}^q,
+    \]
+for any choice of $\tau \notin \mathbb{R}.$ Principality follows since the structure group acts on $\mathbf{T}_{(1,\tau)}$ by translations $\mod (1,\tau)$ and, per (\ref{eq:str}), does so holomorphically in $w_{\alpha \gamma}, w_{\beta\gamma}'$ (or, more precisely, in each $w_{\alpha j}, w_{\beta k}'$). This group is exactly $\mathbf{T}_{(1,\tau)}.$ So, $\mathbf{M_{p,q}}$ is a complex principal $\mathbf{T}_{(1,\tau)}$-bundle.
+
+\end{proof}
+
+We package the information of this principal fiber bundle into the notation $\xi_{p,q}.$ Let us now examine what this space looks like for a particular case of $p,q.$
+
+\begin{example}[$\mathbf{M_{p,0, \tau}}$]
+    When $p=0,$ the manifold $\mathbf{M_{p,0, \tau}}$ is isomorphic to the \textit{Hopf manifold} $\mathbf{H_{p}}$ as complex manifolds (and analogously when instead $q=0$).
+    
+    To see this, we take global affine coordinates on $S^{2p+1}\times S^1$ by $(z_\alpha)_{0,\dots, p}\times (e^{2\pi i \rho})_{\rho \in \mathbb{R} \mod 1}.$ Then, on any chart $V_{\alpha 0}$ with local holomorphic coordinates $(w_{\alpha j})\times w_{0,k}'$ defined as above, we have
+    \[
+    u_j := z_j e^{2\pi i \tau \cdot \rho} = w_{\alpha j}z_\alpha e^{\tau \log e^{2\pi i \rho}}: (V_{\alpha 0})_j\to \mathbb{C}.
+    \]
+    For each $u_j,$ we can locally choose an holomorphic branch of $\log e^{2\pi i\rho},$ with branch choices differing by constant multiplicative factor $e^{2\pi i \tau \cdot N}$ for $N\in \mathbb{Z},$ since $\rho$ is only defined $\mod 1.$ Note $|e^{2\pi i \tau}|\neq 1$ since $\tau \notin \mathbb{R}.$ This locally holomorphic but globally multi-valued function holomorphic is a bona fide single-valued holomorphism on the universal covering space, since paths non-trivial in homotopy lift to trivial paths (upon which the function must thus follow a single branch). That is, we get an entire function $\widetilde u_j: \widetilde{\mathbf{M}_{p,0}} \to \mathbb{C}$ and, collectively, $(u_j):  \widetilde{\mathbf{M}_{p,0}} \to \mathbb{C}^{p+1}-0,$ satisfying $\widetilde u_j(\gamma^Nx) = a^N \widetilde u_j(x)$ for $\gamma \in \mathrm{Deck}(\widetilde{\mathbf{M}_{p,0}}).$ So, $u_j$ descends to a single-valued holomorphism on the quotient
+    \[
+    (u_j): \mathbf{M}_{p,0} \cong  \widetilde{\mathbf{M}_{p,0}}/\mathrm{Deck}(\widetilde{\mathbf{M}_{p,0}}) \to (\mathbb{C}^{p+1}-0)/\langle \cdot a\rangle = \mathbf{H}_{p},
+    \]
+    which is, in particular, a biholomorphism.
+
+\end{example}
+
+
+\subsection{Non-algebraicity}
+
+\subsubsection{Preliminaries: Hodge Theory for K\"ahler Manifolds}
+
+\begin{definition}[K\"ahler manifolds]
+    Let $M$ be a complex manifold. It determines, by pulling back $i$-action from $\mathbb{C}^n$ through the local frames, an endomorphism $J: TM \rightarrow TM, \quad J^2 = -I,$ its (integrable) complex structure.
+    % To have a notion of $(p,q)$-forms on $TM,$ we complexify the tangent bundle and decompose:
+    % \[
+    % TM \otimes_\mathbb{R} \mathbb{C} = T^{1,0}M \oplus T^{0,1}M,
+    % \]
+    % which now has both complex structure and takes coefficients in $\mathbb{C}.$ Sections of the vector bundle into the dual space gives the differential forms.
+    Separately, $M$ carries a Riemannian structure if we associate a Riemannian metric $g,$ a smoothly-varying inner product on the tangent bundle: $g: TM \times TM \rightarrow \mathbb{R}.$ This Riemannian metric, on $M$ associated with its complex structure, is a Hermitian metric (and thus associates with $M$ a Hermitian structure) if it is compatible with the complex structure:
+    \[
+    g(Ju, Jv) = Jg(u,v), \quad \forall u,v\in T_p(M), \forall p\in M.
+    \]
+    This Hermitian metric has an associated (non-degenerate) $2$-form $\omega(u,v) := g(Ju,v).$ If $d\omega = 0$ then $\omega$ is a symplectic form. In particular, we call it the K\"ahler form on $M$ and it associates with $M$ a K\"ahler structure $(M, J, g, \omega),$ collectively a K\"ahler manifold.
+    
+\end{definition}
+
+We closely Lee's exposition \cite{LeeCx} on the central Hodge theory in what follows.
+
+\begin{theorem}[Hodge Theorem for Riemannian Manifolds]
+    For $M$ an oriented,\footnote{Since we are only working with complex manifolds, we always have a canonical orientation.} compact Riemannian manifold. Then, the composite map
+    \[
+    \mathcal{H}^k (M)\hookrightarrow \mathscr{Z}(M) \rightarrow H^k_{dR}(M; \mathbb{C}),
+    \]
+    for $\mathscr{Z}(M)$ the closed $k$-forms, is an isomorphism of vector spaces.
+\end{theorem}
+\begin{proof}
+    Let $\alpha \in \mathcal{H}^k(M).$ Then $d^*\alpha = 0$ so $\langle \alpha, d\gamma\rangle = \langle d^*\alpha, \gamma\rangle = 0.$ Let $\kappa = \alpha + d\sigma$ for $(k-1)$-form $\sigma$ be another representative of the same cohomology class. Then
+    \[
+    \|\kappa\|^2 = \|\alpha\|^2 + \underbrace{2\Re\langle \alpha, d\sigma \rangle}_{=0} + \|d \sigma\|^2 \ge 0
+    \]
+    with equality if and only if $d\sigma = 0.$\footnote{Equivalently, $\alpha$ is the unique minimiser of the Hodge norm $\|\alpha\| = \int_M \alpha \wedge * \alpha$ within its cohomology class. Here $*:T_p^{(1)}M \to T_p^{(1)}M$ is the real-linear \textit{Hodge $*$-operator} satisfying $*^2 = -1$ and locally given by $*dx = dy, *dy = -dx.$} This gives injectivity.
+
+    Take $\alpha \in \mathcal{A}^k(M):d\alpha = 0.$ If $k=0,$ then $d^*\alpha = 0$ so $\alpha$ is harmonic, being closed and co-closed. If $k\ge 1,$ then, since $\ker \Delta_d = \ker \Delta_{d^*} \subset \ker d,$ by properties of the adjoint, $\langle d^*\alpha, \ker \Delta_{d}\rangle = \langle \alpha, d\ker \Delta_d\rangle = 0.$
+
+    So there is a $\beta \in \mathcal{A}^{k-1}:\Delta_d \beta = d^*\alpha.$ Expanding $\Delta_d$ and re-arranging: $dd^*\beta =d^*(\alpha - d\beta) \in \mathrm{im } d^*.$ But $d^2 = 0,$ so the left-hand side is in $\ker d.$ Since $ \mathrm{im } d^* \perp \ker d,$ we must have $d^*(\alpha - d\beta) = 0.$ Then $\alpha - d\beta$ is co-closed as well as closed by assumption. So $\alpha - d\beta \in \mathcal{H}^k$ is a harmonic representative of $[\alpha] \in H^k_{dR}(M; \mathbb{C}).$
+\end{proof}
+
+\begin{theorem}[Hodge Decomposition and Duality for K\"ahler Manifolds]
+
+Let $M$ be a K\"ahler $n$-manifold. Then:
+
+\begin{enumerate}
+    \item For $k = 0, \dots, 2n$ there is the \textit{Hodge Decomposition}
+    \[
+    \mathcal{H}^k(M) = \bigoplus_{p+q = k}\mathcal{H}^{p,q}(M),
+    \]
+    where $\mathcal{H}^{p,q}(M)$ are the harmonic $(p,q)$-forms on $M.$ In particular,
+    \[
+    H_{dR}^{k}(M;\mathbb{C}) \cong  \bigoplus_{p+q = k} H^{p,q}(M).
+    \]
+    This is independent of our choice of K\"ahler metric on $M.$ We define $h^{p,q} = \dim_{\mathbb{C}} H^{p,q}(M)$ as the $(p,q)$ \textit{Hodge number} of $M.$ Then, the Betti and Hodge numbers are related by
+    \[
+    b_k = h^{k, 0} + h^{k-1, 1} + \dots + h^{1,k-1} + h^{0,k}.
+    \]
+
+    \item Conjugation defines a conjugate-linear bijection $\mathcal{H}^{p,q}(M) \leftrightarrow \mathcal{H}^{q,p}(M)$ which we call \textit{Hodge Duality}. In particular,
+    \[
+    h^{p,q} = h^{q,p}
+    \]
+\end{enumerate}
+\end{theorem}
+
+\noindent We will need some lemmata for the proof.
+
+\begin{definition}[Lefschetz Operator]
+    For $M$ a K\"ahler manifold with K\"ahler form $\omega,$ we define the \textit{Lefschetz Operator}:
+    \[
+    L_\omega : \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p+1,q+1}, \quad L_\omega\eta = \omega \wedge \eta.
+    \]
+\end{definition}
+
+\begin{definition}[Interior Product]
+    Axiomatically, let $\iota_X:\Omega^p\rightarrow \Omega^{p-1}$ be the anti-derivation characterised by 
+    \[
+    (\iota_X\omega)(X_1, \dots, X_{p-1}) = \omega(X, X_1, \dots, X_{p-1})
+    \]
+    for vector fields $X_i.$ As an anti-derivation on the exterior algebra of differential forms, it obeys a form of Leibniz's Rule:
+    \[
+    \iota_X(\alpha \wedge \gamma) = (\iota_X \alpha)\wedge \gamma + (-1)^{\text{deg}\alpha}\alpha \wedge (\iota_X\gamma).
+    \]
+\end{definition}
+
+
+\noindent In the following, we use the operator commutator $[P,Q] = P Q - Q P.$
+
+\begin{lemma}[The K\"ahler Identities]\label{lemma:K\"ahleridentities}
+    On a K\"ahler manifold, $\overline \partial ^* = -i[L_\omega^*, \partial].$
+\end{lemma}
+\begin{proof}
+    It suffices to check on Euclidean space, with metric components\footnote{That is, the $g_{ij}$ defining the Riemannian metric on $M$ via a basis of the cotangent bundle: $g = \sum_{i,j} g_{ij} dx^i \otimes dx^j.$} $\overline{g}_{k\overline l} = \frac{1}{2}\delta_{kl}.$ The associated K\"ahler form is $\omega = \frac{i}{2}\sum_jdz^j \wedge d\overline z^j.$ Then, for $\eta \in \mathcal{A}^\bullet,$
+    \begin{align*}
+        [\overline{\partial}^{*},L]\eta
+        &= \overline{\partial}^{*}(\omega\wedge\eta)-\omega\wedge(\overline{\partial}^{*}\eta) \\
+        &= -2 \iota_{\partial_{ \bar z^j}} \partial_{j}\left( \overline{g}_{k \overline{l}} dz^{k}\wedge d \overline{z}^{ l}\wedge\eta\right)
+        + \overline{g}_{k \overline{l}} dz^{k}\wedge d \overline{z}^{ l}\wedge\left(2 \iota_{\partial/\partial \bar z^j} \partial_{j}\eta\right) \\
+        &= -2 \iota_{\partial_{ \bar z^j}} \left( \overline{g}_{k \overline{l}} dz^{k}\wedge d \overline{z}^{ l}\wedge\partial_{j}\eta\right)
+        + \overline{g}_{k \overline{l}} dz^{k}\wedge d \overline{z}^{ l}\wedge\left(2 \iota_{\partial_{ \bar z^j}}\partial_{j}\eta\right) \\
+        &= i dz^{j}\wedge\partial_{j}\eta\\
+        &= i \partial\eta.
+    \end{align*}
+Since $[L^*, \partial] = \overline{[ \overline{\partial}^{*},L]^*},$ we get our result.
+\end{proof}
+
+\begin{lemma}\label{lemma:K\"ahlerlaplacian}
+    On a K\"ahler manifold, the Hodge Laplacian satisfies $\Delta_d :=dd^* + d^*d  = \Delta_\partial + \Delta_{\overline \partial}.$
+\end{lemma}
+\begin{proof}
+    Using Lemma \ref{lemma:K\"ahleridentities} and $\partial^2 = 0,$ we get identities
+    \[
+    \overline \partial^* \partial + \partial \overline \partial^* = -i[L^*_\omega , \partial]\partial - i\partial [L^*_\omega, \partial] = 0 = \partial^* \overline\partial + \overline\partial  \partial^*  
+    \]
+    with the last equality following by conjugation and the forward reasoning. Then,
+    \begin{align*}
+    \Delta_d &= (\partial + \overline \partial)(\partial ^*+ \overline \partial^*) + (\partial + \overline \partial)(\partial ^*+ \overline \partial^*)\\
+    &= \partial \partial^* + \partial^*\partial +
+    \underbrace{\partial \overline \partial^* + \overline \partial^*\partial + 
+    \overline \partial\partial^* + \partial^*\overline \partial}_{=0} + 
+    \overline\partial\overline\partial^* + \overline \partial^*\overline\partial\\
+    &= \Delta_\partial + \Delta_{\overline \partial}
+    \end{align*}
+\end{proof}
+
+
+\begin{lemma} \label{lem:K\"ahlerlaplacian2}
+    On a K\"ahler manifold, $\Delta_d = 2\Delta_{\partial} =2 \Delta_{\overline \partial}.$
+\end{lemma}
+\begin{proof}
+    Using Lemma \ref{lemma:K\"ahleridentities} for the first line and its conjugate for the second, we have
+    \begin{align*}
+    \Delta_\partial  &= \partial \partial^* + \partial ^*\partial  = i\partial[L^*_\omega, \overline\partial] + i[L^*_\omega, \overline\partial]\partial = i\partial L^*_\omega \overline\partial -i\partial \overline\partial L^*_\omega +i L^*_\omega\overline\partial\partial -i\overline\partial L^*_\omega\partial \\
+    \Delta_{\overline \partial}& = \overline{\partial \partial^* + \partial ^*\partial} = -i\partial[L^*_\omega, \partial] - i[L^*_\omega, \partial]\overline\partial = i\partial L^*_\omega \overline\partial + i\overline\partial\partial L^*_\omega-iL^*_\omega \partial\overline\partial  -i\overline\partial L^*_\omega\partial
+    \end{align*}
+    and equality follows from $\partial \overline\partial = - \overline\partial\partial,$ which itself follows from $d^2=0.$ Apply Lemma \ref{lemma:K\"ahlerlaplacian}.
+\end{proof}
+
+\noindent We can now prove the Hodge decomposition and duality:
+
+\begin{proof}
+    Let $\alpha \in \mathcal{H}^k(M).$ Consider the decomposition $\alpha = \sum_{p+q = k} \alpha^{p,q}$ where $\alpha^{p,q} \in \mathcal{A}^{p,q}.$ Note
+    \begin{align*}
+    \overline\partial &: \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q+1}\\
+    \overline\partial^* &: \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q-1}.
+    \end{align*}
+    So, using Lemma \ref{lem:K\"ahlerlaplacian2}, $\Delta_d:\mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q}$ preserves type. Thus all $\Delta_d \alpha^{p,q} = 0,$ so $\alpha^{p,q}\in \mathcal{H}^{p,q}.$ Since no $(p,q)$-form is also $(p',q'),$ we get the desired decomposition. The Hodge theorem then provides our desired decomposition in cohomology.
+
+    For Hodge duality, our lemma guarantees that $\mathcal{H}^{p,q}_{\overline\partial} = \mathcal{H}^{p,q}_{\partial}.$ Since conjugation sends $\mathcal{H}^{p,q}_{\overline\partial}$ to $\mathcal{H}^{q,p}_{\partial},$ we have our result.
+\end{proof}
+
+
+\begin{theorem}[Betti Numbers of compact K\"ahler manifolds]\label{thm:Betti}
+    For compact $(M,h): \dim_\mathbb{C} M= n$ K\"ahler manifold, all even Betti numbers are positive, and all odd Betti numbers are even.
+\end{theorem}
+
+\begin{proof}
+    For the statement about odd Betti numbers: the Hodge decomposition gives
+    \[
+    b_k = (h^{2m + 1, 0} + h^{2m, 1} + \dots + h^{m+1, 1}) + (h^{m,m+1} + \dots + h^{1, 2m} + h^{0,2m+1}).
+    \]
+    These parenthetic terms are equal, by Hodge duality, and we conclude $b_k$ is even.
+
+    For the statement about even Betti numbers: let $\omega$ be the fundamental $2$-form associated with the Hermitian metric $h$ on $M.$ Then $\wedge^k \omega$ defines a non-zero (real De Rham) cohomology class $[\wedge^k \omega] \in H^{2k}_{dR}(M, \mathbb{R})$ for $k = 1, \dots, n,.$ In particular, $b_{2k} = \dim H^{2k}_{dR}> 0$ by the De Rham theorem for smooth manifolds.
+\end{proof}
+
+In fact, as conjectured by Kodaira and proven, in the case of elliptic surfaces, by Miyaoka \cite{Miyaoka1974} and, in the remaining case of $K3$ surfaces, by Siu \cite{Siu1983}, we can strengthen this result when $\dim_\mathbb{C}M = 2.$ Any compact complex surface admits a K\"ahler metric if and only if its first Betti number is even.
+
+
+\subsubsection{$\mathbf{M_{p,q}}$ non-K\"ahler}
+
+\begin{theorem}
+    $\mathbf{M_{p,q}}$ does not admit a K\"ahler structure.
+\end{theorem}
+
+\begin{proof}[Proof of Theorem 1]
+    We can immediately see the Betti numbers from (as topological spaces) $\mathbf{M_{p,q}} \cong S^{2p+1}\times S^{2q+1}$:
+    \begin{align*}
+    b_k &= \dim H_k(S^{2p+1}\times S^{2q+1}) \\
+    &= \dim \bigoplus_{i+j = k} H_i(S^{2p+1}) \otimes H_j(S^{2q+1})\\ 
+    &= \begin{cases}
+    1 &  k=0 \text{ or } 2p+1 \text{ or } 2q+1 \text{ or } 2p+2q+2 \\
+    0 & \text{otherwise}
+    \end{cases}
+    \end{align*}
+    provided $p\neq q,$ and $\dim H_{2p+1}(S^{2p+1}\times S^{2p+1})= 2.$ So, by Theorem \ref{thm:Betti}, $\mathbf{M_{p,q}}$ is non-K\"ahler.
+\end{proof}
+
+
+\subsubsection{$\mathbf{M_{p,q}}$ non-algebraic}
+
+\begin{lemma}
+    Complex projective space $\mathbb{C}\mathbf{P}^n$ can be endowed with the \textit{Fubini-Study} metric. Axiomatically, this is the unique metric invariant under $SU(n+1)$ action on $\mathbb{C}\mathbf{P}^n.$ The associated symplectic form is closed, so this endows $\mathbb{C}\mathbf{P}^n$ with a K\"ahler structure.
+\end{lemma}
+
+\begin{theorem}
+    A non-K\"ahler manifold is non-projective.
+\end{theorem}
+
+\begin{proof}
+    Any projective manifold $M$ inherits the Fubini-Study K\"ahler metric on $\mathbb{C}\mathbf{P}^n$ by restriction.
+\end{proof}
+
+\noindent As the upshot of our previous discussion on $\mathbf{M_{p,q}}$ being non-K\"ahler, they are in particular non-algebraic.
+
+
+
+\subsection{$H_{\overline{\partial}}^{(r,s)}(\mathbf{M_{p,q}})$ Groups}
+
+We now characterise the $\overline\partial$-cohomology $\mathbf{M_{p,q}}.$ We start with some basic definitions. Some knowledge of spectral sequences for fiber bundles will be assumed. Sufficient background can be found in the other appendices or in Ch. 3, Sec. 5 of Griffiths and Harris' exposition \cite{griffithsPrinciplesAlgebraicGeometry1978}. We closely follow Borel's exposition in Appendix II to Hirzebruch's book \cite{Hirzebruch}, to which we owe the main theorems presented below and their proofs.
+
+\begin{definition}[$\overline\partial$-cohomology groups $H_{\overline{\partial}}^{p,q}(M)$]
+    Let $M$ be complex $n$-manifold. Since $\overline{\partial}^2 = 0,$ we have the cochain complex (\textit{p-th Dolbeault complex})
+    \[
+    0 \rightarrow \mathcal{A}^{p,0} \xrightarrow{\overline\partial} \mathcal{A}^{p,1} \rightarrow \dots \rightarrow\mathcal{A}^{p,n} \rightarrow 0
+    \]
+    whereupon the corresponding Dolbeault cohomology groups can be defined
+    \[
+    H^{p,q}_{\overline \partial}(M) = \frac{\ker (\overline\partial: \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q+1})}{\mathrm{im} (\overline\partial: \mathcal{A}^{p,q-1} \rightarrow \mathcal{A}^{p,q})}.
+    \]
+    As usual, we can show Dolbeault cohomology defines a functor and that its cohomology of a complex manifold is invariant under biholomorphism.
+\end{definition}
+
+
+\begin{definition}[Base and fiber bundle degree]
+    We refer to the integer $f_{[V]} = [F] \in  H^2(V, \mathbb{Z})$ as the \textit{degree} of the fiber bundle $F,$ for an algebraic manifold $V.$ The analogous case is used for the base space, denoted $b_{[V]}$.
+\end{definition}
+
+\begin{definition}[The complex vector bundle $\mathbf{H}^{p,q}(F)$]
+    Let $\xi = (E,B,F,\pi)$ be a complex analytic bundle, with $F$ compact connected, and with transition maps $f_{\alpha\beta} = U_\alpha \cap U_\beta \to G$ into the structure group, with $\{U_\alpha\}_{\alpha\in A}$ a cover of $B.$  We let $\mathbf{H}^{p,q}(F)$ denote the bundle with total space obtained via 
+    \[
+    \bigcup_{b\in B}H^{p,q}(F_b), \quad F_b = \pi^{-1}(b), b\in B,
+    \]
+    and with transition functions $f^0_{\alpha\beta} = f_{\alpha\beta}\circ \varphi^0,$ where $\varphi^0$ is a representation of $G$ in $\mathbf{GL}(H^{p,q}(F)).$
+\end{definition}
+
+\begin{theorem}\label{thm:hirz}
+    For our $\xi_{p,q},$ and more generally, for holomorphic fiber bundles $(E,B,F, \pi)$ with spaces all connected and the fiber compact, and with structure group $G$ of $\xi$ acting trivially on $H_{\bar \partial}(F),$ there exists a spectral sequence $(E_r, d_r)$ satisfying:
+    \begin{enumerate}
+        \item The group $E_r = \bigoplus_{f_{[V]}, b_{[V]}, (p,q)} E^{p,q,f_{[V]}, b_{[V]}}_r$ is $4$-graded.
+Notably, $E^{p,q,s,t}_r = 0$ if $p+q = s+t$ or any index is negative. We have the associated differential complex:
+        \[
+        \dots \rightarrow E^{p,q,s,t}_r \xrightarrow{d_r} E^{p,q+1,s+r,t-r+1}_r \rightarrow \cdots
+        \]
+
+        \item If $p+q = s+t,$ then
+        \[
+        E^{p,q,s,t}_2 \cong \bigoplus_{i \ge 0} H^{i, s-i}(B, W\otimes \mathbf{H}^{p-i, q-s+1}(F)),
+        \]
+        where $W$ is a complex vector bundle on $B.$
+
+        \item Let $\hat W = \pi^*W.$ Then, $E_R \implies H_{\bar \partial}(E, \hat W).$ For all $p,q \ge 0,$
+        \[
+        \mathrm{Gr}H^{p,q}(E,\hat W) = \bigoplus_{s+t = p+q} E^{p,q,s,t}_\infty
+        \]
+        for a suitable filtration of $H^{p,q}(E,\hat W).$ 
+
+        \item If $W=1,$ then $(E_r, d_r)$ consists of differential anti-commutative algebras, and the isomorphism in the last display is compatible with the products.
+    \end{enumerate}
+\end{theorem}
+
+A proof for Theorem \ref{thm:hirz} can be found in Borel's exposition in Appendix II of Hirzebruch' book \cite{Hirzebruch} but is otherwise beyond the scope of this paper.
+
+We can now turn to characterising the $\bar \partial$-cohomology of $\mathbf{M_{p,q}}.$ We denote the connected component of the group of biholomorphic automorphisms on $X$ a compact, complex manifold containing its identity by $\mathrm{Aut}^0(X).$ This is the group consisting of $g\in\mathrm{Aut}(X)$ for which there is a continuous family of complex automorphisms $f_{t\in [0,1]}\in \mathrm{Aut}$ with $f_0 = I, f_t = g.$ 
+
+\begin{lemma}
+    $\mathrm{Aut}^0(\mathbf{M_{p,q}})$ acts trivially on $H_{\overline\partial}(\mathbf{M_{p,q}}).$
+\end{lemma}
+
+\begin{proof}
+    Note $\xi$ meets the conditions for Theorem \ref{thm:hirz}, so we know $E_2 = H_{\bar\partial}(\mathbb{C}\mathbf{P}^{p+ q}) \otimes H_{\bar\partial}(\mathbf{T})$ for the associated spectral sequence. Since $\mathrm{Aut}^0(\mathbf{M}_{p,q})$ is an automorphism group of $\xi,$ it operates on the spectral sequence. For compact K\"ahler manifolds, the Hodge decomposition shows that their $\mathrm{Aut}^0$ component act trivially on $\bar\partial$-cohomology. So, the $\mathrm{Aut}^0(\mathbf{M}_{p,q})$ action on $H_{\bar\partial}(\mathbf{M}_{p,q})$ and $H_{\bar\partial}(\mathbf{T})$ is trivial, and thus also on their tensor product $E_2 = H_{\bar\partial}(\mathbb{C}\mathbf{P}^{p+q}) \otimes H_{\bar\partial}(\mathbf{T}).$ Since the automorphism commutes with the differentials of the spectral sequence, its action on the later pages is also trivial. In particular, the action on $E_\infty = \mathrm{Gr}H_{\bar \partial}(\mathbf{M}_{p,q})$ is trivial. In fact, any compact subgroup of $\mathrm{Aut}^0(\mathbf{M}_{p,q})$ acts trivially on $H_{\bar \partial}(\mathbf{M}_{p,q})$ and it follows that all $\mathrm{Aut}^0(\mathbf{M}_{p,q})$ acts trivially.
+\end{proof}
+
+\begin{lemma}[Hartog's Extension Theorem]
+    For a holomorphic function $F$ on several complex variables, an isolated singularity is always removable.\footnote{In fact, $F$ can fail to be defined on a compact set, as is the usual statement of Hartog's, but we will not need this.}
+\end{lemma}
+\begin{proof}
+    This proof is H\"ormander's \cite{hormander1973}. We extend $F$ by $\varphi f - \psi$ for smooth $\varphi, \psi,$ where $\varphi$ vanishes wherever $f$ is undefined. This extension is holomorphic if we restrict our choice of $\psi$ such that $\bar \partial \psi = \bar \partial( \varphi f )=  f\bar \partial \varphi  + \varphi\bar \partial f = f \bar\partial \varphi.$ We choose $\varphi \equiv 1$ everywhere away from a compact subset of the support of $F,$ so $\bar\partial \varphi = 0$ there. Then, since $\bar\partial (f\bar \partial \varphi) = 0,$ the Poincar\'e lemma for compactly supported differential forms tell us that there exists a compactly supported function $\psi$ satisfying our first differential equality.
+    
+    Since $\psi$ has compact support, it vanishes in some open connected component containing $\infty.$ On this component, $\varphi f - \psi =  f.$ So, our extension thus agrees with $F$ on an open set and thus (by rigidity of holomorphic functions) globally where both are defined.
+\end{proof}
+
+\begin{lemma}
+    $H^{1,0}(\mathbf{M_{0,q}}) = 0,$ for $q \ge 1.$
+\end{lemma}
+
+\begin{proof}
+    Recall from Example 1 that $\mathbf{M}_{0,q}\cong \mathbf{H}_{q}$ can be identified with the Hopf manifold constructed as $(\mathbb{C}^{q+1} - 0)/\langle \gamma: z\mapsto cz, c \neq 1 \rangle.$ For $\omega \in \Omega^*(\mathbf{M}_{0,q}),$ pulling back under the quotient, $\pi^*\omega = g_1 dz_1 + \dots + g_{q+1}dz_{q+1}$ for $g_i \in \mathcal{O}(\mathbb{C}^{q+1} - 0).$ Since $\pi^*\omega$ is invariant under $\gamma,$ we can iterate $\gamma$ to get $g_i(c^nz) = c^{-n}g_i(z).$ Then either $|c|<1$ and $|c^{-n}|\to \infty$ as $c^nz \to 0,$ or we get the same blowup using invariance under $\gamma^{-1}.$
+    
+    In particular, $g_i$ is unbounded near the origin unless $g_i \equiv 0.$ But Hartog's extension theorem would require $g$ to extend holomorphically over $0$ and thus be bounded in some neighbourhood of $0.$
+\end{proof}
+
+\begin{theorem}
+    For $p \le q,$
+    \[
+    H_{\overline\partial}(\mathbf{M_{p,q}}) \cong \mathbb{C}[x_{1,1}]/(x^{p+1}_{1,1}) \otimes \Lambda(x_{q+1,q},x_{0,1}).
+    \]
+\end{theorem}
+
+\begin{proof}
+    Suppose first $p=0.$ In the spectral sequence of $\xi_{0,q} = (\mathbf{M_{0,q}}, \mathbf{P}^q, \mathbf{T}, \pi),$ we have directly from Theorem \ref{thm:hirz} (taking the trivial vector bundle over $\mathbf{P}^q$) that
+    \begin{align*}
+        E^{0,q,s,t}_2 &\cong \bigoplus_{i\ge 0}H^{i, s-i}(\mathbb{C}\mathbf{P}^q, 1\otimes \mathbf{H}^{-i, q-s + i}(\mathbf{T}))\\
+        E_2 &\cong H^*(\mathbb{C}\mathbf{P}^q) \otimes H^*(\mathbf{T})  \cong \mathbb{C}[x_{1,1}]/(x_{1,1}^{q+1})\otimes \Lambda(x_{q+1, q}, x_{0,1}),
+    \end{align*}
+    for non-zero representatives $x_{1,1}\in H_{\bar\partial}^{1,1}(\mathbb{C}\mathbf{P}^q)$ and $x_{0,1}\in H_{\bar\partial}^{0,1}(\mathbf{T})$ and where $\Lambda(x_{q+1, q}, x_{0,1})$ is the free exterior algebra over $\mathbb{C}$ with the given generators. The element $x_{0,1}$ generates $E^{0,1,0,1}_2 \cong H^{0,0}(\mathbb{C}\mathbf{P}^q)\otimes H^{0,1}(\mathbf{T})\cong \mathbb{C}^{\otimes 2}\cong \mathbb{C}$ and $d_2$ sends it into $E^{0,2,2,0}_2 = 0.$ All higher $d_r$ act similarly on $x_{0,1},$ sending it into $E^{\dots, 2-r < 0} = 0.$ So, $d_2(x_{0,1}) = 0,$ so $x_{0,1}\in E_\infty$ is a \textit{permanent cocycle}. The same cannot be true of $x_{1,0},$ or it would generate a non-trivial class in cohomology $[x_{1,0}]\in H^{1,0}(\mathbf{M_{0,q}}),$ contrary to Lemma 7. So, we can assume that $d_2(x_{1,0}) = x_{1,1}.$ We can then compute $E_3$ as follows:
+
+    Every element of $E_2$ is a $\mathbb{C}$-linear combination of $(x_{1,1}^k\otimes 1), (x_{1,1}^k\otimes x_{1,0}), (x_{1,1}^k \otimes x_{0,1}), (x_{1,1}^k\otimes (x_{1,0}\wedge x_{0,1})),$ where $0\le k \le q.$ These $d_2$ sends, respectively, to $(0), (x_{1,1}^{k+1}\otimes 1),(0), (x_{1,1}^{k+1} \otimes x_{0,1}).$ Since $x_{1,1}^{q+1} = 0$ also $d_2(x_{1,1}^q  \otimes x_{1,0})=0=d_2(x_{1,1}^q \otimes (x_{1,0} \wedge x_{0,1})).$ So,
+    \[
+    E_3 \cong \Lambda (y_{q+1, q}, x_{0,1}).
+    \]
+    where the first generator denotes the $E_3$ class coming from $x_{1,1}^{q}\otimes x_{1,0}.$ Because of their fiber degree, $d_r y_{q+1, q} = d_r x_{0,1} = 0, r\ge 3.$ So, $E_{r+1} = \ker d_r/\mathrm{im} d_r = E_r$ and, inductively, $E_3 \cong E_\infty \cong H_{\bar \partial}(\mathbf{M_{0,q}}),$ also multiplicatively by Theorem \ref{thm:hirz}.4. This gives us our result for $p=0,$ since 
+    \[
+    H_{\bar \partial}(\mathbf{M_{0,q}}) \cong \Lambda (x_{q+1, q}, x_{0,1}) \cong \mathbb{C}[x_{1,1}]/(x_{1,1}) \otimes \Lambda (y_{q+1, q}, x_{0,1}).
+    \]
+    Now, let $0<p\le q$ and take the fibering $\xi = (\mathbf{M_{p,q}}, \mathbb{C}\mathbf{P}^p, \mathbf{M_{0,q}}, \pi).$ The structure group is a one-dimensional complex torus. It sits inside $\mathrm{Aut}(\mathbf{M_{p,q}})$ and, in particular, since it contains the identity and is connected, sits inside $\mathrm{Aut}^0(\mathbf{M_{p,q}}).$ So, Lemma 5 applies and the structure group acts trivially on the cohomology $H_{\bar \partial}(\mathbf{M_{0,q}}).$ After noting also that $\mathbf{M_{p,q}}, \mathbb{C}\mathbf{P}^p, \mathbf{M_{0,q}}$ are all connected and $\mathbf{M_{0,q}}$ is compact, we can again use Theorem \ref{thm:hirz} to get the associated spectral sequence with second page given by
+    \[
+    E_2 = \mathbb{C}[x_{1,1}]/(x^{p+1}_{1,1}) \otimes \Lambda(x_{q+1, q}, x_{0,1}).
+    \]
+    By the same reasoning as earlier along with the $\bar\partial$-type constraints imposed by $p \le q,$ both $x_{0,1}$ and $x_{q+1, q}$ are permanent cocycles. So, for $r\ge 2$ the spectral sequence differential is the zero map. Thus, inducting as in the last case, $E_2 \cong E_\infty \cong H_{\bar \partial} (\mathbf{M_{p,q}})$ additively. Compatibility with products follows since the generators of $H_{\bar\partial}(\mathbf{M_{p,q}})$ have the same relations $x_{1,1}^{p+1} = 0$ and $x_{p+1, p}^2 = x_{0,1}^2 = 0$ as the $E_2$ generators. So, we conclude
+    \[
+    H_{\bar\partial}(\mathbf{M_{p,q}}) \cong \mathbb{C}[x_{1,1}]/(x^{p+1}_{1,1}) \otimes \Lambda(x_{q+1, q}, x_{0,1}),
+    \]
+    for $0<p\le q,$ per our claim, and thus we have finished our characterisation of $H_{\bar\partial}(\mathbf{M_{p,q}})$ for $p\le q.$
+\end{proof}
