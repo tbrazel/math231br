@@ -1,7 +1,7 @@
 \section{The Calabi-Eckmann Manifolds and their $\bar\partial$-Cohomology (Carl Scandelius)}
 
 
-\noindent The following explores the class of compact, simply-connected complex manifolds $\mathbf{M_{p,q}}$ discovered by Eugenio Calabi and Beno Eckmann \cite{CE}. We construct the spaces and then, after some K\"ahler geometry preliminaries, we prove that $\mathbf{M_{p,q}}$ do not admit a K\"ahler metric and are thus non-algebraic. We end with a note on their $\bar\partial$-cohomology.
+\noindent The following explores the class of compact, simply-connected complex manifolds $\mathbf{M_{p,q}}$ discovered by Eugenio Calabi and Beno Eckmann \cite{CE1953}. We construct the spaces and then, after some K\"ahler geometry preliminaries, we prove that $\mathbf{M_{p,q}}$ do not admit a K\"ahler metric and are thus non-algebraic. We end with a note on their $\bar\partial$-cohomology.
 
 \subsection{Construction of $\mathbf{M_{p,q}}$}
 
@@ -110,7 +110,7 @@ We package the information of this principal fiber bundle into the notation $\xi
     
 \end{definition}
 
-We closely Lee's exposition \cite{Lee} on the central Hodge theory in what follows.
+We closely Lee's exposition \cite{LeeCx} on the central Hodge theory in what follows.
 
 \begin{theorem}[Hodge Theorem for Riemannian Manifolds]
     For $M$ an oriented,\footnote{Since we are only working with complex manifolds, we always have a canonical orientation.} compact Riemannian manifold. Then, the composite map
@@ -257,7 +257,7 @@ Since $[L^*, \partial] = \overline{[ \overline{\partial}^{*},L]^*},$ we get our 
     For the statement about even Betti numbers: let $\omega$ be the fundamental $2$-form associated with the Hermitian metric $h$ on $M.$ Then $\wedge^k \omega$ defines a non-zero (real De Rham) cohomology class $[\wedge^k \omega] \in H^{2k}_{dR}(M, \mathbb{R})$ for $k = 1, \dots, n,.$ In particular, $b_{2k} = \dim H^{2k}_{dR}> 0$ by the De Rham theorem for smooth manifolds.
 \end{proof}
 
-In fact, as conjectured by Kodaira and proven, in the case of elliptic surfaces, by Miyaoka \cite{Miyaoka} and, in the remaining case of $K3$ surfaces, by Siu \cite{Siu}, we can strengthen this result when $\dim_\mathbb{C}M = 2.$ Any compact complex surface admits a K\"ahler metric if and only if its first Betti number is even.
+In fact, as conjectured by Kodaira and proven, in the case of elliptic surfaces, by Miyaoka \cite{Miyaoka1974} and, in the remaining case of $K3$ surfaces, by Siu \cite{Siu1983}, we can strengthen this result when $\dim_\mathbb{C}M = 2.$ Any compact complex surface admits a K\"ahler metric if and only if its first Betti number is even.
 
 
 \subsubsection{$\mathbf{M_{p,q}}$ non-K\"ahler}
