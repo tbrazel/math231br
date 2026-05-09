@@ -1,46 +1,311 @@
+\section{Leray Spectral Sequence (David Ettel)}
 In this appendix we will give an introduction to the Leray spectral sequence. We will specialize to the so-called Leray-Serre spectral sequence and prove Leray-Hirsch theorem as well as more general statement along the way. Finally, we will apply the Leray-Hirsch theorem to prove that if $E \to X$ is a vector bundle and $\mathbb{P}(E)$ is its projectivization, then $H^\ast(\mathbb{P}(E),\mathbb{Z})$ is free over $H^\ast(X,\mathbb{Z})$. Before we dive into the mathematical theory, it is worthwhile to look at how and when it was first developed as its history is quite inspirational.
 
 
-\section{History}
+\subsection{History}
 The Leray spectral sequence is named after its inventor Jean Leray, a French mathematician of the twentieth century (*1906 - $^\dagger$1998). 
  Jean Leray's most decisive mathematical turn came during his imprisonment in Oflag XVIIA in Austria from 1940 to 1945. Trained mainly in analysis and fluid mechanics, he deliberately shifted toward algebraic topology while in captivity, partly to avoid being used for technical work by the German war effort. Nota bene: Leray spectral sequences are thus a memorial of civilian resistance against the Nazi regime. In the prison camp he helped organize an improvised university and developed a new, deeply local approach to topology. 
 
 
- It was in this prison setting that the ideas behind sheaves, sheaf cohomology, and eventually the Leray spectral sequence first emerged. Leray wanted tools that could study very general spaces without relying so heavily on simplicial methods. This led him to organize cohomological information in successive layers. After the war, these wartime ideas were announced in 1946 and later reshaped by Cartan, Koszul, Borel, and Serre into the modern form of the Leray spectral sequence \cite{Miller}. \todo{Anders schreien}
+ It was in this prison setting that the ideas behind sheaves, sheaf cohomology, and eventually the Leray spectral sequence first emerged. Leray wanted tools that could study very general spaces without relying so heavily on simplicial methods. This led him to organize cohomological information in successive layers. After the war, these wartime ideas were announced in 1946 and later reshaped by Cartan, Koszul, Borel, and Serre into the modern form of the Leray spectral sequence \cite{Miller}. 
 
 
-\section{Spectral Sequences}
-A comprehensive introduction to spectral sequences is out of scope for this appendix. The interested reader may refer to \cite{risingsea} chapter 1, section 1.6. for a great intuitive introduction or  to \cite{mccleary} for a handbook full of applications.
+\subsection{Spectral Sequences}
+\subsubsection{Why We Care About Spectral Sequences}
+A spectral sequence is a computational device for cohomology. It
+applies when the object we want to understand, such as the sheaf
+cohomology $H^\bullet(X, \mathcal{F})$, is difficult to compute
+directly but comes equipped with a filtration whose associated
+graded pieces are more tractable. Each page $E_r^{p,q}$ is then an
+approximation to the answer, and each differential $d_r$ is a correction term. Successive pages refine the approximation until, at
+the $E_\infty$ page, what remains is the associated graded of a
+filtration on $H^\bullet(X, \mathcal{F})$. For us, the Leray spectral
+sequence will be the central tool for relating cohomology upstairs
+and downstairs along a map $f : X \to Y$, and the filtration it
+produces on $H^k(X, \mathcal{F})$ is the object of 
+interest. 
 
-We intend to later provide  a sketch of the "approximate definition" from \cite{risingsea}.
+\subsubsection{An Intuitive Introduction}
+For this introduction, which is mostly based on \cite{risingsea}, we will specialize to abelian groups, but all of the constructions can be applied to modules over any ring $R$ or even more generally to any abelian category. For a rigorous and formal introduction to spectral sequence we refer you to Brian Siew's section of the appendix.
+\begin{definition}[Double Complexes]
+A \textit{double complex} is best described by the following picture.
 
-\todo{approximate introduction}
+\begin{center}\label{doublecomplex}
+    \begin{tikzcd}
+\vdots                                                                           & \vdots                                                                           & \vdots                                                                           &        \\
+{E^{0,2}} \arrow[r, "{d_{\rightarrow}^{0,2}}"] \arrow[u, "{d_{\uparrow}^{0,2}}"] & {E^{1,2}} \arrow[r, "{d_{\rightarrow}^{1,2}}"] \arrow[u, "{d_{\uparrow}^{1,2}}"] & {E^{2,2}} \arrow[u, "{d_{\uparrow}^{2,2}}"] \arrow[r, "{d_{\rightarrow}^{2,2}}"] & \cdots \\
+{E^{0,1}} \arrow[r, "{d_{\rightarrow}^{0,1}}"] \arrow[u, "{d_{\uparrow}^{0,1}}"] & {E^{1,1}} \arrow[r, "{d_{\rightarrow}^{1,1}}"] \arrow[u, "{d_{\uparrow}^{1,1}}"] & {E^{2,1}} \arrow[u, "{d_{\uparrow}^{2,1}}"] \arrow[r, "{d_{\rightarrow}^{2,1}}"] & \cdots \\
+{E^{0,0}} \arrow[u, "{d_{\uparrow}^{0,0}}"] \arrow[r, "{d_{\rightarrow}^{0,0}}"] & {E^{1,0}} \arrow[u, "{d_{\uparrow}^{1,0}}"] \arrow[r, "{d_{\rightarrow}^{1,0}}"] & {E^{2,0}} \arrow[u, "{d_{\uparrow}^{2,0}}"] \arrow[r, "{d_{\rightarrow}^{2,0}}"] & \cdots
+\end{tikzcd}
+\end{center}
 
-
-\section{Leray Spectral Sequence}
-
-Before stating the existence theorem for the Leray spectral sequence, we first introduce the notion of a higher direct image sheaf.
-
-\begin{definition}[Higher Direct Image Sheaf {\cite{hartshorne}}]
-Let $\mathcal{F}$ be a sheaf on $X$, and let $f:X\to Y$ be a continuous map. The \textit{$q$-th higher direct image sheaf of $\mathcal{F}$ under $f$} is the sheaf $R^qf_*(\mathcal{F})$ associated to the presheaf
+In words it is a collection of abelian groups $E^{p,q}$ indexed by $p,q\in \Z$ and families of "upward" morphisms
 \begin{equation*}
-    U \mapsto H^q(f^{-1}(U);\mathcal{F})
+    d_{\uparrow}^{p,q}: E^{p,q} \to E^{p, q+1}
 \end{equation*}
-for each open set $U\subseteq Y$.
+and "rightward" morphisms
+\begin{equation*}
+    d_{\rightarrow}^{p,q}: E^{p,q} \to E^{p+1, q}
+\end{equation*}
+
+between them. As we might have guessed already from the figure  above, we use the first coordinate $p$ to index the column and the second coordinate $q$ to index the row of the $E^{p,q}$ and their respective morphisms $ d_{\uparrow}^{p,q}$ and $ d_{\rightarrow}^{p,q}$. To remember which is which, think of them as coordinates in the $x,y$-plane. When talking about the morphisms, we generally omit the indices and just write $d_{\uparrow}$ or  $d_{\rightarrow}$. This abuse of notation makes the following conditions for the morphisms of a double complex easier to state. We require that
+\begin{equation*}
+     d_{\uparrow}^2  = 0 \qquad \text{and} \qquad d_{\rightarrow}^2  = 0
+\end{equation*}
+and that one of the following two holds
+\begin{equation*}
+    d_{\rightarrow}d_{\uparrow } = d_{\uparrow}d_{\rightarrow} \qquad \text{or}\qquad d_{\rightarrow}d_{\uparrow } = - d_{\uparrow}d_{\rightarrow},
+\end{equation*}
+i.e. that they either all commute or all anticommute. For the sake of simplicity, we will from now on assume to always be in the anticommutative case, the commutative case can be handled analogously.
 \end{definition}
 
-Intuitively, the higher direct image sheaf $R^qf_*\mathcal{F}$ records how the degree-$q$ cohomology of the fibers, and of nearby inverse images, varies over the base space. With this notion in hand, we can now state the existence theorem for the Leray spectral sequence.
+\begin{remark}
+    In some contexts we might are about variations where we instead want to use downward or leftward morphisms instead. In some scenarios we also specifically require certain $E^{p,q}$ to be zero. In our context we will assume that all $E^{p,q}$ with $p<0$ or $q<0$ are zero, which is hinted at by the figure above, but this is not  a property that we required in the formal definition. This case is usually denoted as the \textit{first quadrant double complex}\label{firstquadrantdoublecomplex}. 
+\end{remark}
 
-\begin{theorem}[Leray Spectral Sequence \cite{risingsea}]
-Let $X$ and $Y$ be paracompact spaces, let $f:X\to Y$ be a continuous map, and let $\mathcal{F}$ be a sheaf of abelian groups on $X$. Then there exists a spectral sequence with
+Suppose now that we are given such a double complex. Then we can construct a "single" complex out of it.
+\begin{definition}[Total Complex]
+We define the \textit{total complex} $E^\bullet$ corresponding to a double complex as the collection of
 \begin{equation*}
-    E_2^{p,q}=H^p\bigl(Y;R^qf_*(\mathcal{F})\bigr)
+    E^k := \bigoplus_{p\in \Z} E^{p, k-p}
 \end{equation*}
-which converges to
+connected by morphisms
 \begin{equation*}
-    H^{p+q}(X;\mathcal{F}).
+    d := d_\rightarrow+ d_\uparrow.
 \end{equation*}
+
+You might recall that in the context of homological algebra we usually require that the maps of a complex satisfy $d^2 = 0$ and indeed
+\begin{equation*}
+    d^2 = (d_\rightarrow+d_\uparrow)^2 = d^2_\rightarrow + (d_\rightarrow d_\uparrow + d_\uparrow d_\rightarrow) + d_\uparrow^2 = 0.
+\end{equation*}
+\end{definition}
+
+\begin{example}
+It is worth trying to write out what this total complex looks like in our example \ref{doublecomplex} where we assume that $E^{p,q}=0$ for $p< 0$ or $q<0$. In the scenario of such a \textit{first quadrant double complex} we have
+
+\begin{align*}
+    E^0 & = \cdots \oplus E^{-1, 0-(-1)}\oplus E^{0,0-0} \oplus E^{1, 0-1} \oplus \cdots \\
+    & = \cdots \oplus E^{-1, 1}\oplus E^{0,0} \oplus E^{1, -1} \oplus \cdots \\
+    &= \cdots\oplus  \{0\}\oplus E^{0,0}\oplus \{0\} \oplus \cdots\\
+    &\cong E^{0,0} \\
+    E^1 &\cong E^{0,1}\oplus E^{1,0}\\
+    E^2 &\cong E^{0,2}\oplus E^{1,1}\oplus E^{2,0}\\
+\end{align*}
+i.e. they correspond to the diagonals of slope minus one. 
+
+\end{example}
+
+The first thing any good AlgeBro wants to do when seeing a complex is to take its cohomology. And really, we will use the cohomology of the total complex to associated a "hypercohomology" to the double complex.
+
+\begin{definition}[Cohomology of the Double Complex]
+    We define the \textit{cohomology of a double complex} to be the cohomology of its associated total complex. 
+\end{definition}
+
+\begin{exercise}
+    Draw up a double complex constructed out of your favorite abelian groups, derive its total complex and finally its cohomology.
+\end{exercise}
+
+With the language of a double complex in hand we are now able to give what Vakil calls an "approximate definition" of spectral sequences. 
+
+\begin{definition}[Spectral Sequence (approximately)]
+    We define a \textit{spectral sequence} (with \textit{rightward orientation}\footnote{The orientation refers to the fact that the $0$-th differential is the rightward one from earlier: $d_0 = d_\rightarrow$.}) to be a sequence of tables or pages 
+    \begin{equation*}
+        _\rightarrow E_0,\ _\rightarrow E_1,\ 
+        _\rightarrow E_2,\ _\rightarrow E_3,\ \dots  
+    \end{equation*}
+    where each page is a collection of elements $E_r^{p,q}$ and where $E^{p,q}_0 = E^{p,q}$.
+    They have  differential maps 
+    \begin{equation*}
+        _\rightarrow d_r^{p,q}: _\rightarrow E_r^{p,q} \longrightarrow _\rightarrow E_r^{p-r+1, q+r} \qquad \text{ satisfying }\qquad _\rightarrow d_r^{p,q} \circ _\rightarrow d_r^{p+r-1, q-r} = 0
+    \end{equation*}
+    between them for $r\in \Z^{\geq 0}$ such that the cohomology $\ker\ _\rightarrow d_r^{p,q}/ \operatorname{im}\ _\rightarrow d_r^{p+r-1, q-r}$ of $_\rightarrow d_r$ at $_\rightarrow E_r^{p,q}$ satisfies the isomorphim
+    \begin{equation}\label{cohomologyiso}
+        \ker\ _\rightarrow d_r^{p,q}/ \operatorname{im}\ _\rightarrow d_r^{p+r-1, q-r} \cong _\rightarrow E_{r+1}^{p,q}.
+    \end{equation}
+    Once the orientation of the spectral sequence is clear, the left subscript $_\rightarrow$ is often ignored which is exactly what we will be doing in this introduction from now on.
+\end{definition}
+At first sight the formula for the differential maps $d_r^{p,q}$  might seem quite confusing. But, once again, a simple image should be enough to help us remember their definition. 
+
+\begin{center}
+    \begin{tikzcd}
+\bullet &         &         &                                                                                                                                                                      &         \\
+        & \bullet &         &                                                                                                                                                                      &         \\
+        &         & \bullet &                                                                                                                                                                      &         \\
+        &         &         & \bullet                                                                                                                                                              &         \\
+        &         &         & \bullet \arrow[r, "d_0" description] \arrow[u, "d_1" description] \arrow[luu, "d_2" description] \arrow[lluuu, "d_3" description] \arrow[llluuuu, "d_4" description] & \bullet
+\end{tikzcd}
+\end{center}
+While you should remember this visual, do not forget that the morphisms in it apply to different pages! Another way to remember it is to notice that the difference of the addition to the $x$ and $y$ components always stems from the difference of the indices of the grade 1 components of $E^\bullet$.
+
+To actually define  the $E_r^{\bullet, \bullet}$ and $d^{\bullet, \bullet}_r$, we have to describe them in terms of the $E^{\bullet, \bullet}$.  For this intuitive introduction we will only describe them for $r= 0, 1, 2$ and hope the reader believes in the continuation for higher $r$.
+
+Before we continue, note the following immediate result.
+\begin{lemma}
+    For all $r>i$ the $r$-th page $E^{p,q}_r$ is a subquotient\footnote{By a \textit{subquotient} of an abelian group $G$ we mean a quotient $H/K$ of subgroups $K\subseteq H\subseteq G$. Note that for abelian groups alls subgroups are abelian and normal. Hence all subquotients are again (abelian) groups.} of the $i$-th page $E^{p,q}_i$.
+
+    In particular, this tells us that
+    \begin{equation*}
+         E^{p,q}\cong 0 \qquad \Rightarrow \qquad E^{p,q}_r \cong 0 \quad \forall r>0
+    \end{equation*}
+    as $E^{p,q} \cong E^{p,q}_0$.
+\end{lemma}
+\begin{proof}
+    This follows immediately from the isomorphisms in \ref{cohomologyiso}.
+\end{proof}
+
+A direct consequence of this lemma is that in a first quadrant double complex for fixed $p,q$ and sufficiently large $r$, we get get the super-short exact sequences
+\begin{center}
+    \begin{tikzcd}
+0 &                                        &                                     \\
+  & {E^{p,q}_r} \arrow[lu, "{d_r^{p,q}}"'] &                                     \\
+  &                                        & 0 \arrow[lu, "{d_r^{p+r-1, q-r}}"']
+\end{tikzcd}
+\end{center}
+since $E_r^{p+r-1, q-r}$ and $E_r^{p-r+1, q+r}$ are both zero as $E^{p+r-1, q-r}$ and $E^{p-r+1, q+r}$ are zero for sufficiently large $r$ by definition of the first quadrant double complex \ref{firstquadrantdoublecomplex}.
+
+Now recall that the isomorphism \ref{cohomologyiso} tells us that
+\begin{equation*}
+        \ker d_r^{p,q}/ \operatorname{im} d_r^{p+r-1, q-r} \cong  E_{r+1}^{p,q}.
+    \end{equation*}
+    In combination with the super-short exact sequence we just discovered, this means that for a first quadrant double complex we have canonical isomorphisms
+    \begin{equation*}
+        E_r^{p,q} \cong E^{p,q}_{r+1}\cong E_{r+2}^{p,q} \cong \dots
+    \end{equation*}
+    for sufficiently large $r$. This allows us to define the \textit{infinity page}.
+\begin{definition}[Infinity Page]
+The \textit{infinity page} $E_\infty$  is defined by
+    \begin{equation*}\label{infinitypage}
+        E_{\infty}^{p,q} := \lim_{r\to \infty} E_r^{p,q}.
+    \end{equation*}
+\end{definition}
+\begin{remark}
+    Obviously, similar arguments apply in other scenarios where the double complex has similar zero configurations, for example when all but finitely many rows are zero.
+\end{remark}
+
+
+Now let us discuss the first few pages of the spectral sequence corresponding to a first quadrant double complex and present them visually. 
+
+\textbf{The $\mathbf 0$th page.} Recall that we defined the differential $d_0$ on $E_0^{\bullet, \bullet} \cong E^{\bullet, \bullet}$ to be $d_\rightarrow$ from the double complex. Thus, on the 0-th page each row is a complex and looks like
+\newline
+\begin{center}
+    \begin{tikzcd}
+{} \arrow[r, "d_0"] & {E_0^{p-1, q+1}} \arrow[r, "d_0"] & {E_0^{p, q+1}} \arrow[r, "d_0"] & {E_0^{p+1, q+1}} \arrow[r, "d_0"] & {} \\
+{} \arrow[r, "d_0"] & {E^{p-1, q}_0} \arrow[r, "d_0"]   & {E_0^{p,q}} \arrow[r, "d_0"]    & {E_0^{p+1,q}} \arrow[r, "d_0"]    & {} \\
+{} \arrow[r, "d_0"] & {E_0^{p-1, q-1}} \arrow[r, "d_0"] & {E_0^{p,q-1}} \arrow[r, "d_0"]  & {E_0^{p+1, q-1}} \arrow[r, "d_0"] & {}
+\end{tikzcd}
+\end{center}
+
+\textbf{The $\mathbf 1$st page.} Recall that the entries on $E_1$ are defined by the row cohomologies of $E_0$:
+\begin{equation*}
+     E_{1}^{p,q}\cong \ker d_0^{p,q}/ \operatorname{im} d_0^{p-1, q} 
+\end{equation*}
+and that the differential maps are now "upwards"
+\begin{equation*}
+    d_1^{p,q}: E_1^{p,q}\to E_1^{p, q+1}
+\end{equation*}
+and are just the induced maps on cohomologies stemming from $d_\uparrow$ of the first quadrant double complex.  We can check that these morphisms turn the columns into complexes. Schematically, the first page thus looks like this\footnote{For the sake of readability, we refrain from actually writing out the cohomology groups.}:
+
+\begin{center}
+    \begin{tikzcd}
+{}                       & {}                       & {}                       \\
+\bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] \\
+\bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] \\
+\bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] & \bullet \arrow[u, "d_1"] \\
+{} \arrow[u, "d_1"]      & {} \arrow[u, "d_1"]      & {} \arrow[u, "d_1"]     
+\end{tikzcd}
+\end{center}
+
+\textbf{The $\mathbf 2$nd page.} The entries of $E_2$ are defined by the cohomologies of the columns in $E_1$. Now there are natural morphisms pointing to the entry one to the left and two up whose square is 0 and the second page looks schematically like
+
+\begin{center}
+    \begin{tikzcd}
+{} & {}                         & {}                         &                            &                       \\
+{} & {}                         & {}                         &                            &                       \\
+{} & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] &                       \\
+   & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] &                       \\
+   & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] & \bullet \arrow[luu, "d_2"] & {} \arrow[luu, "d_2"] \\
+   &                            & {} \arrow[luu, "d_2"]      & {} \arrow[luu, "d_2"]      & {} \arrow[luu, "d_2"] \\
+   &                            & {} \arrow[luu, "d_2"]      & {} \arrow[luu, "d_2"]      & {} \arrow[luu, "d_2"]
+\end{tikzcd}
+\end{center}
+
+Now the attentive reader might have discovered a pattern in the schematic structure of the pages.
+
+
+We end this introduction with a little theorem.
+\begin{theorem}
+    There is a filtration
+    \begin{equation*}
+        E_{\infty}^{0,q}\xhookrightarrow{E_\infty^{1, q-1}}\ ?\  \xhookrightarrow{E_\infty^{2, q-2}} \ \cdots\ \xhookrightarrow{E_\infty^{q,0}} H^k(E^\bullet).
+    \end{equation*}
+    Here the notation $A \xhookrightarrow{Q} B$ means that $B/A \cong Q$.
 \end{theorem}
+As a consequence of this theorem we can say that a spectral sequence $E^{\bullet, \bullet}_\bullet$ \textit{converges to} $H^\bullet(E^\bullet)$ or that a page $E_r^{\bullet,\bullet}$ \textit{abuts} to $H^\bullet(E^\bullet)$.
+
+Sometimes the filtration allows us to fully determine $H^k(E^\bullet)$ as we will later see in the context of the Leray spectral sequence.
+
+\begin{example}[Leray Spectral Sequence]
+Let $f : X \to Y$ be a continuous map of paracompact Hausdorff spaces
+and let $\mathcal{F}$ be a sheaf of abelian groups on $X$. Choose an
+injective resolution $\mathcal{F} \to \mathcal{I}^\bullet$ in the
+category of sheaves of abelian groups on $X$, and let $\mathcal{U}$
+be an open cover of $Y$. Applying the pushforward $f_*$ and then the
+\v{C}ech complex with respect to $\mathcal{U}$ produces a double
+complex
+\[
+  K^{p,q} \;=\; C^p(\mathcal{U},\, f_* \mathcal{I}^q),
+\]
+with horizontal differential the \v{C}ech coboundary and vertical
+differential induced by $\mathcal{I}^\bullet$. The Leray spectral
+sequence is the spectral sequence of this double complex, filtered
+by rows. Its $E_0$ page is $K^{p,q}$ equipped only with the
+horizontal differential. 
+
+  \[
+\begin{tikzcd}[column sep=small, row sep=small]
+\vdots & \vdots & \vdots & \\
+C^0(\mathcal{U}, f_*\mathcal{I}^2) \ar[r, "d_0"] & C^1(\mathcal{U}, f_*\mathcal{I}^2) \ar[r, "d_0"] & C^2(\mathcal{U}, f_*\mathcal{I}^2) \ar[r] & \cdots \\
+C^0(\mathcal{U}, f_*\mathcal{I}^1) \ar[r, "d_0"] & C^1(\mathcal{U}, f_*\mathcal{I}^1) \ar[r, "d_0"] & C^2(\mathcal{U}, f_*\mathcal{I}^1) \ar[r] & \cdots \\
+C^0(\mathcal{U}, f_*\mathcal{I}^0) \ar[r, "d_0"] & C^1(\mathcal{U}, f_*\mathcal{I}^0) \ar[r, "d_0"] & C^2(\mathcal{U}, f_*\mathcal{I}^0) \ar[r] & \cdots
+\end{tikzcd}
+\]
+
+
+
+Taking cohomology of the rows produces
+$E_1$.
+
+% E_1 page
+\[
+\begin{tikzcd}[column sep=small, row sep=small]
+\vdots & \vdots & \vdots & \\
+H^0_{\check{C}}(Y, f_*\mathcal{I}^2) \ar[u] & H^1_{\check{C}}(Y, f_*\mathcal{I}^2) \ar[u] & H^2_{\check{C}}(Y, f_*\mathcal{I}^2) \ar[u] & \cdots \\
+H^0_{\check{C}}(Y, f_*\mathcal{I}^1) \ar[u, "d_1"] & H^1_{\check{C}}(Y, f_*\mathcal{I}^1) \ar[u, "d_1"] & H^2_{\check{C}}(Y, f_*\mathcal{I}^1) \ar[u, "d_1"] & \cdots \\
+H^0_{\check{C}}(Y, f_*\mathcal{I}^0) \ar[u, "d_1"] & H^1_{\check{C}}(Y, f_*\mathcal{I}^0) \ar[u, "d_1"] & H^2_{\check{C}}(Y, f_*\mathcal{I}^0) \ar[u, "d_1"] & \cdots
+\end{tikzcd}
+\]
+
+
+Taking cohomology of the columns then yields $E_2$:
+
+
+% E_2 page
+\[
+\begin{tikzcd}[column sep=large, row sep=small, ampersand replacement=\&]
+|[alias=v0]| \vdots \& |[alias=v1]| \vdots \& |[alias=v2]| \vdots \& \\
+|[alias=a03]| H^0(Y, R^3 f_*\mathcal{F}) \& |[alias=a13]| H^1(Y, R^3 f_*\mathcal{F}) \& |[alias=a23]| H^2(Y, R^3 f_*\mathcal{F}) \& \cdots \\
+|[alias=a02]| H^0(Y, R^2 f_*\mathcal{F}) \& |[alias=a12]| H^1(Y, R^2 f_*\mathcal{F}) \ar[to=v0, "d_2"'] \& |[alias=a22]| H^2(Y, R^2 f_*\mathcal{F}) \ar[to=v1, "d_2"'] \& \cdots \ar[to=v2, "d_2"'] \\
+H^0(Y, R^1 f_*\mathcal{F}) \& H^1(Y, R^1 f_*\mathcal{F}) \ar[to=a03, "d_2"'] \& H^2(Y, R^1 f_*\mathcal{F}) \ar[to=a13, "d_2"'] \& \cdots \ar[to=a23, "d_2"'] \\
+H^0(Y, R^0 f_*\mathcal{F}) \& H^1(Y, R^0 f_*\mathcal{F}) \ar[to=a02, "d_2"'] \& H^2(Y, R^0 f_*\mathcal{F}) \ar[to=a12, "d_2"'] \& \cdots \ar[to=a22, "d_2"']
+\end{tikzcd}
+\]
+\end{example}
+
+
+
+\subsection{Existence of the Leray Spectral Sequence}
+
+Before stating the existence theorem for the Leray spectral sequence, we first introduce the notion of a system of local coefficients on $X$. This section is based on \cite{mccleary}.
 
 \begin{definition}[System of Local Coefficients on $X$]
 Let $X$ be a topological space. A \textit{system of local coefficients on $X$} is a locally constant sheaf on $X$.
@@ -48,13 +313,25 @@ Let $X$ be a topological space. A \textit{system of local coefficients on $X$} i
 Such a local system is called \textit{simple} if the action of $\pi_1(X)$ on its fibers is trivial.
 \end{definition}
 
-When $\pi:E\to X$ is a locally trivial fibration with fiber $F$ and $\mathcal F=\underline{R}_E$ is the constant sheaf, the higher direct image sheaves $R^q\pi_*\underline{R}_E$ are locally constant on $X$, with stalk naturally isomorphic to $H^q(F;R)$. Thus the Leray spectral sequence becomes
-\[
-E_2^{p,q}=H^p(X;R^q\pi_*\underline{R}_E),
-\]
-which, after identifying sheaf cohomology of a local system with singular cohomology with local coefficients, is the Leray--Serre spectral sequence.
 
-\begin{theorem}[Leray--Serre Spectral Sequence {\cite{mccleary}}]
+This notion is not abstract nonsense: every fibration 
+$F \hookrightarrow E \xrightarrow{\pi} X$ produces one 
+canonically. A loop $\gamma$ in $X$ based at $x$ lifts, via 
+the homotopy lifting property, to a homotopy self-equivalence 
+of the fiber $\pi^{-1}(x) \simeq F$, and therefore induces an 
+automorphism of $H^q(F; R)$. The resulting monodromy 
+representation $\pi_1(X, x) \to \mathrm{Aut}(H^q(F; R))$ 
+is precisely the data of a local coefficient system 
+$\mathcal{H}^q(F; R)$ on $X$, and it is this system that 
+appears in the $E_2$-page of the Leray--Serre spectral 
+sequence. Calling it \emph{simple} means the monodromy 
+action is trivial, so that $H^q(F; R)$ sits over $X$ as the 
+constant sheaf.
+
+
+
+
+\begin{theorem}[Leray--Serre Spectral Sequence]
 Let $R$ be a commutative ring with unit. Suppose
 \begin{equation*}
     F\hookrightarrow E \overset{\pi}{\to} X
@@ -69,12 +346,16 @@ as an algebra, with
 \end{equation*}
 where $H^q(F;R)$ is regarded as a local coefficient system on $X$ induced by the fibration.
 \end{theorem}
+\begin{proof}
+    See \cite{mccleary}.
+\end{proof}
 
 
 
 
 
-\section{Leray-Hirsch  Theorem }
+
+\subsection{Leray-Hirsch  Theorem }
 Now that we know what a Leray spectral sequence is and that it exists, we can use it to prove the famous Leray-Hirsch Theorem which has many useful applications. One of them we will explore in the next chapter. In this chapter we will prove the Leray-Hirsch Theorem by constructing it as a corollary of a slightly more powerful result that we will prove first. But once again, we will have to start with some definitions before we can state the results.
 \begin{definition}[Space of Finite Type, \cite{mccleary}]
     We say that a topological space $X$ is of \textit{finite type} if $\dim_k H^n$ is finite for all $n$.
@@ -125,26 +406,37 @@ It turns out that this property is, under sufficiently nice conditions on the un
     \begin{equation*}
         d_r \mid _{E_r^{0,q}} \equiv 0.
     \end{equation*}
-   But we also have that
+   Since $k$ is a field, $V := H^q(F;k)$ is a $k$-vector space, say 
+with basis $\{e_\alpha\}_{\alpha \in I}$. Because the local system 
+$\mathcal{H}^q(F;k)$ is simple, it is the constant sheaf with 
+stalk $V$, so
+\[ \mathcal{H}^q(F; k) \;\cong\; \underline{V} 
+   \;\cong\; \bigoplus_{\alpha \in I} \underline{k}. \]
+Cohomology commutes with direct sums of coefficients, giving
+\[ H^p(X; \mathcal{H}^q(F;k)) \;\cong\; 
+   \bigoplus_{\alpha \in I} H^p(X; k) 
+   \;\cong\; H^p(X; k) \otimes_k V 
+   \;=\; H^p(X;k) \otimes_k H^q(F;k). \]
+
+Therefore, we also have that
     \begin{equation}\label{superpower}
         E_2^{p,q}\cong H^p(X;\ k)\otimes_k H^q(F;\ k)
     \end{equation}
-    by \todo{Ja weswegen denn eigentlich?}.
     This means in particular that
     \begin{equation}\label{oans}
-        \begin{align*}
+        \begin{aligned}
         E^{p,0}_2 &\cong H^p{(B;\ k)} \otimes_k H^0(F;\ k)\\
         & \cong H^p{(B;\ k)} \otimes_k k\\
         & \cong H^p{(B;\ k)}
-    \end{align*}
+    \end{aligned}
     \end{equation} 
     and
     \begin{equation}\label{zwoa}
-        \begin{align}
+        \begin{aligned}
         E^{0,q}_2 &\cong H^0(B;\ k) \otimes_k H^q(F;\ k)\\
         & \cong k \otimes_k H^q(F; \ k)\\
         & \cong  H^q(F; \ k).
-    \end{align}
+    \end{aligned}
     \end{equation}
     
     Plugging \ref{oans} and \eqref{zwoa} back into \eqref{superpower} we then get that 
@@ -192,31 +484,49 @@ where the $F^pH^n$ come from the filtration
 \begin{equation*}
     H^n(E;\ k)=F^0H^n \supseteq F^1H^n \supseteq F^2H^n \supseteq \cdots
 \end{equation*}
-This means that the graded pieces of $H^*(E;\ k)$ are the same as these of $H^*(X, \ k) \otimes_k H^*(F,\ k)$. Since we are over a field this gives us an isomorphism of vector spaces. \todo{verstehe nicht ganz wieso unds das einen isomorphism of vector spaces gibt.}
+This means that the graded pieces of $H^*(E;\ k)$ are the same as these of $H^*(X, \ k) \otimes_k H^*(F,\ k)$. Since we are over a field this gives us an isomorphism of vector spaces. 
 
 \end{proof}
 
 The significance of the Leray-Hirsch theorem is that it gives a powerful criterion under which the cohomology of a fibration splits in the simplest possible way. In general, the cohomology of the total space $E$ can be much more complicated than the cohomology of the base and the fiber taken separately, since nontrivial differentials and extension phenomena may occur. The Leray-Hirsch theorem identifies a situation in which this complexity disappears: if the fiber is totally nonhomologous to zero in $E$, then the cohomology of $E$ is, as a vector space, exactly the tensor product of the cohomology of the base and the cohomology of the fiber. For this reason, the theorem is both conceptually important, as it explains when a fibration behaves cohomologically like a product, and practically useful, since it reduces questions about $H^*(E; \ k)$ to separate computations on $X$ and $F$.
 
-\section{Application}
+\subsection{Application}
 Finally, now that all the Leray machinery is set up, we can move on to the main result of this appendix section. To begin, we will have to make a simple definition.
 \begin{definition}[Projectivization of a Vector Bundle]
-Let $E\to X$ be a rank $r$ vector bundle. Then we define the projectivization $\P[E]$ of $E$ ot be the vector bundle defined by projectivizing the fibers of $E$. 
+Let $E\to X$ be a rank $r$ vector bundle. Then we define the projectivization $\P[E]$ of $E$ to be the fiber bundle defined by projectivizing the fibers of $E$. 
 \end{definition}
 
 \begin{example}
-      Consider the complex unit sphere in $\C^2$ and its tangent plane bundle $TS^2\to S^2$. The projectivization $\P[E]$ is the vector bundle assigning to every point $p \in S^2$ the space of tangent lines passing through $p$.
+      Consider the real $2$-sphere $S^2$ and its tangent bundle 
+$TS^2 \to S^2$, a rank-$2$ real vector bundle. The 
+projectivization $\mathbb{P}(TS^2) \to S^2$ assigns to each 
+point $p \in S^2$ the space of unoriented tangent directions 
+at $p$, i.e.\ the set of lines through the origin in the 
+tangent plane $T_p S^2$. Each fiber is therefore 
+$\mathbb{RP}^1 \cong S^1$, so $\mathbb{P}(TS^2) \to S^2$ is 
+a circle bundle over the $2$-sphere.
 \end{example}
 
 \begin{theorem}
-    Let $E\to X$ be a vector bundle over a finite type path connected space $X$ for which the system of local coefficients on $X$ is simple \todo{The original statement that Thomas gave me does not assume path connectedness, finite type, or simple local coefficients}. Let   $\P[E]$ denote its projectivization. Then $H^*(\P(E);\ \Z)$ is free over $H^*(X;\ \Z)$.
+    Let $E\to X$ be a vector bundle over a finite type path connected space $X$ for which the system of local coefficients on $X$ is simple. Let   $\P[E]$ denote its projectivization. Then $H^*(\P(E);\ \Z)$ is free over $H^*(X;\ \Z)$.
 \end{theorem}
 \begin{proof}
     This is a direct consequence of Leray-Hirsch. We have the fibration
     \begin{equation*}
-        \P^{r-1} \hookrightarrow E \to X
+        \P^{r-1} \hookrightarrow \P[E] \to X
     \end{equation*}
-   The fiber $\P^{r-1}$ is famously connected. It is also nonhomologous to zero in $\P[E]$  over $\Z$ since \todo{First figure out what this really means.}
+   The fiber $\P^{r-1}$ is famously connected. It is also nonhomologous\footnote{The projective bundle $\mathbb{P}(E)$ carries a 
+tautological line bundle $\mathcal{O}_{\mathbb{P}(E)}(-1)$, 
+whose fiber over a point $\ell \in \mathbb{P}(E_x)$ is the 
+line $\ell \subset E_x$ itself. Let 
+$\tilde\alpha := c_1(\mathcal{O}_{\mathbb{P}(E)}(1)) \in H^2(\mathbb{P}(E); \mathbb{Z})$ 
+be the first Chern class of its dual. Since Chern classes 
+commute with pullback and $\mathcal{O}_{\mathbb{P}(E)}(1)$ 
+restricts to $\mathcal{O}_{\mathbb{P}^{r-1}}(1)$ on each 
+fiber, $\iota^*\tilde\alpha = \alpha$ is the hyperplane 
+class. The classes $1, \iota^*\tilde\alpha, \ldots, 
+(\iota^*\tilde\alpha)^{r-1}$ therefore generate 
+$H^*(\mathbb{P}^{r-1}; \mathbb{Z}) = \mathbb{Z}[\alpha]/(\alpha^r)$, so $\iota^*$ is surjective. See \cite{Hatcher}.} to zero in $\P[E]$  over $\Z$.
 
    Therefore, Leray-Hirsch specializes to
    \begin{equation}\label{special}
@@ -225,7 +535,7 @@ Let $E\to X$ be a rank $r$ vector bundle. Then we define the projectivization $\
   By Hatcher \cite{Hatcher} theorem 3.19  
   \begin{equation*}
       H^*(\mathbb{P}^{n-1};\ \mathbb{Z}) \cong \mathbb{Z}[\alpha]/(\alpha^{n})\cong \bigoplus_{i=0}^{n-1}\alpha^i \Z \cong \bigoplus_{i=0}^{n-1} \Z
-  \end{equation*}\todo{Der zweite Isomorphism macht nur Sinn wenn wir es als gruppe verstehen, aber leray hirsch kümmert sich um vector spaces...}. Note that we here assume that the vector bundle is complex, in case of a real vector bundle the isomorphism is dependent on the $q$ of $H^q$.
+  \end{equation*} Note that we here assume that the vector bundle is complex, in case of a real vector bundle the isomorphism is dependent on the $q$ of $H^q$.
   Plugging this into equation \eqref{special} we get that 
   \begin{align*}
        H^*(\P[E];\ \Z) &\cong  H^*(X;\ \Z)\otimes_\Z \bigoplus_{i=0}^{n-1} \Z \\
@@ -241,4 +551,4 @@ Let $E\to X$ be a rank $r$ vector bundle. Then we define the projectivization $\
 Why should we care about this particular result?
 It is relevant because it tells us that the cohomology of the projectivization $\P[E]$ is governed in a remarkably simple way by the cohomology of the underlying base space $X$. Since the fiber of $\P[E]\to X$ is a projective space, whose cohomology is well understood, the theorem says that no unexpected cohomology classes appear in passing from the fiber and the base to the total space. In this sense, $\P[E]$ behaves cohomologically as well as one could hope: its cohomology is built freely from that of $X$ together with the standard classes coming from the fiber.
 
-This is useful both conceptually and computationally. On the computational side, freeness over $H^*(X;\Z)$ is the key step toward the projective bundle formula, which gives an explicit description of $H^*(\P[E];\Z)$ in terms of $H^*(X;\Z)$ and the Chern classes of $E$. On the conceptual side, this theorem provides one of the most important applications of the Leray-Hirsch theorem and serves as a model for many other arguments in the theory of characteristic classes, especially the splitting principle, where one studies a vector bundle by passing to a space over which it decomposes into line bundles.
+This is useful both conceptually and computationally. On the computational side, freeness over $H^*(X;\Z)$ is the key step toward the projective bundle formula, which gives an explicit description of $H^*(\P[E];\Z)$ in terms of $H^*(X;\Z)$ and the Chern classes of $E$. On the conceptual side, this theorem provides one of the most important applications of the Leray-Hirsch theorem and serves as a model for many other arguments in the theory of characteristic classes.
