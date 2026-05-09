@@ -1,4 +1,5 @@
-\section{The Calabi-Eckmann Manifolds and their $\bar\partial$-Cohomology (Carl Scandelius)}
+\section{The Calabi-Eckmann Manifolds and their 
+\texorpdfstring{$\bar\partial$}{delbar}-Cohomology (Carl Scandelius)}
 
 
 \noindent The following explores the class of compact, simply-connected complex manifolds $\mathbf{M_{p,q}}$ discovered by Eugenio Calabi and Beno Eckmann \cite{CE1953}. We construct the spaces and then, after some K\"ahler geometry preliminaries, we prove that $\mathbf{M_{p,q}}$ do not admit a K\"ahler metric and are thus non-algebraic. We end with a note on their $\bar\partial$-cohomology.
@@ -179,7 +180,7 @@ Let $M$ be a K\"ahler $n$-manifold. Then:
 
 \noindent In the following, we use the operator commutator $[P,Q] = P Q - Q P.$
 
-\begin{lemma}[The K\"ahler Identities]\label{lemma:K\"ahleridentities}
+\begin{lemma}[The K\"ahler Identities]\label{lemma:Kahleridentities}
     On a K\"ahler manifold, $\overline \partial ^* = -i[L_\omega^*, \partial].$
 \end{lemma}
 \begin{proof}
@@ -197,11 +198,11 @@ Let $M$ be a K\"ahler $n$-manifold. Then:
 Since $[L^*, \partial] = \overline{[ \overline{\partial}^{*},L]^*},$ we get our result.
 \end{proof}
 
-\begin{lemma}\label{lemma:K\"ahlerlaplacian}
+\begin{lemma}\label{lemma:Kahlerlaplacian}
     On a K\"ahler manifold, the Hodge Laplacian satisfies $\Delta_d :=dd^* + d^*d  = \Delta_\partial + \Delta_{\overline \partial}.$
 \end{lemma}
 \begin{proof}
-    Using Lemma \ref{lemma:K\"ahleridentities} and $\partial^2 = 0,$ we get identities
+    Using Lemma \ref{lemma:Kahleridentities} and $\partial^2 = 0,$ we get identities
     \[
     \overline \partial^* \partial + \partial \overline \partial^* = -i[L^*_\omega , \partial]\partial - i\partial [L^*_\omega, \partial] = 0 = \partial^* \overline\partial + \overline\partial  \partial^*  
     \]
@@ -217,16 +218,16 @@ Since $[L^*, \partial] = \overline{[ \overline{\partial}^{*},L]^*},$ we get our 
 \end{proof}
 
 
-\begin{lemma} \label{lem:K\"ahlerlaplacian2}
+\begin{lemma} \label{lem:Kahlerlaplacian2}
     On a K\"ahler manifold, $\Delta_d = 2\Delta_{\partial} =2 \Delta_{\overline \partial}.$
 \end{lemma}
 \begin{proof}
-    Using Lemma \ref{lemma:K\"ahleridentities} for the first line and its conjugate for the second, we have
+    Using Lemma \ref{lemma:Kahleridentities} for the first line and its conjugate for the second, we have
     \begin{align*}
     \Delta_\partial  &= \partial \partial^* + \partial ^*\partial  = i\partial[L^*_\omega, \overline\partial] + i[L^*_\omega, \overline\partial]\partial = i\partial L^*_\omega \overline\partial -i\partial \overline\partial L^*_\omega +i L^*_\omega\overline\partial\partial -i\overline\partial L^*_\omega\partial \\
     \Delta_{\overline \partial}& = \overline{\partial \partial^* + \partial ^*\partial} = -i\partial[L^*_\omega, \partial] - i[L^*_\omega, \partial]\overline\partial = i\partial L^*_\omega \overline\partial + i\overline\partial\partial L^*_\omega-iL^*_\omega \partial\overline\partial  -i\overline\partial L^*_\omega\partial
     \end{align*}
-    and equality follows from $\partial \overline\partial = - \overline\partial\partial,$ which itself follows from $d^2=0.$ Apply Lemma \ref{lemma:K\"ahlerlaplacian}.
+    and equality follows from $\partial \overline\partial = - \overline\partial\partial,$ which itself follows from $d^2=0.$ Apply Lemma \ref{lemma:Kahlerlaplacian}.
 \end{proof}
 
 \noindent We can now prove the Hodge decomposition and duality:
@@ -237,7 +238,7 @@ Since $[L^*, \partial] = \overline{[ \overline{\partial}^{*},L]^*},$ we get our 
     \overline\partial &: \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q+1}\\
     \overline\partial^* &: \mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q-1}.
     \end{align*}
-    So, using Lemma \ref{lem:K\"ahlerlaplacian2}, $\Delta_d:\mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q}$ preserves type. Thus all $\Delta_d \alpha^{p,q} = 0,$ so $\alpha^{p,q}\in \mathcal{H}^{p,q}.$ Since no $(p,q)$-form is also $(p',q'),$ we get the desired decomposition. The Hodge theorem then provides our desired decomposition in cohomology.
+    So, using Lemma \ref{lem:Kahlerlaplacian2}, $\Delta_d:\mathcal{A}^{p,q} \rightarrow \mathcal{A}^{p,q}$ preserves type. Thus all $\Delta_d \alpha^{p,q} = 0,$ so $\alpha^{p,q}\in \mathcal{H}^{p,q}.$ Since no $(p,q)$-form is also $(p',q'),$ we get the desired decomposition. The Hodge theorem then provides our desired decomposition in cohomology.
 
     For Hodge duality, our lemma guarantees that $\mathcal{H}^{p,q}_{\overline\partial} = \mathcal{H}^{p,q}_{\partial}.$ Since conjugation sends $\mathcal{H}^{p,q}_{\overline\partial}$ to $\mathcal{H}^{q,p}_{\partial},$ we have our result.
 \end{proof}
