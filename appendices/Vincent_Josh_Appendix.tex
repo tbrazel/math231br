@@ -1,547 +1,996 @@
-In this appendix, we will introduce stacks on spaces, which we want to think of as sheaves valued in a (2,1)-category instead of 1-category. Stacks are of great interest to us because they provide a gateway to thinking about higher categories, through studying an object similar to sheaves, which we discussed a lot in this course. Also, many of the objects we studied in this course can be used to define stacks, as we will see with the stack of principal bundles, allowing us to revisit some of these topics and apply our knowledge. Before giving a concrete definition for stacks on spaces, let's recall the definition of a sheaf of sets on some topological space $X$.
-\begin{definition}
-A functor $F: \Open(X)^{\op} \to \Set$ is a \textit{presheaf} of sets on $X$. We say that $F$ is a \textit{sheaf} if for every open subset $U \subseteq X$ and every open cover $\mathcal{U} = \{U_i\}$ of $U$, the unique map
+\section{Stacks on Spaces (Vincent Costa and Josh Rooney)}
+
+Recall that in this course we often produced a set of isomorphism classes of things. For example, recall from Theorem 5.35 that given a topological group $G$ and a space $X$, we have that $\check{H}^1(X, G)$ is in bijection with the set of isomorphism classes of principal $G$-bundles over $X$. We can see that the assignment of a space $X$ to the set of isomorphism classes of principal $G$-bundles over $X$ factors through the assignment of $X$ to the groupoid of principal $G$-bundles over $X$, by postcomposing with taking isomorphism classes. Therefore, we should have a notion of a sheaf that outputs a groupoid. 
+
+Vaguely, we know that a sheaf of groupoids should be a functor $F: \Open(X)^\op \to \Grpd$ satisfying something like a sheaf condition, which is going to be a limit condition in $\Grpd$. Based on our intuition from sheaves of abelian groups, we might expect that the sheaf condition is the same. Recall that the sheaf condition for abelian groups is that for any open subset $U \subseteq X$ and any open cover $\mathcal{U} = \{ U_i \}$ of $U$, we have an isomorphism
 $$
-F(U) \xrightarrow{\cong} \lim \left( \prod F(U_i) \rightrightarrows \prod F(U_i \cap U_j) \right)
+F(U) \xrightarrow[]{\cong} \lim \left( \prod F(U_i) \rightrightarrows \prod F(U_i \cap U_j) \right).
 $$
-guaranteed by the universality of the limit is a bijection.
+However, since this is not the correct limit condition for a sheaf of groupoids, we must define something new but similar called a stack, which has the correct limit condition.
+
+\begin{definition}[Stack]
+    Let $X$ be a space and $F: \Open(X)^{\op} \to \Grpd$ be a functor. We say $F$ is a \textit{stack} if for every open subset $U \subseteq X$ and every open cover $\mathcal{U} = \{U_i\}$ of $U$, the functor
+    \[\begin{tikzcd}[cramped]
+    	{F(U)} & {2\text{-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+    	\arrow["\simeq", from=1-1, to=1-2]
+    	\arrow[shift right, from=1-2, to=1-3]
+    	\arrow[shift left, from=1-2, to=1-3]
+    	\arrow[from=1-3, to=1-4]
+    	\arrow[shift left=2, from=1-3, to=1-4]
+    	\arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    given by the universal property of the $2$-limit in $\Grpd$ is an equivalence of categories.
 \end{definition}
-Recall that we also similarly defined a sheaf of abelian groups on $X$.
-\begin{definition}
-A functor $F: \Open(X)^{\op} \to \Ab$ is a \textit{presheaf} of sets on $X$. We say that $F$ is a \textit{sheaf} if for every open subset $U \subseteq X$ and every open cover $\mathcal{U} = \{U_i\}$ of $U$, the unique map
-$$
-F(U) \xrightarrow{\cong} \lim \left( \prod F(U_i) \rightrightarrows \prod F(U_i \cap U_j) \right)
-$$
-guaranteed by the universality of the limit is an isomorphism of abelian groups.
+
+We can also repackage this definition as follows by introducing the category of descent data.
+
+\begin{definition}[Descent data]
+    Let $X$ be a space and $F: \Open(X)^{\op} \to \Grpd$ be a functor. For any open subset $U \subset X$ and any open cover $\mathcal{U} = \{U_i\}$ of $U$, we call the groupoid
+    \[\begin{tikzcd}[cramped]
+    	\Desc(\mathcal{U}, F) = {2\text{-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+    	\arrow[shift right, from=1-1, to=1-2]
+    	\arrow[shift left, from=1-1, to=1-2]
+    	\arrow[from=1-2, to=1-3]
+    	\arrow[shift left=2, from=1-2, to=1-3]
+    	\arrow[shift right=2, from=1-2, to=1-3]
+    \end{tikzcd}\]
+    the category of \emph{descent data}, which we will denote by $\Desc(\mathcal{U}, F)$.
 \end{definition}
+
 \begin{remark}
-The key point to observe here is that $\Set$ and $\Ab$ are both 1-categories. Note that 1-categories are what we have just been calling categories in this course. For any 1-category $\mathcal{C}$, we define a sheaf on $X$ valued in $\mathcal{C}$ using the same definition.
+    We can see that $F$ is a stack if $F(U)$ is equivalent to all categories of descent data, that is, if we have an equivalence of categories $F(U) \simeq \Desc(\mathcal{U}, F)$ for any open subset $U \subseteq X$ and any open cover $\mathcal{U} = \{ U_i \}$ of $U$.
 \end{remark}
-\begin{definition}
-A functor $F: \Open(X)^{\op} \to \mathcal{C}$ is a \textit{presheaf} on $X$ valued in $\mathcal{C}$. We say that $F$ is a \textit{sheaf} if for every open subset $U \subseteq X$ and every open cover $\mathcal{U} = \{U_i\}$ of $U$, the unique map
-$$
-F(U) \xrightarrow{\cong} \lim \left( \prod F(U_i) \rightrightarrows \prod F(U_i \cap U_j) \right)
-$$
-guaranteed by the universality of the limit is an isomorphism in $\mathcal{C}$.
-\end{definition}
-\begin{definition}
-We refer to the condition that we have an isomorphism
-$$
-F(U) \xrightarrow{\cong} \lim \left( \prod F(U_i) \rightrightarrows \prod F(U_i \cap U_j) \right)
-$$
-as the \emph{sheaf condition}. Therefore, a sheaf is a presheaf $F: \Open(X)^\op \to \mathcal{C}$ that satisfies the sheaf condition.
-\end{definition}
-\begin{question}
-    Now, the question we want to ask ourselves is, what changes if we consider presheaves valued in something other than a 1-category? What if we have a presheaf valued in a 2-category or a (2,1)-category?
-\end{question}
-Before going any further, we should define what we mean by a 2-category or a (2,1)-category.
-\begin{definition}
-This definition is from \cite{kellystreet}. A 2-category $\mathcal{K}$ is the data of objects or 0-cells $A, B, \cdots$, 1-morphisms or 1-cells $f: A \to B$, and 2-morphisms or 2-cells 
-\[\begin{tikzcd}
-	A && B
-	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow["\alpha", Rightarrow, from=1, to=0]
-\end{tikzcd}\]
-The objects and 1-morphisms form a 1-category (or just a category) $\mathcal{K}_0$ called the \emph{underlying category} of $\mathcal{K}$, with identity morphisms $\id_A: A \to A$. For fixed objects $A, B$, the 1-morphisms $A \to B$ and 2-morphisms between them form a 1-category $K(A, B)$, where the 1-morphisms are the objects and the 2-morphisms are the morphisms. The composition of morphisms in this category is known as vertical composition, denoted
-\[\begin{tikzcd}
-	A && B
-	\arrow[""{name=0, anchor=center, inner sep=0}, "g"'{pos=0.2}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-12pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "h"', shift right=3, curve={height=12pt}, from=1-1, to=1-3]
-	\arrow["\alpha", Rightarrow, from=1, to=0]
-	\arrow["\beta", Rightarrow, from=0, to=2]
-\end{tikzcd}\]
-The vertical composite $f \Rightarrow h$ above is denoted by $\beta \cdot \alpha$, or just $\beta \alpha$ when there is no cause for confusion horizontal composition we define below. The identity morphisms in $\mathcal{K}(A, B)$ are denoted by
-\[\begin{tikzcd}
-	A && B
-	\arrow[""{name=0, anchor=center, inner sep=0}, "f"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow["{\text{id}_f}", Rightarrow, from=1, to=0]
-\end{tikzcd}\]
-Note that we can also define horizontal composition of 2-morphisms, where the composite of 
-\[\begin{tikzcd}
-	A && B && B && C
-	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "v"', curve={height=6pt}, from=1-5, to=1-7]
-	\arrow[""{name=3, anchor=center, inner sep=0}, "u", shift left=3, curve={height=-6pt}, from=1-5, to=1-7]
-	\arrow["\alpha", Rightarrow, from=1, to=0]
-	\arrow["\gamma", Rightarrow, from=3, to=2]
-\end{tikzcd}\]
-is given by
-\[\begin{tikzcd}
-	A && B && C & {=} & A && C
-	\arrow[""{name=0, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "u", shift left=3, curve={height=-6pt}, from=1-3, to=1-5]
-	\arrow[""{name=3, anchor=center, inner sep=0}, "v"', curve={height=6pt}, from=1-3, to=1-5]
-	\arrow[""{name=4, anchor=center, inner sep=0}, "uf", shift left=3, curve={height=-6pt}, from=1-7, to=1-9]
-	\arrow[""{name=5, anchor=center, inner sep=0}, "vg"', curve={height=6pt}, from=1-7, to=1-9]
-	\arrow["\alpha", Rightarrow, from=0, to=1]
-	\arrow["\gamma", Rightarrow, from=2, to=3]
-	\arrow["{{\gamma * \alpha}}", Rightarrow, from=4, to=5]
-\end{tikzcd}\]
-where the composite $\gamma * \alpha$ is also denoted $\gamma \alpha : uf \Rightarrow vg$. Note that this also defines a category with objects 1-morphisms and morphisms 2-morphisms, where the identities are 
-\[\begin{tikzcd}
-	A && A
-	\arrow[curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=0, anchor=center, inner sep=0}, "{{\text{id}_A}}"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "{{\text{id}_A}}", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow["{{\text{id}_{\text{id}_A}}}", Rightarrow, from=1, to=0]
-\end{tikzcd}\]
-We require that the vertical and horizontal compositions are "compatible" in the following diagram,
-\[\begin{tikzcd}
-	A && B && C
-	\arrow[""{name=0, anchor=center, inner sep=0}, "h"'{pos=0.2}, shift right=3, curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f"{pos=0.2}, shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "g"'{pos=0.2}, from=1-1, to=1-3]
-	\arrow[""{name=3, anchor=center, inner sep=0}, "v"'{pos=0.2}, from=1-3, to=1-5]
-	\arrow[""{name=4, anchor=center, inner sep=0}, "u"{pos=0.2}, shift left=3, curve={height=-6pt}, from=1-3, to=1-5]
-	\arrow[""{name=5, anchor=center, inner sep=0}, "w"'{pos=0.2}, shift right=3, curve={height=6pt}, from=1-3, to=1-5]
-	\arrow["\alpha", Rightarrow, from=1, to=2]
-	\arrow["\beta", Rightarrow, from=2, to=0]
-	\arrow["\gamma", Rightarrow, from=4, to=3]
-	\arrow["\delta", Rightarrow, from=3, to=5]
-\end{tikzcd}\]
-More precisely, we require that they satisfy the interchange law $(\delta * \beta) \cdot (\gamma * \alpha) = (\delta \cdot \gamma) * (\beta \cdot \alpha)$. The last condition we want to setup is that in the diagram
-\[\begin{tikzcd}
-	A && B && C
-	\arrow[""{name=0, anchor=center, inner sep=0}, "f"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "u"', curve={height=6pt}, from=1-3, to=1-5]
-	\arrow[""{name=3, anchor=center, inner sep=0}, "u", shift left=3, curve={height=-6pt}, from=1-3, to=1-5]
-	\arrow["{\text{id}_f}", Rightarrow, from=1, to=0]
-	\arrow["{\text{id}_u}", Rightarrow, from=3, to=2]
-\end{tikzcd}\]
-we have $\id_u * \id_f = \id_{uf}$. There is some more to be said about this definition, but for the purposes of this appendix we have defined a 2-category in sufficient generality.
-\end{definition}
-\begin{notation}
-As we have done in the above diagrams, we will use the convention in which the name of an object $A$ or of a 1-morphism $f$ is used as the name of its identity 1-morphism $\id_A$ or its identity 2-morphism $\id_f$. To illustrate the use of this notation, consider that the diagram
-\[\begin{tikzcd}
-	A && B && C && D
-	\arrow[""{name=0, anchor=center, inner sep=0}, "f"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "v"', curve={height=6pt}, from=1-3, to=1-5]
-	\arrow[""{name=3, anchor=center, inner sep=0}, "u", shift left=3, curve={height=-6pt}, from=1-3, to=1-5]
-	\arrow[""{name=4, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-5, to=1-7]
-	\arrow[""{name=5, anchor=center, inner sep=0}, "g", shift left=3, curve={height=-6pt}, from=1-5, to=1-7]
-	\arrow["{\text{id}_f}",  Rightarrow, from=1, to=0]
-	\arrow["\gamma",  Rightarrow, from=3, to=2]
-	\arrow["{\text{id}_g}", Rightarrow, from=5, to=4]
-\end{tikzcd}\]
-which we can simplify to
-\[\begin{tikzcd}
-	A && B && C && D
-	\arrow["f"', from=1-1, to=1-3]
-	\arrow[""{name=0, anchor=center, inner sep=0}, "v"', curve={height=6pt}, from=1-3, to=1-5]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "u", shift left=3, curve={height=-6pt}, from=1-3, to=1-5]
-	\arrow["g"', from=1-5, to=1-7]
-	\arrow["\gamma", Rightarrow, from=1, to=0]
-\end{tikzcd}\]
-\end{notation}
-\begin{example}
-The standard example of a 2-category is $\Cat$, the 2-category of categories. The objects are categories, the 1-morphisms are functors, and the 2-morphisms are natural transformations.
-\end{example}
-\begin{definition}
-A (2,1)-category is a 2-category in which all the 2-morphisms are isomorphisms, that is, for every 2-morphism 
-\[\begin{tikzcd}
-	A && B
-	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow["\alpha", Rightarrow, from=1, to=0]
-\end{tikzcd}\]
-there is an inverse 2-morphism
-\[\begin{tikzcd}
-	A && B
-	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-3]
-	\arrow[""{name=1, anchor=center, inner sep=0}, "f", shift left=3, curve={height=-6pt}, from=1-1, to=1-3]
-	\arrow["\beta"', Rightarrow, from=0, to=1]
-\end{tikzcd}\]
-such that $\beta \cdot \alpha = \id_f$ and $\alpha \cdot \beta = \id_g$.
-\end{definition}
-\begin{example}
-The standard example of a (2,1)-category, which we will be considering a lot in this appendix, is $\Grpd$, the (2,1)-category of groupoids. The objects are groupoids, the 1-morphisms are functors, and the 2-morphisms are natural isomorphisms. 
-\end{example}
-\begin{definition}
-Let $\mathcal{C}, \mathcal{D}$ be 2-categories, then a \emph{strict 2-functor} from $\mathcal{C} \to \mathcal{D}$ sends objects of $\mathcal{C}$ to objects of $\mathcal{D}$, 1-morphisms of $\mathcal{C}$ to 1-morphisms of $\mathcal{D}$, and 2-morphisms of $\mathcal{C}$ to 2-morphisms of $\mathcal{D}$, preserving domains, codomains, identity, and composition.
-\end{definition}
-\begin{definition}
-A \emph{weak 2-functor} has the same definition as a strict 2-functor, without the requirement that it respects identity and composition of 1-morphisms. Instead, a weak 2-functor need only preserve identity and composition of 1-morphisms up to a natural isomorphism.
-\end{definition}
-\begin{example}
-Let's consider an example of a weak 2-functor. Suppose $F: \CRing \to \Cat$ is the functor 
-\begin{itemize}
-    \item defined on the level of objects by sending a commutative ring $R$ to the 1-category of $R$-modules $\Mod(R)$,
-    \item defined on the level of 1-morphisms by sending a ring map $R \xrightarrow[]{f} S$ to the functor $\Mod(R) \xrightarrow[]{f^*} \Mod(S)$, defined on objects by sending $M \mapsto M \otimes_{R} S$ and on morphisms by sending (I don't know),
-    \item $\CRing$ is a 1-category, so strictly speaking it does not have 2-morphisms. However, we can always upgrade a 1-category to a 2-category by considering the identity 2-morphisms. Since $F$ respects identity on 2-morphisms, it is defined on 2-morphisms by sending an identity 2-morphism $\id_f$ to the identity 2-morphism $\id_{f^*} $
-\end{itemize}
-This is called "extension of scalars" (according to my DRP mentor Matthew). Now, let's consider the following diagram in $\CRing$.
-\[\begin{tikzcd}
-	& S & \\
-	R && T
-	\arrow["g", from=1-2, to=2-3]
-	\arrow["f", from=2-1, to=1-2]
-	\arrow["gf"', from=2-1, to=2-3]
-\end{tikzcd}\]
-To see that $F$ is a weak 2-functor and not a strict 2-functor, we want to consider whether it preserves composition of 1-morphisms $(gf)^* = g^*f^*$. Let $M \in \Mod(R)$, then we have $$g^*(f^*(M)) = g^*(M \otimes_R S) = (M \otimes_R S) \otimes_S T,$$ and 
-$$
-(gf)^*(M) = M \otimes_R T.
-$$
-Note that $(M \otimes_R S) \otimes_S T \not = M \otimes_R T$ as $T$-modules, but they are isomorphic. Therefore, the functors $(gf)^*$ and $g^*f^*$ are not equal in $\Cat$, but they are naturally isomorphic; that is, the following diagram in $\Cat$ does not commute up to equality, but up to a natural isomorphism of functors,
-\[\begin{tikzcd}
-	& {\Mod(S)} & \\
-	{\Mod(R)} && {\Mod(T)}
-	\arrow["{g^*}", from=1-2, to=2-3]
-	\arrow["{f^*}", from=2-1, to=1-2]
-	\arrow[""{name=0, anchor=center, inner sep=0}, "{(gf)^*}"', from=2-1, to=2-3]
-	\arrow["\cong", Rightarrow, from=1-2, to=0]
-\end{tikzcd}\]
-Therefore, $F$ respects composition of 1-morphisms only up to natural isomorphism, so it is not a strict 2-functor, but it is a weak 2-functor. Note that this last diagram shows the three levels of structure in the 2-category $\Cat$, the 0-cells $\Mod(R)$, $\Mod(S)$, and $\Mod(T)$, the 1-morphisms $f^*$, $g^*$, and $(gf)^*$, and the 2-morphism $(gf)^* \xRightarrow[]{\cong} g^*f^*$. 
-\end{example}
+
 \begin{remark}
-Recall that we defined 2-functors as functors between 2-categories. However, in the previous example, we had $F: \CRing \to \Cat$, where $\CRing$ is a 1-category, which we stated was a weak 2-functor. We briefly addressed this in the example, but it is worth mentioning apart from the example as its own remark. For any 1-category $\mathcal{C}$, we can consider it as a 2-category (and in particular a (2,1)-category) by considering the 2-morphisms to be only the identity 2-morphism for each 1-morphism.
+    The definition a stack we gave is for a small site. There is an equivalent definition for a big site, in which we consider functors $F: \Top^\op \to \Grpd$ and open covers $\mathcal{U} = \{ U_i\}$ of spaces $X$. 
 \end{remark}
-\begin{definition}
-Here we want to insert the correct definition of a 2-limit, which I am having trouble finding at the moment. We know how to compute it for the diagrams we want to consider in this appendix, but I am looking for a general definition.
-\end{definition}
-Now that we are familiar with all the relevant definitions related to 2-categories, let's go back to our question and consider what happens if we consider presheaves valued in something other than a 1-category. In particular, we will consider presheaves valued in the (2,1)-category of groupoids, that is, functors $F: \Open(X)^{\op} \to \Grpd$. This naturally leads us to another question.
-\begin{question}
-What would it mean for the presheaf $F: \Open(X)^{\op} \to \Grpd$ to be a sheaf? In other words, what is the sheaf condition for presheaves valued in $\Grpd$? Can we use the same sheaf condition as for presheaves valued in a 1-category, and if not, what should it be?
-\end{question}
-It turns out that the sheaf condition for presheaves valued in a 1-category in insufficient, so we will need a new condition for a presheaf $F: \Open(X)^{\op} \to \Grpd$ to be considered as a sheaf valued in $\Grpd$. This new condition leads us directly to the long awaited definition of a stack, which we want to think of as a sheaf of groupoids on a space $X$.
-\begin{definition}
-Let $X$ be a topological space, and $F: \Open(X)^{\op} \to \Grpd$ be a weak 2-functor (a presheaf of groupoids on $X$). We say that $F$ is a \textit{stack} (a sheaf) if for every open subset $U \subseteq X$ and every open cover $\mathcal{U} = \{U_i\}$ of $U$, the functor
-\[\begin{tikzcd}[cramped]
-	{F(U)} & {\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
-	\arrow["\cong", from=1-1, to=1-2]
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-guaranteed by the universal property of the $2$-limit in $\Grpd$ is an equivalence of categories.
-\end{definition}
-\begin{definition}
-Given a space $X$, an open subset $U \subset X$ and a cover $\mathcal{U} = \{U_i\}$ of $U$, we call 
-\[\begin{tikzcd}[cramped]
-	{\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
-	\arrow[shift right, from=1-1, to=1-2]
-	\arrow[shift left, from=1-1, to=1-2]
-	\arrow[from=1-2, to=1-3]
-	\arrow[shift left=2, from=1-2, to=1-3]
-	\arrow[shift right=2, from=1-2, to=1-3]
-\end{tikzcd}\]
-the category of descent data $\Desc(\mathcal{U}, F)$. Then, we say $F$ is a stack if $F(U)$ is equivalent to the category of descent data; that is, if we have an equivalence of categories $F(U) \cong \Desc(\mathcal{U}, F)$.
-\end{definition}
-\begin{definition}
-We refer to the condition that we have an equivalence of categories
-\[\begin{tikzcd}[cramped]
-	{F(U)} & {\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
-	\arrow["\cong", from=1-1, to=1-2]
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-as the stack condition, so a stack is a functor $F: \Open(X)^\op \to \Grpd$ that satisfies the stack condition.
-\end{definition}
-\begin{example}
-Let's consider what the stack condition tells us in a simple example. Suppose \( X = U_1 \cup U_2 \) is an open cover, so we have a two element open cover $\mathcal{U} = \{ U_1, U_2 \}$ of $X$. If $F$ is a stack, we have an equivalence of categories
-    \[ F(X) \xrightarrow{\cong} \lim \left(F(U_1) \times F(U_2) \rightrightarrows F(U_1 \cap U_2) \right), \]
-    where we omit the triple overlap term since there are no triple overlaps in the open cover. We will rewrite this 2-equalizer as the 2-pullback of the following diagram, where \( E = \lim \left(F(U_1) \times F(U_2) \rightrightarrows F(U_1 \cap U_2) \right) \),
-    \[\begin{tikzcd}
-    	E & {F(U_1)} \\
-    	{F(U_2)} & {F(U_1 \cap U_2)}
-    	\arrow[from=1-1, to=1-2]
-    	\arrow[from=1-1, to=2-1]
-    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
-    	\arrow["\psi", from=1-2, to=2-2]
-    	\arrow["\phi"', from=2-1, to=2-2]
-    \end{tikzcd} \]
-    Therefore, \( E \) is a groupoid with:
+
+\begin{remark}
+    The above definition of a stack involves functors $F: \Open(X)^\op \to \Grpd$, which are functors from the 1-category $\Open(X)^\op$ to the 2-category $\Grpd$. Note that a 1-category is what we have been calling a category in this course. The fact that $\Grpd$ is a 2-category is where many of the interesting differences between stacks and sheaves arise. Because we do not want to assume any familiarity with 2-categories, we will now introduce the requisite background and definitions.
+\end{remark}
+
+\begin{definition}[2-category]
+    The following definition of a 2-category is adapted from \cite{kellystreetReviewElements2Cat2006}. A \emph{2-category} $\mathcal{C}$ is the data of
     \begin{enumerate}
-        \item objects $(a,b,\alpha)$ such that \( a \in \text{Ob}(F(U_1)) \), \( b \in \text{Ob}(F(U_2))\), and \( \alpha: \psi(a) \xrightarrow{\cong} \phi(b) \) in $F(U_1 \cap U_2)$, where $\psi$ and $\phi$ are the restrictions induced by the inclusions $U_1 \cap U_2 \to U_1$ and $U_1 \cap U_2 \to U_2$ respectively,
-        \item morphisms $(a_1,b_1,\alpha_1) \xrightarrow{f} (a_2,b_2,\alpha_2)$, which consist of the data of isomorphisms $a_1 \xrightarrow[\cong]{f_a} a_2$ and $b_1 \xrightarrow[\cong]{f_b} b_2$
-        so that
-        \[\begin{tikzcd}
-        	{\psi(a_1)} && {\psi(a_2)} \\
-        	\\
-        	{\phi(b_1)} && {\phi(b_2)}
-        	\arrow["{{\psi(f_a)}}", from=1-1, to=1-3]
-        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-1, to=1-3]
-        	\arrow["{{\alpha_1}}"', from=1-1, to=3-1]
-        	\arrow["\cong"{description}, shift left=3, draw=none, from=1-1, to=3-1]
-        	\arrow["{{\alpha_2}}", from=1-3, to=3-3]
-        	\arrow["\cong"{description}, shift right=3, draw=none, from=1-3, to=3-3]
-        	\arrow["{{\phi(f_b)}}"', from=3-1, to=3-3]
-        	\arrow["\cong"{description}, shift left=2, draw=none, from=3-1, to=3-3]
-        \end{tikzcd}\]
-        commutes.
+        \item objects (or 0-cells) $A, B, C, \cdots \in \mathcal{C}$,
+        \item 1-morphisms (or 1-cells) $f: A \to B$ between objects $A, B$, and 
+        \item 2-morphisms (or 2-cells) $\alpha: f \Rightarrow g$ between 1-morphisms $f, g: A \to B$.
     \end{enumerate}
-    The stack condition tells us that \( F(X) \) is equivalent to \( E \) in this simple case of a $2$-object cover. 
-\end{example}
-\begin{remark}
-Note that in the previous example with a 2-object cover, the category of descent data
-$$
-\Desc(\{ U_1, U_2\}, F) = \lim \left(F(U_1) \times F(U_2) \rightrightarrows F(U_1 \cap U_2) \right)
-$$
-does not contain the triple overlap term $F(U_i \cap U_j \cap U_k)$, and so the stack condition looks just like the sheaf condition for a sheaf valued in a 1-category.
-\end{remark}
-\begin{question}
-This might lead one to ask, why do we need to consider triple overlaps in the stack condition, why can't we just consider double overlaps like the sheaf condition? Let's consider the example of a 3-object cover to see why.
-\end{question}
-\begin{example}
-Suppose \( X = U_1 \cup U_2 \cup U_3 \) such that \( U_{12} = U_1 \cap U_2, U_{13} = U_1 \cap U_3, U_{23} = U_2 \cap U_3 \text{ and } U_{123} = U1 \cap U_2 \cap U_3 \) are all nonempty. If \( F \) is a stack, then we have an equivalence of categories
-\[\begin{tikzcd}[cramped]
-	{F(X)} & {\lim \bigg( F(U_1)F(U_2)F(U_3)} & {\prod F(U_{12}) F(U_{13}) F(U_{23})} & {\prod F(U_{123}) \bigg)}
-	\arrow["\cong", from=1-1, to=1-2]
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-However, let's first consider what happens if we ignore the triple overlap \( U_{123} \): define
-\[ E = \lim\left( F(U_1) \times F(U_2) \times F(U_3) \rightrightarrows F(U_{12}) \times F(U_{13}) \times F(U_{23}) \right), \]
-that is, \( E \) is the limit of the following diagram.
-\[\begin{tikzcd}
-	{F(U_3)} &&&& {F(U_2)} \\
-	&& {F(U_1)} \\
-	{F(U_{13})} &&&& {F(U_{12})} \\
-	&& {F(U_{23})}
-	\arrow["{R_{3,1}}"{description}, from=1-1, to=3-1]
-	\arrow["{R_{3,2}}"{description, pos=0.3}, from=1-1, to=4-3]
-	\arrow["{R_{2,3}}"{description, pos=0.3}, from=1-5, to=4-3]
-	\arrow["{R_{1,3}}"{description, pos=0.3}, from=2-3, to=3-1]
-	\arrow["{R_{1,2}}"{description, pos=0.3}, from=2-3, to=3-5]
-    \arrow["{R_{2,1}}"{description}, from=1-5,to=3-5]
-\end{tikzcd}\]
-Then, we know that \( E \) is the groupoid with
-\begin{enumerate}
-    \item objects \( (a_1,a_2,a_3,\phi_{12},\phi_{13},\phi_{23}) \) such that \( a_i \in F(U_i)\) and
-    \( \phi_{ij}: R_{i,j}(a_i) \xrightarrow{\cong} R_{j,i}(a_j), \) and
-    \item morphisms \( (a_1,a_2,a_3,\phi_{12},\phi_{13},\phi_{23}) \xrightarrow{f} (a_1',a_2',a_3',\phi'_{12},\phi'_{13},\phi'_{23}) \), which are the data of
-    \[ a_1 \xrightarrow{f_1} a_1', \qquad a_2 \xrightarrow{f_2} a_2', \qquad \text{ and} \qquad a_3 \xrightarrow{f_3} a_3' \]
-    such that the following diagrams commute
-    \[\begin{tikzcd}
-    	{R_{1,2}(a_1)} && {R_{1,2}(a_1')} && {R_{1,3}(a_1)} && {R_{1,3}(a_1')} \\
-    	\\
-    	{R_{2,1}(a_2)} && {R_{2,1}(a_2')} && {R_{3,1}(a_3)} && {R_{3,1}(a_3')} \\
-    	\\
-    	&& {R_{2,3}(a_2)} && {R_{2,3}(a_2')} \\
-    	\\
-    	&& {R_{3,2}(a_3)} && {R_{3,2}(a_3')}
-    	\arrow["{R_{1,2}(f_1)}", from=1-1, to=1-3]
-    	\arrow["{\phi_{1,2}}"', from=1-1, to=3-1]
-    	\arrow["\cong"{description}, shift left=2, draw=none, from=1-1, to=3-1]
-    	\arrow["{\phi'_{1,2}}", from=1-3, to=3-3]
-    	\arrow["\cong"{description}, shift right=2, draw=none, from=1-3, to=3-3]
-    	\arrow["{R_{1,3}(f_1)}", from=1-5, to=1-7]
-    	\arrow["{\phi_{1,3}}"', from=1-5, to=3-5]
-    	\arrow["\cong"{description}, shift left=2, draw=none, from=1-5, to=3-5]
-    	\arrow["{\phi'_{1,3}}", from=1-7, to=3-7]
-    	\arrow["\cong"{description}, shift right=2, draw=none, from=1-7, to=3-7]
-    	\arrow["{R_{2,1}(f_2)}"', from=3-1, to=3-3]
-    	\arrow["{R_{3,1}(f_3)}"', from=3-5, to=3-7]
-    	\arrow["{R_{2,3}(f_2)}", from=5-3, to=5-5]
-    	\arrow["{\phi_{2,3}}"', from=5-3, to=7-3]
-    	\arrow["\cong"{description}, shift left=2, draw=none, from=5-3, to=7-3]
-    	\arrow["{\phi'_{2,3}}", from=5-5, to=7-5]
-    	\arrow["\cong"{description}, shift right=2, draw=none, from=5-5, to=7-5]
-    	\arrow["{R_{3,2}(f_3)}"', from=7-3, to=7-5]
-    \end{tikzcd}.\]
-    that is, \(\phi'_{i,j} \circ R_{i,j}(f_i) = R_{j,i}(f_j) \circ \phi_{i,j} \) for all $i < j$.
-\end{enumerate}
-Without any condition on triple overlaps, we have no reason to assume that the following hexagon commutes:
-\[\begin{tikzcd}
-    & {T_2(R_{13}(a_1))} && {T_3(R_{12}(a_1))} & \\
-    \\
-    {T_2(R_{31}(a_3))} &&&& {T_3(R_{21}(a_2))} \\
-    \\
-    & {T_1(R_{32}(a_3))} && {T_1(R_{23}(a_2))}
-    \arrow["{=}"{description}, no head, from=1-2, to=1-4]
-    \arrow["{\phi_{1,3}}"{description}, from=1-2, to=3-1]
-    \arrow["{\phi_{1,2}}"{description}, from=1-4, to=3-5]
-    \arrow["{=}"{description}, no head, from=3-1, to=5-2]
-    \arrow["{=}"{description}, no head, from=3-5, to=5-4]
-    \arrow["{\phi_{2,3}}"{description}, from=5-4, to=5-2]
-\end{tikzcd}\]
-However, it really should commute, so let's see if this is what we obtain by considering the triple overlaps. We now want to consider
-\[\begin{tikzcd}
-	{E=} & {\lim \bigg( F(U_1)F(U_2)F(U_3)} & {\prod F(U_{12}) F(U_{13}) F(U_{23})} & {\prod F(U_{123}) \bigg)}
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-which is the limit of the following diagram
-\[\begin{tikzcd}
-    {F(U_3)} &&&& {F(U_2)} \\
-    && {F(U_1)} \\
-    {F(U_{13})} &&&& {F(U_{12})} \\
-    && {F(U_{23})} \\
-    \\
-    && {F(U_{123})}
-    \arrow["{R_{3,1}}"{description}, from=1-1, to=3-1]
-    \arrow["{R_{3,2}}"{description, pos=0.3}, from=1-1, to=4-3]
-    \arrow["{R_{2,1}}"{description}, from=1-5, to=3-5]
-    \arrow["{R_{2,3}}"{description, pos=0.3}, from=1-5, to=4-3]
-    \arrow["{R_{1,3}}"{description, pos=0.3}, from=2-3, to=3-1]
-    \arrow["{R_{1,2}}"{description, pos=0.3}, from=2-3, to=3-5]
-    \arrow["{T_2}"{description}, from=3-1, to=6-3]
-    \arrow["{T_3}"{description}, from=3-5, to=6-3]
-    \arrow["{T_1}"{description}, from=4-3, to=6-3]
-\end{tikzcd}\]
-Therefore, $E$ is the groupoid with
-\begin{enumerate}
-    \item objects \( (a_1,a_2,a_3, \phi_{12},\phi_{13},\phi_{23} ) \) such that \( a_i \in F(U_i), \phi_{ij}: R_{i,j}(a_i) \xrightarrow{\cong} R_{j,i}(a_j), \) and these satisfy the cocycle condition
-    \[ \phi_{j,k} \circ \phi_{i,j} = \phi_{i,k} \text{; and} \]
-    \item morphisms \( (a_1,a_2,a_3, \phi_{12},\phi_{13},\phi_{23}) \xrightarrow{f} (a'_1,a'_2,a'_3, \phi'_{12},\phi'_{13},\phi'_{23}) \) the data of
-    \[ a_1 \xrightarrow{f_1} a'_1, \qquad a_2 \xrightarrow{f_1} a'_2, \qquad \text{and} \qquad a_3 \xrightarrow{f_1} a'_3 \]
-    such that, like above, \( \phi'_{i,j} \circ R_{i,j}(f_i) = R_{j,i}(f_j) \circ \phi_{i,j} \).
-\end{enumerate}
-The cocycle condition on objects gives us that the desired hexagon commutes. This example illustrates what the category of descent datum is like and explains the importance of the triple overlaps being considered.
-\end{example}
-\begin{remark}
-Before considering our first concrete example of a stack, we need to discuss some Grothendieck topology and the distinction between big site and the small site. For now, it suffices to note that the definition of a stack we gave above is for a small site, and there is a similar definition for a big site.
-\end{remark}
-\begin{definition}
-Let $F: \Top^\op \ \to \Grpd$ be a weak 2-functor. We say that $F$ is a \textit{stack} if for every space $X$ and every open cover $\mathcal{U} = \{U_i\}$ of $X$, the functor
-\[\begin{tikzcd}[cramped]
-	{F(X)} & {\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
-	\arrow["\cong", from=1-1, to=1-2]
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-guaranteed by the universal property of the $2$-limit in $\Grpd$ is an equivalence of categories. 
+    We also require that
+    \begin{itemize}
+        \item for every object $A$ there exists an identity 1-morphism $\id_A : A \to A$, for every 1-morphism $f: A \to B$ there exists an identity 2-morphism $\id_f: f \Rightarrow f$, and
+        \item that we can compose 1-morphisms and 2-morphisms, that is, for 1-morphisms $f: A \to B$, $g: B \to C$ there exists a 1-morphism $g \circ f: A \to C$, and for 2-morphisms $\alpha: f \Rightarrow g$, $\beta: g \Rightarrow h$ there exists a 2-morphism $\beta \circ \alpha : f \Rightarrow h$.
+    \end{itemize}
 \end{definition}
+
 \begin{example}
-Let's consider an example of a functor that satisfies the stack condition. Let $F: \Top^{\op} \to \Grpd$ be the functor sending a space $X$ to its groupoid of principal $G$ bundles $\Prin_{G}(X)$, and sending a continuous map $f: X \to Y$ to the functor $f^*: \Prin_{G}(Y) \to \Prin_{G}(X)$ defined as follows:
-\begin{enumerate}
-    \item On objects, $f^*$ sends $P \in \text{Ob}(\Prin_{G}(Y))$ to the pullback $X \times_{Y} P \in \text{Ob}(\Prin_{G}(X))$ of $P$ along $f$, seen as
+    The standard example of a 2-category is the category of categories, denoted by $\Cat$. The objects are categories $\mathcal{C}, \mathcal{D}, \cdots$, the 1-morphisms are functors $F: \mathcal{C} \to \mathcal{D}$, and the 2-morphisms are natural transformations $\alpha: F \Rightarrow G$.
+\end{example}
+
+\begin{remark}
+    The use of the term 0-cell to describe objects, 1-cell to describe 1-morphisms, and 2-cell to describe 2-morphisms, comes from the fact that when we consider a diagram in a 2-category it looks like a 2-dimensional cell-complex. For example, consider the following diagram
     \[\begin{tikzcd}
-    	{X \times_{Y} P} && P \\
+    	A && B,
+    	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', curve={height=12pt}, from=1-1, to=1-3]
+    	\arrow[""{name=1, anchor=center, inner sep=0}, "f", curve={height=-12pt}, from=1-1, to=1-3]
+    	\arrow["\alpha", Rightarrow, from=1, to=0]
+    \end{tikzcd}\]
+    in which we think of the $2$-morphism $\alpha$ as ``filling in'' the space between the 1-morphisms $f$ and $g$.
+\end{remark}
+
+\begin{definition}[(2,1)-category]
+    A \emph{(2,1)-category} is a 2-category in which all 2-morphisms are 2-isomorphisms, that is, for every 2-morphism $\alpha: f \Rightarrow g$, there is an inverse 2-morphism $\beta: g \Rightarrow f$ such that $\beta \circ \alpha = \id_f$ and $\alpha \circ \beta = \id_g$.
+\end{definition}
+
+\begin{example}
+    The standard example of a (2,1)-category is the category of groupoids, denoted by $\Grpd$, which will be of great interest to us in this appendix. The objects are groupoids $\mathcal{C}, \mathcal{D}, \cdots$, the 1-morphisms are functors $F: \mathcal{C}\to \mathcal{D}$, and the 2-morphisms are natural isomorphisms $\alpha: F \cong G$. 
+\end{example}
+
+\begin{remark}
+    The above definition of a stack is difficult to work with for two main reasons:
+    \begin{enumerate}
+        \item It is very difficult to define functors from a 1-category to a 2-category. The reason is that unlike functors between 1-categories, which only need to respect composition of morphisms, functors into a 2-category have additional coherence conditions which are tedious to check.
+        \item Since $\Grpd$ is a (2,1)-category, the limit condition in $\Grpd$ involves computing a 2-limit, which is difficult because it requires keeping track of a  large amount of data compared to a limit in a 1-category.
+    \end{enumerate}
+\end{remark}
+
+\begin{example}
+    We will now give an example to show that computing a 2-limit requires keeping track of more data that a 1-limit. Consider the diagram in $\Set$ consisting of two maps $f: X \to Z$ and $g: Y \to Z$. The limit of this diagram is the data of a set $P$ and maps $p_1: P \to X$, $p_2: P \to Y$ such that the following diagram commutes
+    \[\begin{tikzcd}
+    	P && X \\
+    	\\
+    	Y && Z
+    	\arrow["{p_1}", from=1-1, to=1-3]
+    	\arrow["{p_2}"', from=1-1, to=3-1]
+    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=3-3]
+    	\arrow["f", from=1-3, to=3-3]
+    	\arrow["g"', from=3-1, to=3-3]
+    \end{tikzcd}\]
+    and such that $P$ satisfies the universal property. Therefore, we can define $P$ as the set
+    $$
+    P = X \times_Z Y = \{ (x,y) \in X \times Y : f(x) = g(y) \},
+    $$
+    where the maps $p_1$ and $p_2$ are projections onto the first and second component respectively. Thus, we can summarize the data of the 1-limit $P$ as tuples $(x,y)$ such that $f(x) = g(y)$. 
+    
+    Now, consider a similar diagram in $\Grpd$, consisting of two functors $F: \mathcal{A} \to \mathcal{C}$ and $G: \mathcal{B} \to \mathcal{C}$. The 2-limit of this diagram is the data of a groupoid $\mathcal{P}$ and functors $P_1: \mathcal{P} \to \mathcal{A}$, $P_2: \mathcal{P} \to \mathcal{B}$ such that the following diagram commutes up to a natural isomorphism
+    \[\begin{tikzcd}
+    	{\mathcal{P}} && {\mathcal{A}} \\
+    	\\
+    	{\mathcal{B}} && {\mathcal{C}}
+    	\arrow[""{name=0, anchor=center, inner sep=0}, "{{P_1}}", from=1-1, to=1-3]
+    	\arrow["{{P_2}}"', from=1-1, to=3-1]
+    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=3-3]
+    	\arrow["F", from=1-3, to=3-3]
+    	\arrow[""{name=1, anchor=center, inner sep=0}, "G"', from=3-1, to=3-3]
+    \end{tikzcd}\]
+    and such that $P$ satisfies the universal property. Therefore, we can define $\mathcal{P}$ as the groupoid with the data of:
+    \begin{itemize}
+        \item objects $(A, B, \varphi)$, where $A \in \mathcal{A}$, $B \in \mathcal{B}$, and $\varphi: F(A) \xrightarrow{\cong} G(B)$ is a specified isomorphism, 
+        \item isomorphisms $\psi: (A, B, \varphi) \xrightarrow{\cong} (A', B', \varphi')$ which are the data of isomorphisms $\psi_A: A \cong A'$ and $\psi_B: B \cong B'$ such that the following diagram commutes
+    \[\begin{tikzcd}
+    	{F(A)} && {F(A')} \\
+    	\\
+    	{G(B)} && {G(B').}
+    	\arrow["{F(\psi_A)}", from=1-1, to=1-3]
+    	\arrow["\varphi"', from=1-1, to=3-1]
+    	\arrow["{\varphi'}", from=1-3, to=3-3]
+    	\arrow["{G(\psi_B)}"', from=3-1, to=3-3]
+    \end{tikzcd}\]
+    \end{itemize}
+    We can see the data of the groupoid $\mathcal{P}$ is far more difficult to keep track of than the set $P$.
+\end{example}
+
+We will eventually address the two difficulties with the above definition of a stack by introducing an alternative definition that is easier to work with. However, before doing this, we consider the following question that arises naturally when comparing the definition of a stack to that of a sheaf.
+
+\begin{question}
+    Why do we need to consider triple overlaps?
+\end{question}
+
+\begin{answer}
+    Let's consider a simple example that will help answer this question. Let $X$ be a space, and suppose we have a three-object open cover $\mathcal{U} = \{ U_1, U_2, U_3 \}$ of $X$. Let $F: \Open(X)^\op \to \Grpd$ be a functor, then \( F \) is a stack if we have an equivalence of categories
+    \[\begin{tikzcd}[cramped]
+    	{F(X)} & {\text{2-lim} \bigg( F(U_1) \times F(U_2) \times F(U_3)} & {F(U_{12}) \times F(U_{13}) \times F(U_{23})} & {F(U_{123}) \bigg).}
+    	\arrow["\simeq", from=1-1, to=1-2]
+    	\arrow[shift right, from=1-2, to=1-3]
+    	\arrow[shift left, from=1-2, to=1-3]
+    	\arrow[from=1-3, to=1-4]
+    	\arrow[shift left=2, from=1-3, to=1-4]
+    	\arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    Note that we are using the shorthand notation $U_{12} = U_1 \cap U_2$, $U_{13} = U_1 \cap U_3$, $U_{23} = U_2 \cap U_3$, and $U_{123} = U_1 \cap U_2 \cap U_3$. Let's ignore the triple overlap $U_{123}$ for now, and assume have an equivalence of categories $F(X) \simeq E$, where
+    \[ E = \text{2-lim} \left( F(U_1) \times F(U_2) \times F(U_3) \rightrightarrows F(U_{12}) \times F(U_{13}) \times F(U_{23}) \right), \]
+    that is, \( E \) is the 2-limit of the following diagram in $\Grpd$
+    \[\begin{tikzcd}
+    	{F(U_3)} &&&& {F(U_2)} \\
+    	&& {F(U_1)} \\
+    	{F(U_{13})} &&&& {F(U_{12})} \\
+    	&& {F(U_{23}).}
+    	\arrow["{R_{3,1}}"{description}, from=1-1, to=3-1]
+    	\arrow["{R_{3,2}}"{description, pos=0.3}, from=1-1, to=4-3]
+    	\arrow["{R_{2,3}}"{description, pos=0.3}, from=1-5, to=4-3]
+    	\arrow["{R_{1,3}}"{description, pos=0.3}, from=2-3, to=3-1]
+    	\arrow["{R_{1,2}}"{description, pos=0.3}, from=2-3, to=3-5]
+        \arrow["{R_{2,1}}"{description}, from=1-5,to=3-5]
+    \end{tikzcd}\]
+    Note that each functor $R_{ij}: F(U_i) \to F(U_{ij})$ is induced by the inclusion $U_{ij} \hookto U_i$. We will also later introduce functors $T_i: F(U_{jk}) \to F(U_{123})$ induced by the inclusion $U_{jk} \hookto U_{123}$. We can see that $E$ fits into the following three diagrams in $\Grpd$
+    \[\begin{tikzcd}[cramped,column sep=scriptsize]
+    	E && {F(U_1)} && E && {F(U_1)} && E && {F(U_2)} \\
+    	\\
+    	{F(U_2)} && {F(U_{12})} && {F(U_3)} && {F(U_{13})} && {F(U_3)} && {F(U_{23})}
+    	\arrow[from=1-1, to=1-3]
+    	\arrow[from=1-1, to=3-1]
+    	\arrow["{{{R_{1,2}}}}", from=1-3, to=3-3]
+    	\arrow[from=1-5, to=1-7]
+    	\arrow[from=1-5, to=3-5]
+    	\arrow["{{{R_{1,3}}}}", from=1-7, to=3-7]
+    	\arrow[from=1-9, to=1-11]
+    	\arrow[from=1-9, to=3-9]
+    	\arrow["{{{R_{2,3}}}}", from=1-11, to=3-11]
+    	\arrow["{{{R_{2,1}}}}"', from=3-1, to=3-3]
+    	\arrow["{{{R_{3,1}}}}"', from=3-5, to=3-7]
+    	\arrow["{{{R_{3,2}}}}"', from=3-9, to=3-11]
+    \end{tikzcd}\]
+    which commute up to a natural isomorphism. Thus, we define \( E \) as the groupoid with the data of:
+    \begin{itemize}
+        \item objects which are $6$-tuples of the form $(a_1,a_2,a_3,\phi_{12},\phi_{13},\phi_{23})$, where
+        $$
+        a_1 \in F(U_1), \ a_2 \in F(U_2), \ a_3 \in F(U_3)
+        $$
+        are local objects, and
+        \begin{align*}
+            \phi_{12}: R_{1,2}(a_1) \xrightarrow{\cong} R_{2,1}(a_2) \text{ in } F(U_{12}), \\
+            \phi_{13}: R_{1,3}(a_1) \xrightarrow{\cong} R_{3,1}(a_1) \text{ in } F(U_{13}), \\
+            \phi_{23}: R_{2,3}(a_2) \xrightarrow{\cong} R_{3,2}(a_3) \text{ in } F(U_{23}),
+        \end{align*}
+        are chosen isomorphisms between local objects on double overlaps,
+        \item isomorphisms 
+        $$
+        f: (a_1,a_2,a_3,\phi_{12},\phi_{13},\phi_{23})  \xrightarrow{\cong} (a_1',a_2',a_3',\phi'_{12},\phi'_{13},\phi'_{23}),
+        $$
+        which are the data of local isomorphisms 
+        $$
+        f_1: a_1 \xrightarrow{\cong} a_1' \text{ in } F(U_1), \quad f_2: a_2 \xrightarrow{\cong} a_2' \text{ in } F(U_2), \quad \text{and} \quad f_3: a_3 \xrightarrow{\cong} a_3' \text{ in } F(U_3),
+        $$
+        such that the following diagrams, respectively in $F(U_{12})$, $F(U_{13})$, and $F(U_{23})$, commute
+        \[\begin{tikzcd}[cramped]
+        	{R_{1,2}(a_1)} && {R_{1,2}(a_1')} && {R_{1,3}(a_1)} && {R_{1,3}(a_1')} \\
+        	\\
+        	{R_{2,1}(a_2)} && {R_{2,1}(a_2')} && {R_{3,1}(a_3)} && {R_{3,1}(a_3')} \\
+        	\\
+        	&& {R_{2,3}(a_2)} && {R_{2,3}(a_2')} \\
+        	\\
+        	&& {R_{3,2}(a_3)} && {R_{3,2}(a_3')}
+        	\arrow["{{{{R_{1,2}(f_1)}}}}", from=1-1, to=1-3]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-1, to=1-3]
+        	\arrow["{{{{\phi_{1,2}}}}}"', from=1-1, to=3-1]
+        	\arrow["\cong"{description}, shift left=2, draw=none, from=1-1, to=3-1]
+        	\arrow["{{{{\phi'_{1,2}}}}}", from=1-3, to=3-3]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-3, to=3-3]
+        	\arrow["{{{{R_{1,3}(f_1)}}}}", from=1-5, to=1-7]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-5, to=1-7]
+        	\arrow["{{{{\phi_{1,3}}}}}"', from=1-5, to=3-5]
+        	\arrow["\cong"{description}, shift left=2, draw=none, from=1-5, to=3-5]
+        	\arrow["{{{{\phi'_{1,3}}}}}", from=1-7, to=3-7]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-7, to=3-7]
+        	\arrow["{{{{R_{2,1}(f_2)}}}}"', from=3-1, to=3-3]
+        	\arrow["\cong"{description}, shift left=3, draw=none, from=3-1, to=3-3]
+        	\arrow["{{{{R_{3,1}(f_3)}}}}"', from=3-5, to=3-7]
+        	\arrow["\cong"{description}, shift left=3, draw=none, from=3-5, to=3-7]
+        	\arrow["{{{{R_{2,3}(f_2)}}}}", from=5-3, to=5-5]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=5-3, to=5-5]
+        	\arrow["{{{{\phi_{2,3}}}}}"', from=5-3, to=7-3]
+        	\arrow["\cong"{description}, shift left=2, draw=none, from=5-3, to=7-3]
+        	\arrow["{{{{\phi'_{2,3}}}}}", from=5-5, to=7-5]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=5-5, to=7-5]
+        	\arrow["{{{{R_{3,2}(f_3)}}}}"', from=7-3, to=7-5]
+        	\arrow["\cong"{description}, shift left=3, draw=none, from=7-3, to=7-5]
+        \end{tikzcd}\]
+    \end{itemize}
+    We will now consider what happens to local objects when we restrict to the triple overlap $F(U_{123})$. Consider the pair of local objects $a_1 \in F(U_1)$ and $a_3 \in F(U_3)$. We claim that there are two distinct isomorphisms between their restriction on the triple overlap:
+    \begin{enumerate}
+        \item If we start by restricting to the double overlap $F(U_{13})$, we have an isomorphism 
+        $$
+        \phi_{13}: R_{13}(a_1) \xrightarrow{\cong} R_{31}(a_3).
+        $$ 
+        Then, if we restrict to the triple overlap $F(U_{123})$ by applying the functor $T_2$, we obtain an isomorphism
+        $$
+        T_2 (\phi_{13}): T_2(R_{13}(a_1)) \xrightarrow{\cong} T_2(R_{31}(a_3)) \quad \text{in } F(U_{123}).
+        $$
+        \item We can also start by restricting to the double overlaps $F(U_{23})$ and $F(U_{12})$, in which we have isomorphisms 
+        $$
+        \phi_{23}: R_{23}(a_2) \xrightarrow{\cong} R_{32}(a_3) \quad \text{and} \quad \phi_{12}: R_{12}(a_1) \xrightarrow{\cong} R_{21}(a_2).
+        $$
+        Then, if we restrict to the triple overlap $F(U_{123})$ by applying the functors $T_1$ and $T_3$, we have isomorphisms
+        \begin{align*}
+            &T_1 (\phi_{23}): T_1(R_{23}(a_2)) \xrightarrow{\cong} T_1(R_{32}(a_3)) \quad \text{and} \\
+            &T_3 (\phi_{12}): T_3(R_{12}(a_1)) \xrightarrow{\cong} T_3(R_{21}(a_2)) \quad \text{in } F(U_{123}).
+        \end{align*}
+        Since $T_1(R_{23}(a_2)) = T_3(R_{21}(a_2))$, we can compose the two isomorphisms to obtain
+        $$
+        T_1 (\phi_{23}) \circ T_3 (\phi_{12}): T_3(R_{12}(a_1)) \xrightarrow{\cong} T_1(R_{32}(a_3))  \quad \text{in } F(U_{123}).
+        $$
+    \end{enumerate}
+    Thus, we can see that there are two distinct isomorphisms between $a_1$ and $a_3$ on the triple overlap. However, there should not be any ambiguity, so we want these two isomorphisms to agree, that is, we want
+    $$
+    T_1 (\phi_{23}) \circ T_3 (\phi_{12}) = T_2 (\phi_{13}),
+    $$
+    or equivalently, we want the following diagram in $\Grpd$ to commute
+    \[\begin{tikzcd}[cramped]
+    	& {T_3(R_{21}(a_2))} & {T_1(R_{23}(a_2))} & \\
+    	\\
+    	{T_3(R_{12}(a_1))} &&& {T_1(R_{32}(a_3)).}
+    	\arrow["{{=}}"{marking, allow upside down}, draw=none, from=1-2, to=1-3]
+    	\arrow["{{T_1 (\phi_{23})}}", from=1-3, to=3-4]
+    	\arrow["{{T_3 (\phi_{12})}}", from=3-1, to=1-2]
+    	\arrow["{{T_2 (\phi_{13})}}"', from=3-1, to=3-4]
+    \end{tikzcd}\]
+    The problem is that is there no reason that this diagram commutes based on the data we have, so we are missing something. This is the problem with only considering double overlaps in the limit condition, there is ambiguity in the isomorphism on between local objects restricted to the triple overlap. We can solve this by considering the triple overlap in the limit condition. Suppose now that we have an equivalence of categories $F(X) \simeq E$, where
+    \[\begin{tikzcd}
+    	{} & {E = \text{2-lim} \bigg( F(U_1) \times F(U_2) \times F(U_3)} & {\prod F(U_{12}) \times F(U_{13}) \times F(U_{23})} & {\prod F(U_{123}) \bigg)}
+    	\arrow[shift right, from=1-2, to=1-3]
+    	\arrow[shift left, from=1-2, to=1-3]
+    	\arrow[from=1-3, to=1-4]
+    	\arrow[shift left=2, from=1-3, to=1-4]
+    	\arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    that is, $E$ is the 2-limit of the following diagram in $\Grpd$
+    \[\begin{tikzcd}
+        {F(U_3)} &&&& {F(U_2)} \\
+        && {F(U_1)} \\
+        {F(U_{13})} &&&& {F(U_{12})} \\
+        && {F(U_{23})} \\
+        \\
+        && {F(U_{123})}
+        \arrow["{R_{3,1}}"{description}, from=1-1, to=3-1]
+        \arrow["{R_{3,2}}"{description, pos=0.3}, from=1-1, to=4-3]
+        \arrow["{R_{2,1}}"{description}, from=1-5, to=3-5]
+        \arrow["{R_{2,3}}"{description, pos=0.3}, from=1-5, to=4-3]
+        \arrow["{R_{1,3}}"{description, pos=0.3}, from=2-3, to=3-1]
+        \arrow["{R_{1,2}}"{description, pos=0.3}, from=2-3, to=3-5]
+        \arrow["{T_2}"{description}, from=3-1, to=6-3]
+        \arrow["{T_3}"{description}, from=3-5, to=6-3]
+        \arrow["{T_1}"{description}, from=4-3, to=6-3]
+    \end{tikzcd}\]
+    Therefore, $E$ fits into the same three diagrams in $\Grpd$ as above, that commute up to natural isomorphism
+    \[\begin{tikzcd}[cramped,column sep=scriptsize]
+    	E && {F(U_1)} && E && {F(U_1)} && E && {F(U_2)} \\
+    	\\
+    	{F(U_2)} && {F(U_{12})} && {F(U_3)} && {F(U_{13})} && {F(U_3)} && {F(U_{23})}
+    	\arrow[from=1-1, to=1-3]
+    	\arrow[from=1-1, to=3-1]
+    	\arrow["{{{R_{1,2}}}}", from=1-3, to=3-3]
+    	\arrow[from=1-5, to=1-7]
+    	\arrow[from=1-5, to=3-5]
+    	\arrow["{{{R_{1,3}}}}", from=1-7, to=3-7]
+    	\arrow[from=1-9, to=1-11]
+    	\arrow[from=1-9, to=3-9]
+    	\arrow["{{{R_{2,3}}}}", from=1-11, to=3-11]
+    	\arrow["{{{R_{2,1}}}}"', from=3-1, to=3-3]
+    	\arrow["{{{R_{3,1}}}}"', from=3-5, to=3-7]
+    	\arrow["{{{R_{3,2}}}}"', from=3-9, to=3-11]
+    \end{tikzcd}\]
+    and $E$ also fits into the following cube diagram in $\Grpd$ that commutes up to natural isomorphism
+    \[\begin{tikzcd}
+    	E && {F(U_1)} & \\
+    	& {F(U_2)} && {F(U_{12})} \\
+    	{F(U_3)} && {F(U_{13})} \\
+    	\\
+    	& {F(U_{23})} && {F(U_{123})}
+    	\arrow[from=1-1, to=1-3]
+    	\arrow[from=1-1, to=2-2]
+    	\arrow[from=1-1, to=3-1]
+    	\arrow["{R_{1,2}}"{description}, from=1-3, to=2-4]
+    	\arrow["{{R_{1,3}}}"{description, pos=0.3}, from=1-3, to=3-3]
+    	\arrow["{R_{2,1}}"{description, pos=0.2}, from=2-2, to=2-4]
+    	\arrow["{{R_{2,3}}}"{description, pos=0.6}, from=2-2, to=5-2]
+    	\arrow["{{T_3}}"{description}, from=2-4, to=5-4]
+    	\arrow["{{R_{3,1}}}"{description, pos=0.3}, from=3-1, to=3-3]
+    	\arrow["{{R_{3,2}}}"{description}, from=3-1, to=5-2]
+    	\arrow["{{T_2}}"{description}, from=3-3, to=5-4]
+    	\arrow["{{T_1}}"{description}, from=5-2, to=5-4]
+    \end{tikzcd}\]
+    The three squares above represent three faces of the cube, with the other three faces given by the following squares in $\Grpd$ that commute up to equality
+    \[\begin{tikzcd}[cramped,column sep=scriptsize]
+    	{F(U_2)} && {F(U_{12})} && {F(U_1)} && {F(U_{12})} && {F(U_3)} && {F(U_{13})} \\
+    	\\
+    	{F(U_{23})} && {F(U_{123})} && {F(U_{13})} && {F(U_{123})} && {F(U_{23})} && {F(U_{123})}
+    	\arrow["{{R_{2,1}}}", from=1-1, to=1-3]
+    	\arrow["{{R_{2,3}}}"', from=1-1, to=3-1]
+    	\arrow["{{T_3}}", from=1-3, to=3-3]
+    	\arrow["{{R_{1,2}}}", from=1-5, to=1-7]
+    	\arrow["{{R_{1,3}}}"', from=1-5, to=3-5]
+    	\arrow["{{T_3}}", from=1-7, to=3-7]
+    	\arrow["{{R_{3,1}}}", from=1-9, to=1-11]
+    	\arrow["{{R_{3,2}}}"', from=1-9, to=3-9]
+    	\arrow["{{T_2}}", from=1-11, to=3-11]
+    	\arrow["{{T_1}}"', from=3-1, to=3-3]
+    	\arrow["{{T_2}}"', from=3-5, to=3-7]
+    	\arrow["{{T12}}"', from=3-9, to=3-11]
+    \end{tikzcd}\]
+    Thus, we can $E$ is the groupoid with at least the same data as above:
+    \begin{enumerate}
+        \item objects which are $6$-tuples of the form $(a_1, a_2, a_3, \phi_{12}, \phi_{13}, \phi_{23})$, where
+        $$
+        a_1 \in F(U_1), \ a_2 \in F(U_2), \ a_3 \in F(U_3)
+        $$
+        are local objects, and
+        \begin{align*}
+            \phi_{12}: R_{1,2}(a_1) \xrightarrow{\cong} R_{2,1}(a_2) \text{ in } F(U_{12}), \\
+            \phi_{13}: R_{1,3}(a_1) \xrightarrow{\cong} R_{3,1}(a_3) \text{ in } F(U_{13}), \\
+            \phi_{23}: R_{2,3}(a_2) \xrightarrow{\cong} R_{3,2}(a_3) \text{ in } F(U_{23}),
+        \end{align*}
+        are chosen isomorphisms between local objects on double overlaps. 
+        \item isomorphisms which are defined in the same way as above.
+    \end{enumerate}
+    Since we now have the triple overlap $F(U_{123})$ in the diagram, we also need a specified isomorphism between local objects on the triple overlap. Therefore, a natural question to ask is whether we need to include them in the data of an object, as for the isomorphisms on the double overlap $\phi_{12}, \phi_{13}, \phi_{23}$. It turns out we don't need to do this, since the isomorphisms on the triple overlap are completely determined by the specified isomorphisms on double overlaps. For example, if we consider local objects $a_1 \in F(U_1)$ and $a_3 \in F(U_3)$, we have an isomorphism on the triple overlap given by
+    $$
+    T_2(\phi_{13}): T_2(R_{1,3}(a_1)) \xrightarrow{\cong} T_2(R_{3,1}(a_3)).
+    $$
+    Recall from our previous work that there is another isomorphism on the triple overlap, given by
+    $$
+    T_1 (\phi_{23}) \circ T_3 (\phi_{12}): T_3(R_{12}(a_1)) \xrightarrow{\cong} T_1(R_{32}(a_3)).
+    $$
+    Now that we have the triple overlap in our diagram, so $E$ fits into the cube diagram that commutes up to a chosen natural isomorphism, we can see that there must be a unique specified isomorphism between local objects on the triple overlap. Therefore, it is now part of the data of $E$ that
+    $$
+    T_1 (\phi_{23}) \circ T_3 (\phi_{12}) = T_2(\phi_{13}),
+    $$
+    and a similar condition holds for all possible isomorphisms between local objects on the triple overlap, that is, it is also part of the data of $E$ that
+    $$
+    T_1 (\phi_{23}^{-1}) \circ T_2 (\phi_{13}) = T_3(\phi_{12}) \quad \text{and} \quad T_2(\phi_{13}) \circ T_3 (\phi_{12}^{-1}) = T_1(\phi_{23}).
+    $$
+    Thus, we have shown we we need to consider triple overlaps in the limit condition.
+\end{answer}
+
+\begin{remark}
+    This example also shows the large amount of data we need to keep track of when computing a 2-limit. For reference, we will state the data of an arbitrary category of descent data.
+\end{remark}
+
+\begin{definition}
+    For a space $X$, a functor $F: \Open(X)^\op \to \Grpd$, an open subset $U \subset X$, and an open cover $\mathcal{U} = \{ U_i\}$, the category of descent data
+    \[\begin{tikzcd}[cramped]
+    	\Desc(\mathcal{U}, F) = {2\text{-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+    	\arrow[shift right, from=1-1, to=1-2]
+    	\arrow[shift left, from=1-1, to=1-2]
+    	\arrow[from=1-2, to=1-3]
+    	\arrow[shift left=2, from=1-2, to=1-3]
+    	\arrow[shift right=2, from=1-2, to=1-3]
+    \end{tikzcd}\]
+    is the groupoid with the data of:
+    \begin{enumerate}
+        \item objects which are tuples of the form $(a_i, \phi_{ij})$, where
+        $$
+        a_i \in F(U_i)
+        $$
+        are local objects, and
+        $$
+        \phi_{ij}: R_{i,j}(a_i) \xrightarrow{\cong} R_{j,i}(a_j) \text{ in } F(U_{ij})
+        $$
+        are chosen isomorphisms between local objects on double overlaps, with inverses satisfying
+        $$
+        \phi_{ij}^{-1} = \phi_{ji},
+        $$
+        and satisfying the following cocycle condition on triple overlaps
+        $$
+        T_i(\phi_{jk}) \circ T_k(\phi_{ij}) = T_j(\phi_{ik}) \text{ in } F(U_{ijk}),
+        $$
+        \item isomorphisms 
+        $$
+        f: (a_i,\phi_{ij})  \xrightarrow{\cong} (a_i',\phi'_{ij}),
+        $$
+        which are the data of local isomorphisms 
+        $$
+        f_i: a_i \xrightarrow{\cong} a_i' \text{ in } F(U_i),
+        $$
+        such that the following diagram in the each groupoid $F(U_{ij})$ commutes
+        \[\begin{tikzcd}
+        	{R_{i,j}(a_i)} && {R_{i,j}(a_i')} \\
+        	\\
+        	{R_{j,i}(a_j)} && {R_{j,i}(a_j')}
+        	\arrow["{{{{{R_{i,j}(f_i)}}}}}", from=1-1, to=1-3]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-1, to=1-3]
+        	\arrow["{{{{{\phi_{ij}}}}}}"', from=1-1, to=3-1]
+        	\arrow["\cong"{description}, shift left=2, draw=none, from=1-1, to=3-1]
+        	\arrow["{{{{{\phi'_{ij}}}}}}", from=1-3, to=3-3]
+        	\arrow["\cong"{description}, shift right=2, draw=none, from=1-3, to=3-3]
+        	\arrow["{{{{{R_{j,i}(f_j)}}}}}"', from=3-1, to=3-3]
+        	\arrow["\cong"{description}, shift left=3, draw=none, from=3-1, to=3-3]
+        \end{tikzcd}\]
+    \end{enumerate}
+\end{definition}
+
+Next, we want to give concrete examples of stacks and prove they are stacks. However, to do this using the definition we gave above, we would need to show there is an equivalence of categories between $F(U)$ and any category of descent data $\text{Desc}(\mathcal{U}, F)$. This involves defining functors $F: \Open(X)^\op \to \Grpd$ and computing the 2-limit $\text{Desc}(\mathcal{U}, F)$, which as we discussed above are difficult. Therefore, we will first introduce an alternative definition of a stack, using a version of the Grothendieck construction, which will make it easier to prove that something is a stack. We will start by defining a prestack, and then we will define a stack condition for a prestack to be a stack.
+
+\begin{definition}[Prestack]
+    The following is adapted from Definition 1 in \cite{alperNotesStacks}. Let $X$ be a space. A \emph{prestack} over \( \Open(X) \) is a 1-category \( \mathcal{F} \) and a functor \( \pi: \mathcal{F} \to  \Open(X) \) so that
+    \begin{enumerate}
+        \item pullbacks exist: if \( U \hookto V \) in \( \Open(X) \) and \( y \in \pi^{-1}(V) \), then there exists \( x \in \pi^{-1}(U) \) and \( f: x \to y \) so that \( \pi(f): U \hookto V \). We say $f: x \to y$ is a morphism over $U \hookto V$, and we have
+        \[\begin{tikzcd}
+        	x && y \\
+        	\\
+        	U && V
+        	\arrow["f", dashed, from=1-1, to=1-3]
+        	\arrow["\pi"', dashed, maps to, from=1-1, to=3-1]
+        	\arrow["\pi", maps to, from=1-3, to=3-3]
+        	\arrow[hook, from=3-1, to=3-3]
+        \end{tikzcd}\]
+        \item universal property for pullbacks: suppose $U \hookto V \hookto W$ in $\Open(X)$ and $z \in \pi^{-1}(W)$, then we know by (1) that there exists $x \in \pi^{-1}(U)$, $y \in \pi^{-1}(V)$, $f: x \to z$, and $g: y \to z$ so that $\pi(f): U \hookto W$ and $\pi(g) :V \hookto W$. The universal property for pullbacks says that there exists a unique $h: x \to y$ such that $\pi(h): U \hookto V$ and the following diagram commutes
+        \[\begin{tikzcd}
+        	x && y && z \\
+        	\\
+        	U && V && W
+        	\arrow["h", dashed, from=1-1, to=1-3]
+        	\arrow["f", curve={height=-18pt}, from=1-1, to=1-5]
+        	\arrow["\pi", maps to, from=1-1, to=3-1]
+        	\arrow["g", from=1-3, to=1-5]
+        	\arrow["\pi", maps to, from=1-3, to=3-3]
+        	\arrow["\pi", maps to, from=1-5, to=3-5]
+        	\arrow[hook, from=3-1, to=3-3]
+        	\arrow[hook, from=3-3, to=3-5]
+        \end{tikzcd}\]
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    The universal property for pullbacks implies that pullbacks are unique up to isomorphism.
+\end{proposition}
+    
+
+\begin{proof}
+    Let $U \hookto V$ in $\Open(X)$ and $y \in \pi^{-1}(V)$, then there exists $x \in \pi^{-1}(U)$ and $f:x \to y$ so that $\pi(f): U \hookto V$. We want to show that $x$ is unique up to isomorphism. Suppose that we also have $x' \in \pi^{-1}(U)$ and $f': x' \to y$ so that $\pi(f'): U \hookto V$. Therefore, we have the following diagram
+    \[\begin{tikzcd}
+    	{x'} && x && y \\
+    	\\
+    	U && U && V
+    	\arrow["{{{{{{f'}}}}}}", curve={height=-24pt}, from=1-1, to=1-5]
+    	\arrow["\pi", maps to, from=1-1, to=3-1]
+    	\arrow["f", from=1-3, to=1-5]
+    	\arrow["\pi", maps to, from=1-3, to=3-3]
+    	\arrow["\pi", maps to, from=1-5, to=3-5]
+    	\arrow["{{{{{{\id_U}}}}}}", from=3-1, to=3-3]
+    	\arrow[hook, from=3-3, to=3-5]
+    \end{tikzcd}\]
+    so by the universal property for pullbacks there exists a unique $g:x' \to x$ such that $\pi(g): U \xrightarrow{\id_U} U$ and the above diagram including $g$ commutes, so we can see that $f \circ g = f'$. By swapping $x$ and $x'$, we also have the following diagram
+    \[\begin{tikzcd}
+    	x && {x'} && y \\
+    	\\
+    	U && U && V
+    	\arrow["{{{{{{f}}}}}}", curve={height=-24pt}, from=1-1, to=1-5]
+    	\arrow["\pi", maps to, from=1-1, to=3-1]
+    	\arrow["{{f'}}", from=1-3, to=1-5]
+    	\arrow["\pi", maps to, from=1-3, to=3-3]
+    	\arrow["\pi", maps to, from=1-5, to=3-5]
+    	\arrow["{{{{{{\id_U}}}}}}", from=3-1, to=3-3]
+    	\arrow[hook, from=3-3, to=3-5]
+    \end{tikzcd}\]
+    so by the universal property for pullbacks there exists a unique $h: x \to x'$ such that $\pi(h): U \xrightarrow{\id_U} U$ and the above diagram including $h$ commutes, so we can see that $f' \circ h = f$. Then, if consider the following diagram
+    \[\begin{tikzcd}
+    	x && x && y \\
+    	\\
+    	U && U && V
+    	\arrow["f", curve={height=-24pt}, from=1-1, to=1-5]
+    	\arrow[maps to, from=1-1, to=3-1]
+    	\arrow["f", from=1-3, to=1-5]
+    	\arrow["\pi", maps to, from=1-3, to=3-3]
+    	\arrow["\pi", maps to, from=1-5, to=3-5]
+    	\arrow["{{\id_U}}", from=3-1, to=3-3]
+    	\arrow[hook, from=3-3, to=3-5]
+    \end{tikzcd}\]
+    by the universal property for pullbacks there exists a unique $i: x \to x$ such that $\pi(i): U \xrightarrow{\id_U} U$ and the above diagram including $i$ commutes. We can clearly see that the identity morphism $\id_x: x \to x$ satisfies these conditions, and so it is the unique morphism $i = \id_x$. However, we have that the morphism $g \circ h: x \to x$ satisfies 
+    $$
+    \pi(g \circ h) = \pi(g) \circ \pi(h) = \id_U \circ \id_U = \id_U
+    $$ 
+    and
+    $$
+    f \circ (g \circ h) = (f \circ g) \circ h = f' \circ h =f, 
+    $$
+    such that the following diagram commutes
+    \[\begin{tikzcd}
+    	x && x && y \\
+    	\\
+    	U && U && V
+    	\arrow["{{g \circ h}}", from=1-1, to=1-3]
+    	\arrow["f", curve={height=-24pt}, from=1-1, to=1-5]
+    	\arrow[maps to, from=1-1, to=3-1]
+    	\arrow["f", from=1-3, to=1-5]
+    	\arrow["\pi", maps to, from=1-3, to=3-3]
+    	\arrow["\pi", maps to, from=1-5, to=3-5]
+    	\arrow["{{{\id_U}}}", from=3-1, to=3-3]
+    	\arrow[hook, from=3-3, to=3-5]
+    \end{tikzcd}\]
+    Therefore, we have shown that $g \circ h$ also satisfies the conditions of the universal property for pullbacks, and so by uniqueness we have $i = g \circ h = \id_x$. Following the same reasoning, we can show that $h \circ g = \id_{x'}$ as well. Thus, we have shown that $g: x' \xrightarrow{\cong} x$ is an isomorphism, and so the pullback $x$ is unique up to isomorphism.
+\end{proof}
+
+We will now discuss Cartesian fibrations, with the goal of showing that there prestacks over $\Open(X)$ are the same as cartesian fibrations over $\Open(X)$. We start with the relevant definitions.
+
+\begin{definition}[$\pi$-cartesian]
+    Let $\mathcal{F}$ be a 1-category and $\pi: \mathcal{F} \to \Open(X)$ be a functor. We say a morphism $f: x \to y$ in $\mathcal{F}$ is \emph{$\pi$-cartesian} if for every $w \in \mathcal{F}$ the following square is a pullback
+    \[\begin{tikzcd}
+    	{\Hom_{\mathcal{F}}(w, x)} && {\Hom_{\mathcal{F}}(w, y)} \\
+    	\\
+    	{\Hom_{\Open(X)}(\pi (w), \pi (x))} && {\Hom_{\Open(X)}(\pi (w), \pi (y))}
+    	\arrow["{f_*}", from=1-1, to=1-3]
+    	\arrow["\pi"', from=1-1, to=3-1]
+    	\arrow["\pi", from=1-3, to=3-3]
+    	\arrow["{(\pi f)_*}"', from=3-1, to=3-3]
+    \end{tikzcd}\]
+\end{definition}
+
+\begin{definition}[Cartesian fibration]
+    Let $\mathcal{F}$ be a 1-category and $\pi: \mathcal{F} \to \Open(X)$ be a functor. We say $\pi: \mathcal{F} \to \Open(X)$ is a \emph{Cartesian fibration} if for every $U \hookto V$ in $\Open(X)$ and $y \in \pi^{-1}(V)$, there exists a $\pi$-cartesian morphism $f: x \to y$ such that $\pi(f): U \hookto V$.
+\end{definition}
+
+\begin{definition}[Category of Prestacks]
+    There is a category of prestacks over $\Open(X)$, denoted by $\text{Prestack}(\Open(X))$, which is the data of
+    \begin{itemize}
+        \item objects which are prestacks $p: \mathcal{F} \to \Open(X)$, $q: \mathcal{G} \to \Open(X)$, $\cdots$ over $\Open(X)$, and
+        \item morphisms which are functors $F: \mathcal{F} \to \mathcal{G}$ that commute with projections, that is, such that the following diagrams commute
+        \[\begin{tikzcd}
+        	{\mathcal{F}} && {\mathcal{G}} \\
+        	& {\text{Open}(X)}
+        	\arrow["F", from=1-1, to=1-3]
+        	\arrow["p"', from=1-1, to=2-2]
+        	\arrow["q", from=1-3, to=2-2]
+        \end{tikzcd}\]
+        and which send $p$-cartesian morphisms to $q$-cartesian morphisms.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Category of Cartesian fibrations]
+    There is a category of Cartesian fibrations over $\Open(X)$, which we will denote by $\text{Fib}(\Open(X))$, which is the data of 
+    \begin{itemize}
+        \item objects which are Cartesian fibrations $p: \mathcal{F} \to \Open(X)$, $q: \mathcal{G} \to \Open(X)$, $\cdots$ over $\Open(X)$, and
+        \item morphisms which are functors $F: \mathcal{F} \to \mathcal{G}$ that commute with projections, that is, such that the following diagrams commute
+        \[\begin{tikzcd}
+        	{\mathcal{F}} && {\mathcal{G}} \\
+        	& {\text{Open}(X)}
+        	\arrow["F", from=1-1, to=1-3]
+        	\arrow["p"', from=1-1, to=2-2]
+        	\arrow["q", from=1-3, to=2-2]
+        \end{tikzcd}\]
+        and which send $p$-cartesian morphisms to $q$-cartesian morphisms.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+    The two categories 
+    $$
+    \text{Prestack}(\Open(X)) = \text{Fib}(\Open(X)).
+    $$
+    have the same data.
+\end{theorem}
+
+\begin{proof}
+    Our goal is to show that a functor $\pi: \mathcal{F} \to \Open(X)$ is a prestack if and only if it is a Cartesian fibration, such that $\text{Prestack}(\Open(X))$ and $\text{Fib}(\Open(X))$ have exactly the same objects. Then, it will follow from their respective definitions that they have exactly the same morphisms, such that the two categories have exactly the same data. 
+
+    Let $\pi: \mathcal{F} \to \Open(X)$ be a Cartesian fibration, so for every $U \hookto V$ in $\Open(X)$ and $y \in \pi^{-1}(V)$, there exists a $\pi$-cartesian morphism $f: x \to y$ such that $\pi(f): U \hookto V$. The fact that for every $U \hookto V$ in $\Open(X)$ and $y \in \pi^{-1}(V)$ there exists $f: x \to y$ such that $\pi(f): U \hookto V$ is equivalent to the condition that pullbacks exist. Then, the fact that $f$ is $\pi$-cartesian is equivalent to the universal property for pullbacks. Thus, $\pi$ is a Cartesian fibration if and only if it is a prestack.
+\end{proof}
+
+
+Now, the reason we care about prestacks is that there is an equivalence of categories between prestacks over $\Open(X)$ and functors from $\Open(X)^\op \to \Cat$. Therefore, instead of considering functors $F: \Open(X)^\op \to \Grpd$ which are difficult to define, we can always just consider its corresponding prestack over $\Open(X)$ instead. Thus, we need the following theorem.
+
+\begin{theorem}\label{thm:eqFunPrestack}
+    There is are equivalence of categories
+    \[ \Fun(\Open(X)^\op,\Cat) \simeq \text{Prestack}(\Open(X)) \]
+    given by the Grothendieck Construction.
+\end{theorem}
+
+\begin{proof}
+    We will use the fact that the Grothendieck construction is an equivalence of categories
+    $$
+    \Fun(\Open(X)^\op,\Cat) \xrightarrow[\simeq]{\int} \text{Fib}(\Open(X)).
+    $$
+    from Theorem 10.6.16 in \cite{johnsonyau2DimensionalCategories2021}. Then, since $\text{Prestack}(\Open(X)) = \text{Fib}(\Open(X))$, we have 
+    $$
+    \Fun(\Open(X)^\op,\Cat) \simeq \text{Prestack}(\Open(X)) = \text{Fib}(\Open(X)).
+    $$
+\end{proof}
+
+We will now define stacks from prestacks, as a subcategory of prestacks satisfying two conditions.
+
+\begin{definition}[Stack, prestack version]
+    The following is adapted from Definition 3 in \cite{alperNotesStacks}. We say a prestack \( \pi: \mathcal{F} \to  \Open(X) \) is a \emph{stack} if
+    \begin{enumerate}
+        \item morphisms glue: for \( a,b \in \mathcal{F} \) so that \( \pi(a) = \pi(b) = U \), an open cover \( \mathcal{U} = \{ U_i \} \) of \( U \), and morphisms \( \phi_i: a|_{U_{i}} \to b \) such that \( \phi_i|_{U_{ij}}  = \phi_j|_{U_{ij}} \), there exists a unique morphism \( \phi: a \to b \) so that $\pi(\phi) = \id_U$ and the following diagram commutes:
+        \[\begin{tikzcd}
+        	& {a|_{U_i}} &&&&&& {U_i} & \\
+        	{a|_{U_{ij}}} && a && b & {\text{over}} & {U_{ij}} && U \\
+        	& {a|_{U_j}} &&&&&& {U_j}
+        	\arrow[from=1-2, to=2-3]
+        	\arrow["{{{\phi_i}}}"{description}, curve={height=-12pt}, from=1-2, to=2-5]
+        	\arrow[from=1-8, to=2-9]
+        	\arrow[from=2-1, to=1-2]
+        	\arrow[from=2-1, to=3-2]
+        	\arrow["\phi"{description}, dashed, from=2-3, to=2-5]
+        	\arrow[from=2-7, to=1-8]
+        	\arrow[from=2-7, to=3-8]
+        	\arrow[from=3-2, to=2-3]
+        	\arrow["{{{\phi_j}}}"{description}, curve={height=12pt}, from=3-2, to=2-5]
+        	\arrow[from=3-8, to=2-9]
+        \end{tikzcd}\]
+        \item objects glue: for \( a_i \in \pi^{-1}(U_i) \) and isomorphisms \( \psi_{ij}: a_i|_{U_{ij}} \xrightarrow{\cong} a_j|_{U_{ij}} \) satisfying the cocycle condition on triple overlaps
+        \[ \psi_{jk}|_{U_{ijk}} \circ \psi_{ij}|_{U_{ijk}} = \psi_{ik}|_{U_{ijk}}, \]
+        there exists an object \( a \in \pi^{-1}(U) \) and isomorphisms $\phi_i: a |_{U_i} \xrightarrow{\cong} a_i$ so that $\pi(\phi_i) = \id_{U_i}$, $\phi_j |_{U_{ij}} = \psi_{ij} \circ \phi_i |_{U_{ij}}$, and the following diagram commutes: 
+        \[\begin{tikzcd}
+        	& {a_i} &&&&&& \\
+        	{a_i |_{U_{ij}}} &&&&&& {U_i} \\
+        	&&& a & {\text{over}} & {U_{ij}} && U \\
+        	{a_j |_{U_{ij}}} &&&&&& {U_j} \\
+        	& {a_j}
+        	\arrow[from=1-2, to=3-4]
+        	\arrow[from=2-1, to=1-2]
+        	\arrow["{{\psi_{ij}}}", from=2-1, to=4-1]
+        	\arrow[from=2-7, to=3-8]
+        	\arrow[from=3-6, to=2-7]
+        	\arrow[from=3-6, to=4-7]
+        	\arrow[from=4-1, to=5-2]
+        	\arrow[from=4-7, to=3-8]
+        	\arrow[from=5-2, to=3-4]
+        \end{tikzcd}\]
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    We gave a slightly different definition for objects glue in our last meeting. We said that objects glue if for $a_i \in \pi^{-1}(U_i)$ and $\psi_{ij}: a_i |_{U_{ij}} \xrightarrow{\cong} a_j |_{U_{ij}}$ so that $\psi_{jk}|_{ijk} \circ \psi_{ij}|_{ijk} = \psi_{ik}|_{ijk}$, then there exists an object $a \in \pi^{-1}(U)$ so that the following diagram commutes for all $i,j$:
+    \[\begin{tikzcd}
+    	{a |_{U_{i}}} && \\
+    	&& a \\
+    	{a |_{U_j}}
+    	\arrow["{\phi_i}", from=1-1, to=2-3]
+    	\arrow["{\psi_{ij}}"', from=1-1, to=3-1]
+    	\arrow["\cong", draw=none, from=1-1, to=3-1]
+    	\arrow["{\phi_j}"', from=3-1, to=2-3]
+    \end{tikzcd}\]
+\end{remark}
+
+\begin{question}
+    Having defined stacks over $\Open(X)$ as the subcategory of prestacks over $\Open(X)$ for which objects and morphisms glue, then under the above equivalence of categories they correspond to a subcategory of $\Fun(\Open(X)^\op, \Cat)$. A natural question to ask is what this subcategory is?
+\end{question}
+
+\begin{answer}
+    We expect that it is the subcategory of functors $F: \Open(X)^\op \to \Grpd$ satisfying the 2-limit condition in our earlier definition of a stack, so that the two definitions are equivalent.
+\end{answer}
+
+\begin{theorem}
+    Let \( F: \Open(X)^\op \to \Grpd \) be determined by a prestack \( \pi: \mathcal{F} \to \Open(X) \). Then, \( \mathcal{F} \) is a stack according to Definition 1.25 if and only if $F$ is a stack according to Definition 1.1, that is, for all \( U \in \Open(X) \) and for all open covers \( \mathcal{U} = \{ U_i \hookto U \} \), the natural map of groupoids
+    \[\begin{tikzcd}[cramped]
+        {F(U)} & {\text{2-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+        \arrow[from=1-1, to=1-2]
+        \arrow[shift right, from=1-2, to=1-3]
+        \arrow[shift left, from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[shift left=2, from=1-3, to=1-4]
+        \arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    is an equivalence of groupoids.
+\end{theorem}
+\begin{proof}
+    The main idea behind the proof is that objects glue for the prestack $\pi: \mathcal{F} \to \Open(X)$ if and only if the natural map of groupoids 
+    \[\begin{tikzcd}[cramped]
+        {F(U)} & {\text{2-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+        \arrow[from=1-1, to=1-2]
+        \arrow[shift right, from=1-2, to=1-3]
+        \arrow[shift left, from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[shift left=2, from=1-3, to=1-4]
+        \arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    is essentially surjective, and morphisms glue if and only if it is fully faithful. We leave the details to the reader for now, until we find time to include them.
+\end{proof}
+
+\begin{remark}
+    For the sake of completeness, we will also state the previous theorem for a big site.
+\end{remark}
+
+\begin{theorem}\label{thm:twoDefsAgree}
+    Let \( F: \Top^\op \to \Grpd \) be determined by a prestack \( \pi: \mathcal{F} \to \Top \). Then, \( \mathcal{F} \) is a stack according to Definition 1.25 if and only if $F$ is a stack according to Definition 1.1, that is, for all \( X \in \Top^\op \) and for all open covers \( \mathcal{U} = \{ U_i \hookto X \} \), the natural map of groupoids
+    \[\begin{tikzcd}[cramped]
+        {F(X)} & {\text{2-lim} \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg).}
+        \arrow[from=1-1, to=1-2]
+        \arrow[shift right, from=1-2, to=1-3]
+        \arrow[shift left, from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[shift left=2, from=1-3, to=1-4]
+        \arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    is an equivalence of groupoids.
+\end{theorem}
+
+Now that we have given an equivalent definition for stacks in terms of prestacks, which will be easier to work with than the previous definition in terms of functors satisfying a 2-limit condition, we are ready to give concrete examples and prove they are stacks.
+
+\begin{example}
+    Let $F: \Top^{\op} \to \Grpd$ be the assignment of a space $X$ to its groupoid of principal $G$-bundles $\Prin_{G}(X)$, and of a continuous map $f: X \to Y$ to the functor $f^*: \Prin_{G}(Y) \to \Prin_{G}(X)$ defined as follows:
+    \begin{enumerate}
+        \item On objects, $f^*$ sends $P \in \text{Ob}(\Prin_{G}(Y))$ to the pullback $X \times_{Y} P \in \text{Ob}(\Prin_{G}(X))$ of $P$ along $f$, seen as
+        \[\begin{tikzcd}
+        	{X \times_{Y} P} && P \\
+        	\\
+        	X && Y
+        	\arrow[from=1-1, to=1-3]
+        	\arrow[from=1-1, to=3-1]
+        	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=3-3]
+        	\arrow["\pi", two heads, from=1-3, to=3-3]
+        	\arrow["f"', from=3-1, to=3-3]
+        \end{tikzcd}\]
+        \item On morphisms, which are all isomorphisms since $\Prin_{G}(Y)$ is a groupoid, $f^*$ sends $\varphi: P \xrightarrow[]{\cong} P'$ to the isomorphism $f^*\varphi : X \times_{Y} P \xrightarrow[]{\cong} X \times_{Y} P'$ defined by
+        $$
+        (x, p) \mapsto (x, \varphi(p)) = (f^*\varphi)(x,p).
+        $$
+        Note this is well-defined since \( \pi'(\varphi(p)) = \pi(p) = f(x). \)
+    \end{enumerate}
+
+    We claim that \( F \) is a functor from $\Top^\op \to \Grpd$. To show that this is the case, we will show that there is a prestack corresponding to $F$ under the equivalence of categories in \cref{thm:twoDefsAgree}. By the Grothendieck construction, which defines the equivalence of categories in \cref{thm:eqFunPrestack}, if \( F \) were a functor it would correspond to \( \int F \to \Top \), where \( \int F \) is the pullback
+    \[\begin{tikzcd}
+    	{\int F} && {(\Grpd_{\ast,c})^\op} \\
+    	\\
+    	\Top && {\Grpd^\op}
+    	\arrow[from=1-1, to=1-3]
+    	\arrow[from=1-1, to=3-1]
+    	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=3-3]
+    	\arrow[from=1-3, to=3-3]
+    	\arrow["F"', from=3-1, to=3-3]
+    \end{tikzcd}\]
+    and where \( (\Grpd_{\ast,c}) \) is the colax slice of \( \Grpd \). That is, \( (\Grpd_{\ast,c}) \) is the category with pairs \( (A \in \Grpd,a \in \text{Ob}(A)) \) as objects and morphisms \( (A,a) \to (B,b) \) as pairs \( (f,\gamma) \) where \( f: A \to B \) is a functor and \( \gamma: b \to f(a) \) is a morphism in \( B \). Accordingly, \( \int F \) is the category with
+    \begin{enumerate}
+        \item pairs \( (X \in \text{Ob}(\Top), H \in \text{Ob}(F(X))) \) as objects, explicitly \( X \) is a topological space and \( H \) is a principal \( G \)-bundle over \( X \); and
+        \item morphisms \( (X,H) \to (X',H') \) are pairs
+        \[ \left( X \xrightarrow{f} X', H \xrightarrow{\phi} (F(f))(H) \right). \]
+    \end{enumerate}
+    Thus, \( F \) is a well-defined functor if \( \int F \to \Top \) is a prestack. Given any diagram
+    \[\begin{tikzcd}
+    	&& {(Y,H_Y)} \\
+    	\\
+    	X && Y
+    	\arrow[from=1-3, to=3-3]
+    	\arrow[from=3-1, to=3-3]
+    \end{tikzcd},\]
+    we can define the principal \( G \)-bundle \( H_X \) over \( X \) as the pullback
+    \[\begin{tikzcd}
+    	{H_X} && {H_Y} \\
     	\\
     	X && Y
     	\arrow[from=1-1, to=1-3]
     	\arrow[from=1-1, to=3-1]
     	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=3-3]
-    	\arrow["\pi", two heads, from=1-3, to=3-3]
-    	\arrow["f"', from=3-1, to=3-3]
+    	\arrow[from=1-3, to=3-3]
+    	\arrow[from=3-1, to=3-3]
     \end{tikzcd}\]
-    \item On morphisms, which are all isomorphisms since $\Prin_{G}(Y)$ is a groupoid, $f^*$ sends $\varphi: P \xrightarrow[]{\cong} P'$ to the isomorphism $f^*\varphi : X \times_{Y} P \xrightarrow[]{\cong} X \times_{Y} P'$ defined by
-    $$
-    (x, p) \mapsto (x, \varphi(p)) = (f^*\varphi)(x,p).
-    $$
-    Note this is well-defined since \( \pi'(\varphi(p)) = \pi(p) = f(x). \)
-\end{enumerate}
-
-Given a cover \( \mathcal{U} = \{ U_i \}_{i \in I } \) of \( X \),
-\[\begin{tikzcd}[cramped]
-	{F(X)} & {\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
-	\arrow["\cong", from=1-1, to=1-2]
-	\arrow[shift right, from=1-2, to=1-3]
-	\arrow[shift left, from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift left=2, from=1-3, to=1-4]
-	\arrow[shift right=2, from=1-3, to=1-4]
-\end{tikzcd}\]
-is the data of
-\begin{enumerate}
-    \item objects are collections of principal \( G \)-bundles \( (\pi_i,\phi_{i,j})_{i,j} \) with \( \pi_i: P_i \to U_i \) for each i and
-    \[ \phi_{i,j} : R_{i,j}(\pi_i) \xrightarrow{\cong} R_{j,i}(\pi_j) \]
-    such that
-    \[ \phi_{j,k} \circ \phi_{i,j} = \phi_{i,k}; \text{ and} \]
-    \item morphisms \( (\pi_i,\phi_{i,j})_{i,j} \to (P_i,\psi_{i,j})_{i,j} \) the data of a collection of principal \( G \)-bundle morphisms \( (f_i: P_i \to Q_i)_i \) over \( U_i \) such that on every double overlap \( U_{ij} \), \( \psi_{i,j} \circ f_j = f_i \circ \phi_{i,j} \).
-\end{enumerate}
-For principal \( G \)-bundle \( \pi: P \to X \), we are denoting the principal \( G \)-bundle (over \( U_i \)) \( \pi_{i}: \pi^{-1}(U_i) \to U_i) \) as \( P|_{U_i} \).
-
-Given the functors (morphisms in \( \Grpd \)) \( F(X) \to F(U_i) \) induced by inclusion \( U_i \subseteq X \), the definition of limit, gives us a functor \( \Prin_G(X) = F(X) \xrightarrow{\rho} \Desc(\mathcal{U},F) \) that is unique up to unique isomorphism. For a principal \( G \)-bundle \( \pi: P \to X \), \( \rho(\pi) \) is the family \( (\pi|_{i},\phi_{i,j})_{i,j} \) where \( \phi_{i,j}: R_{i,j}(\pi_i) \to R_{j,i}(\pi_j) \) is the identity since \( R_{i,j}(\pi_i) = \pi^{-1}(U_{ij}) = R_{j,i}(\pi_j) \). Further, note that for any descent datum \((\pi_i,\phi_{i,j}) \in \text{Ob}(\Desc(\mathcal{U}, F))\), the cocycle condition implies \( \phi_{i,i} = \id \) and \( \phi_{j,i} = \phi_{i,j}^{-1} \).
-
-We want to show that \( \rho \) is an equivalence of categories. First, we will see that \( \rho \) is full and faithful, ie fully faithful.
-
-Consider two morphisms \( f,g: P \to Q \) of principal \( G \)-bundles over \( X \) and suppose \( \rho(f) = \rho(g) \). Then, for each \( i \),
-\[ f|_{\pi^{-1}(U_i)} = g|_{\pi^{-1}(U_i)}. \]
-But, \( P = \bigcup_i \pi^{-1}(U_i) \) because \( \{ U_i \} \) covers \( X \), so \( f \) and \( g \) agree on an open cover of \( P \) so \( f = g \). Thus, \( \rho \) is faithful.
-
-Suppose we have principal \( G \)-bundles \( P,Q \in \Prin_G(X) = F(X) \) and morphism \( (f_i)_i: \rho(P) \to \rho(Q) \) in \( \Desc(\mathcal{U},F) \). So each \( f_i : P|_{U_i} \to Q|_{U_i} \) is a principal \( G \)-bundle morphism over \( U_i \), and the descent condition says that on overlaps \( U_{ij} \), the two restrictions agree under the canonical identifications. Since these identifications, as noted above, are just the obvious ones induced by \( U_{ij} \subseteq U_i \) and \( U_{ij} \subseteq U_j \), we have \( f_i = f_j \) on \( P|_{U_{ij}} \). Thus, we define \( f: P \to Q \) by
-\[ f(p) = f_i(p) \qquad \text{ if } \pi(p) \in U_i, \]
-which is well-defined on overlaps.
-
-Note that \( f \) is continuous because \( \bigcup_i \pi^{-1}(U_i) \) is an open covering of \( P \) and \( f_i = f|_{\pi^{-1}(U_i)} \) is continuous. Further, note that
-\[\begin{tikzcd}
-	P && Q \\
-	\\
-	& U
-	\arrow["f", from=1-1, to=1-3]
-	\arrow[from=1-1, to=3-2]
-	\arrow[from=1-3, to=3-2]
-\end{tikzcd}\]
-commutes for all \( i \), so
-\[\begin{tikzcd}
-	P && Q \\
-	\\
-	& X
-	\arrow["f", from=1-1, to=1-3]
-	\arrow[from=1-1, to=3-2]
-	\arrow[from=1-3, to=3-2]
-\end{tikzcd}\]
-commutes. Similarly, \( f \)is \( G \)-equivariant on \( \pi^{-1}(U_i) \) for all \( i \), so \( f \) is \( G \)-equivariant on \( P \).
-
-Thus, \( f \) is a principal \( G \)-bundle morphism. By construction \( \rho(f) = (f_i)_i \). Hence \( \rho \) is full.
-
-Now, all that is left to show is that \( \rho \) is essentially surjective. Suppose \( (\pi: \P_i \to U_i,\phi_{i,j}) \in \text{Ob}(\Desc(\mathcal{U},F)) \). We want to construct a principal \( G \)-bundle on \( X \) whose local restrictions (to \( U_i \)) recover this descent datum. Define
-\[ P:= \left( \bigsqcup_i P_i \right)/\sim \]
-with equivalence relation \( p_i \sim \phi_{i,j}(p_i) \) for \( p_i \in P_i|_{U_{ij}} = \pi_i^{-1}(U_{ij}) \). Define \( \pi: P \to X \) by \( [p_i] \mapsto \pi_i(p_i) \) which is well-defined since if \( p_j = \phi_{i,j}(p_i) \), then \( \pi_j(p_j) = \pi_i(p_i) \) since \( \phi_{i,j} \) is a fiber bundle map over \( U_{ij} \).
-
-Now, define a right \( G \)-action on \( P \) by \( [p_i]\cdot g := [p_i \cdot g] \). This is well-defined: suppose \( [p_i] = [p_j] \) so \( p_j = \phi_{i,j}(p_i) \) on \( U_{ij} \). Since \( \phi_{i,j} \) \( G \)-equivariant, \( p_j \cdot g = \phi_{i,j}(p_i) \cdot g = \phi_{i,j}(p_i \cdot g) \). Thus, \( p_i \cdot g \sim p_j \cdot g \), so \( [p_i \cdot g] = [p_j \cdot g] \), so indeed this action is well-defined.
-
-For each \( i \), define \( \theta_i: P_i \to \pi^{-1} \) by \( p \mapsto [p] \). \( \theta_i \) preserves projection maps since \( \pi(\theta_i(p)) = \pi([p]) = \pi_i(p) \), and \( \theta_i \) respects the right \( G \)-action becasue for every \( p \in P_i \) and \( g \in G \), \( \theta_i(p\cdot g) = [p\cdot g] = [p] \cdot g = \theta_i(p)\cdot g \), so \( \theta_i \) is a morphism of principal \( G \)-bundles over \( U_i \). Its inverse \( \eta_i: \pi^{-1}(U_i) \to P_i \) given by \( [p_j] \mapsto \phi_{j,i}(p_j) \) is also a morphism of principle \( G \)-bundles over \( U_i \), so
-\[ \eta_i: \pi^{-1}(U_i) \xrightarrow{\cong} P_i \]
-in \( \Prin_G(U_i) \).
-
-Thus, the restriction of \( \pi:P \to X \) to \( U_i \) is exactly the given bundle \( \pi_i:P_i\to U_i \). Since \( \pi_i \) is a principal \( G \)-bundle, for each \( x\in U_i \), there exists open \( x \in V_x \subseteq U_i \) such that there exists \( \alpha_x: P_i|_{V_x} \xrightarrow{\cong} V_x \times G \) in \( \Prin_G(V_x) \). Thus, we define \( h_x:= \alpha_x \circ \eta_i: P|_{V_x} = \pi^{-1}(V_x) \xrightarrow{\cong} V_x \times G \). Thus, for any \( x \in X \), choose \( U_i \ni x \) and then see there exists open \( x\in V_x \subseteq U_i \subseteq X \) such that \( \pi: P \to X \) looks like \( V_x \times G \) over \( V_x \).
-
-On an overlap \( V_x \cap V_y \) with \( x \in U_i \) and \( y \in U_j \), \( h_x h_y^{-1} = \alpha_x \circ \eta_i\theta_j \circ \alpha_y^{-1} = \alpha_x \circ \phi_{j,i} \circ \alpha_y^{-1} \), which is an isomorphism of principal \( G \)-bundles over \( V_x \cap V_y \). Thus, it lies over the identity and commutes with the right \( G \)-action, so it must be of the form \( (u,g) \mapsto (u,g_{xy}(u)g) \) for a continuous \( g_{xy}: V_x \cap V_y \to G \). Thus, \( \pi: P \to X \) is a principal \( G \)-bundle over \( X \), and we have that \( \rho \) is essentially surjective.
-
-Thus, we conclude, \( \rho \) is fully faithful and essentially surjective, so it is a equivalence of categories. Hence, \( F \) is a stack as desired.
+    and see that the diagram
+    \[\begin{tikzcd}
+    	{(X,H_X)} && {(Y,H_Y)} \\
+    	\\
+    	X && Y
+    	\arrow[from=1-1, to=1-3]
+    	\arrow[maps to, from=1-1, to=3-1]
+    	\arrow[maps to, from=1-3, to=3-3]
+    	\arrow[from=3-1, to=3-3]
+    \end{tikzcd}\]
+    commutes. Thus, we have that there exists pullbacks. We just need to check universality of this pullback. Given the diagram
+    \[\begin{tikzcd}
+    	{(X',H_{X'})} && {(X,H_X)} && {(Y,H_Y)} \\
+    	\\
+    	{X'} && X && Y
+    	\arrow[curve={height=-18pt}, from=1-1, to=1-5]
+    	\arrow[maps to, from=1-1, to=3-1]
+    	\arrow[from=1-3, to=1-5]
+    	\arrow[maps to, from=1-3, to=3-3]
+    	\arrow[maps to, from=1-5, to=3-5]
+    	\arrow[from=3-1, to=3-3]
+    	\arrow[from=3-3, to=3-5]
+    \end{tikzcd}\]
+    by the universality of the pullback construction of \( H_X \), there exists a unique morphism \( H_{X'} \to H_X\) such that the unique induced morphism \( (X',H_{X'}) \to (X,H_X) \) makes the diagram
+    \[\begin{tikzcd}
+    	{(X',H_{X'})} && {(X,H_X)} && {(Y,H_Y)} \\
+    	\\
+    	{X'} && X && Y
+    	\arrow[dashed, from=1-1, to=1-3]
+    	\arrow[curve={height=-18pt}, from=1-1, to=1-5]
+    	\arrow[maps to, from=1-1, to=3-1]
+    	\arrow[from=1-3, to=1-5]
+    	\arrow[maps to, from=1-3, to=3-3]
+    	\arrow[maps to, from=1-5, to=3-5]
+    	\arrow[from=3-1, to=3-3]
+    	\arrow[from=3-3, to=3-5]
+    \end{tikzcd}\]
+    commute. Thus, \( \int F \to \Top \) is a prestack, so \( F \) is a well-defined functor as desired. We can now prove that $F$ is a stack using both definitions.
 \end{example}
 
-Recall that when we were studying sheaves, we had the notion of a presheaf. Every sheaf was a presheaf and this inclusion had an adjoint called sheafification. That is, given any presheaf (functor) \( F: \Open(X)^\op \to \Ab \), we can sheafify to get a sheaf \( F^\sharp \). There is a similar process here. Any stack is a prestack and this inclusion gives an adjoint called stackification. The notion of a prestack is in fact much more complicated than that of a presheaf, though. Hence, although we can stackify any prestack, we will just define stackfication over functors into \( \Grpd \) from a site. That is, things that would feasibly descend to a stack in the way we have described it above.
-
-\textcolor{blue}{Define weak equivalence}
-\begin{theorem}[Adapted from \cite{moerdijk2002introductionlanguagestacksgerbes}]
-    Suppose \( F: \Open(X)^\op \to \Grpd \). Then, there exists an associated stack \( \hat{F} \). That is, there exists a stack \( \hat{F} \) and a weak equivalence \( F \to \hat{F} \).
-\end{theorem}
 \begin{proof}
-    Most concisely, we can define the associated stack as a 2-colimit:
-    \[ \hat{F} = \colim_{\mathcal{U} \in \Cov(X)} \Desc(\mathcal{U},F). \]
-    More concretely, define \( \hat{F}(X) \) as follows:
-    \begin{enumerate}
-        \item an object consists of a cover \( \mathcal{U} = \{ U_i \} \) of \( X \) and an object \( (a,\theta) \) of \( \Desc(\mathcal{U},F) \), and
-        \item for two such objects \( (a,\theta) \) of \( \Desc(\mathcal{U},F) \) and \( (b,\rho) \) of \( \Desc(\mathcal{V},F) \) for open covers \( \mathcal{U} = \{ U_i \}, \mathcal{V} = \{ V_i \} \) of \( X \), a morphism \( (a,\theta) \xrightarrow{f} (b,\rho) \) consists of a system of morphisms
-        \[ f_{\alpha,\beta}: a_{\alpha}|_{U_\alpha \cap V_\beta} \to b_\beta|_{U_\alpha \cap V_\beta} \]
-    \end{enumerate}
-    such that for any \( \alpha,\alpha' \in A \) and \( \beta,\beta' \in B \), the diagram
+    (prestack definition) We will prove that the prestack \( \int F \to \Top \) is a stack. First, we show that morphisms glue. Let $(X,P),(X,Q) \in \int F$ be objects lying over the same space \(X\), where \(P,Q\) are principal \(G\)-bundles over \(X\). Let $\pi_P: P \to X$ and $\pi_Q : Q \to X$ be their projection maps. Let \(\mathcal U=\{U_i\}\) be an open cover of \(X\). Suppose we are given $\phi_i : (X,P)|_{U_i} \to (X,Q)$ such that $\phi_i|_{U_{ij}}=\phi_j|_{U_{ij}}$ for all \(i,j\). We need to show there exists a unique $\phi: (X,P) \to (X,Q)$ so that the following diagram commutes
     \[\begin{tikzcd}
-    	{a_\alpha|_{U_{\alpha\alpha'}\cap V_{\beta\beta'}}} && {b_{\beta}|_{U_{\alpha\alpha'}\cap V_{\beta\beta'}}} \\
-    	\\
-    	{a_{\alpha'}|_{U_{\alpha\alpha'}\cap V_{\beta\beta'}}} && {b_{\beta'}|_{U_{\alpha\alpha'}\cap V_{\beta\beta'}}}
-    	\arrow["{f_{\alpha,\beta}}", from=1-1, to=1-3]
-    	\arrow["{\theta_{\alpha \alpha'}}"{description}, from=3-1, to=1-1]
-    	\arrow["{f_{\alpha',\beta'}}", from=3-1, to=3-3]
-    	\arrow["{\rho_{\beta\beta'}}"{description}, from=3-3, to=1-3]
+    	& {(X, P)|_{U_i}} &&& \\
+    	{(X, P)|_{U_{ij}}} && {(X, P)} && {(X, Q)} \\
+    	& {(X, P)|_{U_j}}
+    	\arrow[from=1-2, to=2-3]
+    	\arrow["{{{\phi_i}}}"{description}, curve={height=-12pt}, from=1-2, to=2-5]
+    	\arrow[from=2-1, to=1-2]
+    	\arrow[from=2-1, to=3-2]
+    	\arrow["\phi"{description}, dashed, from=2-3, to=2-5]
+    	\arrow[from=3-2, to=2-3]
+    	\arrow["{{{\phi_j}}}"{description}, curve={height=12pt}, from=3-2, to=2-5]
     \end{tikzcd}\]
-    commutes.
+    Note that $(X, P) |_{U_i} = (U_i, P |_{U_i})$, so we are given $\phi_i: (U_i, P |_{U_i}) \to (X, Q)$. Since these morphisms lie over the inclusion $U_i \hookto X$, they are equivalent to morphisms of principal $G$-bundles $\phi_i: P |_{U_i} \to Q |_{U_i}$ over $U_i$. Then, the condition that $\phi_i |_{U_{ij}} = \phi_j |_{U_{ij}}$ means they agree on double overlaps. Therefore, we can define a map $\phi: P \to Q$ by
+    $$
+    \phi(p) = \phi_i(p) \quad \text{whenever } \pi_P(p) \in U_i.
+    $$
+    We need to check that this map is actually well-defined. If $p \in \pi_P^{-1}(U_i \cap U_j)$ then $\phi(p) = \phi_i(p) = \phi_j(p)$, so $\phi$ is well-defined. We also need to check that $\phi$ is a morphism of principal $G$-bundles. We start by showing that $\phi$ is continuous. We know that the collection of $\pi_P^{-1}(U_i)$ form an open cover of $P$, and on each one $\phi$ agrees with the continuous map $\phi_i$, so $\phi$ is continuous. Next, we claim that $\phi$ is compatible with projections, which follows directly from the fact that each $\phi_i$ is. Finally, we show that $\phi$ is $G$-equivariant. For $p \in \pi_P^{-1}(U_i)$, we have
+    $$
+    \phi(p \cdot g) = \phi_i(p \cdot g) = \phi_i(p) \cdot g = \phi(p) \cdot g.
+    $$
+    Thus, we have shown that $\phi$ is a morphism of principal $G$-bundles. The uniqueness follows from the fact that any such morphism restricting to all $\phi_i$ must agree with $\phi$ on the open cover $\pi_P^{-1}(U_i)$ of $P$. This completes the proof that morphisms glue. 
+    
+    Next, we show that objects glue. Suppose we are given $(U_i, P_i)$ living over $U_i$, where $P_i$ is a principal $G$-bundle over $U_i$ with projection map $\pi_i:P_i\to U_i$. Let $\psi_{ij} : (U_i, P_i) |_{U_{ij}} \xrightarrow{\cong} (U_j, P_j) |_{U_{ij}}$ be isomorphisms satisfying
+    $$
+    \psi_{jk}|_{U_{ijk}}
+    \circ
+    \psi_{ij}|_{U_{ijk}}
+    =
+    \psi_{ik}|_{U_{ijk}}.
+    $$
+    We want to show that there exists $(X, P)$, where $P$ is a principal $G$-bundle over $X$ with projection map $\pi_P: P \to X$, so that the following diagram commutes
+    \[\begin{tikzcd}
+    	{(X, P)|_{U_i}} && \\
+    	&& {(X, P)} \\
+    	{(X, P)|_{U_j}}
+    	\arrow["{{\phi_i}}"{description}, from=1-1, to=2-3]
+    	\arrow["{{\psi_{ij}}}"{description}, from=1-1, to=3-1]
+    	\arrow["{{\phi_j}}"{description}, from=3-1, to=2-3]
+    \end{tikzcd}\]
+    Since $(U_i, P_i) |_{U_{ij}} = (U_{ij}, P_i |_{U_{ij}})$, we have that $\psi_{ij} : (U_i, P_i) |_{U_{ij}} \xrightarrow{\cong} (U_j, P_j) |_{U_{ij}}$ is an isomorphism of principal $G$-bundles $\psi_{ij}: P_i |_{U_{ij}} \xrightarrow{\cong} P_j | U_{ij}$ over $U_{ij}$. We need to construct a global principal $G$-bundle $P$ over $X$, which we do by defining the space
+    $$
+    P = \left( \bigsqcup_i P_i \right) / \sim,
+    $$
+    where the equivalence relation is $p_i \sim \psi_{ij}(p_i)$ for $p_i \in P_i |_{U_{ij}}$. Note that the cocycle condition on triple overlaps implies that this equivalence relation is transitive. Then, we define the projection map $\pi_P: P \to X$ by 
+    $$
+    \pi_P([p_i]) = \pi_i(p_i).
+    $$
+    We need to check that this map is well-defined. If $p_j = \psi_{ij}(p_i)$, then because $\psi_{ij}$ is a morphism of principal $G$-bundles over $U_{ij}$, we have $\pi_j(p_j) = \pi_i(p_i)$. Next, we want to define the $G$-action by
+    $$
+    [p_i] \cdot g = [p_i \cdot g].
+    $$
+    This is well-defined since each $\psi_{ij}$ is $G$-equivariant, that is, we have
+    $$
+    \psi_{ij}(p_i \cdot g) = \psi_{ij}(p_i) \cdot g.
+    $$
+    Now, we define each $\phi_i: (U_i, P_i) \to (X, P)$ by the quotient maps $\phi_i(p) = [p]$, which induce isomorphisms $P_i \cong P |_{U_i}$. Finally, we check compatibility with transition maps on overlaps, that is, the following diagram commutes 
+    \[\begin{tikzcd}
+    	{(U_i,P_i)|_{U_{ij}}} && {(X,P)|_{U_{ij}}} \\
+    	\\
+    	{(U_j,P_j)|_{U_{ij}}}
+    	\arrow[from=1-1, to=1-3]
+    	\arrow["{\psi_{ij}}"', from=1-1, to=3-1]
+    	\arrow[from=3-1, to=1-3]
+    \end{tikzcd}\]
+    Since each $P_i \to U_i$ is locally trivial, the glued principal $G$-bundle $P \to X$ is locally trivial, so it is a principal $G$-bundle. This completes the proof that objects glue.
 \end{proof}
 
-\begin{example}[Constant Stack]
-    Suppose \( F : \Open(X)^\op \to \Grpd \) is constant. Then, the constant stack is the associated stack of \( F \).
-\end{example}
+\begin{proof}
+    (2-limit condition) We can also prove that the functor $F: \Top^\op \to \Grpd$ is a stack. Given a cover \( \mathcal{U} = \{ U_i \}_{i \in I } \) of \( X \),
+    \[\begin{tikzcd}[cramped]
+    	{F(X)} & {\lim \bigg( \prod F(U_i)} & {\prod F(U_i \cap U_j)} & {\prod F(U_i \cap U_j \cap U_k) \bigg)}
+    	\arrow["\cong", from=1-1, to=1-2]
+    	\arrow[shift right, from=1-2, to=1-3]
+    	\arrow[shift left, from=1-2, to=1-3]
+    	\arrow[from=1-3, to=1-4]
+    	\arrow[shift left=2, from=1-3, to=1-4]
+    	\arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+    is the data of
+    \begin{enumerate}
+        \item objects are collections of principal \( G \)-bundles \( (\pi_i,\phi_{i,j})_{i,j} \) with \( \pi_i: P_i \to U_i \) for each i and
+        \[ \phi_{i,j} : R_{i,j}(\pi_i) \xrightarrow{\cong} R_{j,i}(\pi_j) \]
+        such that
+        \[ \phi_{j,k} \circ \phi_{i,j} = \phi_{i,k}; \text{ and} \]
+        \item morphisms \( (\pi_i,\phi_{i,j})_{i,j} \to (P_i,\psi_{i,j})_{i,j} \) the data of a collection of principal \( G \)-bundle morphisms \( (f_i: P_i \to Q_i)_i \) over \( U_i \) such that on every double overlap \( U_{ij} \), \( \psi_{i,j} \circ f_j = f_i \circ \phi_{i,j} \).
+    \end{enumerate}
+    For principal \( G \)-bundle \( \pi: P \to X \), we are denoting the principal \( G \)-bundle (over \( U_i \)) \( \pi_{i}: \pi^{-1}(U_i) \to U_i) \) as \( P|_{U_i} \).
+    
+    Given the functors (morphisms in \( \Grpd \)) \( F(X) \to F(U_i) \) induced by inclusion \( U_i \subseteq X \), the definition of limit, gives us a functor \( \Prin_G(X) = F(X) \xrightarrow{\rho} \Desc(\mathcal{U},F) \) that is unique up to unique isomorphism. For a principal \( G \)-bundle \( \pi: P \to X \), \( \rho(\pi) \) is the family \( (\pi|_{i},\phi_{i,j})_{i,j} \) where \( \phi_{i,j}: R_{i,j}(\pi_i) \to R_{j,i}(\pi_j) \) is the identity since \( R_{i,j}(\pi_i) = \pi^{-1}(U_{ij}) = R_{j,i}(\pi_j) \). Further, note that for any descent datum \((\pi_i,\phi_{i,j}) \in \text{Ob}(\Desc(\mathcal{U}, F))\), the cocycle condition implies \( \phi_{i,i} = \id \) and \( \phi_{j,i} = \phi_{i,j}^{-1} \).
+    
+    We want to show that \( \rho \) is an equivalence of categories. First, we will see that \( \rho \) is full and faithful, ie fully faithful.
+    
+    Consider two morphisms \( f,g: P \to Q \) of principal \( G \)-bundles over \( X \) and suppose \( \rho(f) = \rho(g) \). Then, for each \( i \),
+    \[ f|_{\pi^{-1}(U_i)} = g|_{\pi^{-1}(U_i)}. \]
+    But, \( P = \bigcup_i \pi^{-1}(U_i) \) because \( \{ U_i \} \) covers \( X \), so \( f \) and \( g \) agree on an open cover of \( P \) so \( f = g \). Thus, \( \rho \) is faithful.
+    
+    Suppose we have principal \( G \)-bundles \( P,Q \in \Prin_G(X) = F(X) \) and morphism \( (f_i)_i: \rho(P) \to \rho(Q) \) in \( \Desc(\mathcal{U},F) \). So each \( f_i : P|_{U_i} \to Q|_{U_i} \) is a principal \( G \)-bundle morphism over \( U_i \), and the descent condition says that on overlaps \( U_{ij} \), the two restrictions agree under the canonical identifications. Since these identifications, as noted above, are just the obvious ones induced by \( U_{ij} \subseteq U_i \) and \( U_{ij} \subseteq U_j \), we have \( f_i = f_j \) on \( P|_{U_{ij}} \). Thus, we define \( f: P \to Q \) by
+    \[ f(p) = f_i(p) \qquad \text{ if } \pi(p) \in U_i, \]
+    which is well-defined on overlaps.
+    
+    Note that \( f \) is continuous because \( \bigcup_i \pi^{-1}(U_i) \) is an open covering of \( P \) and \( f_i = f|_{\pi^{-1}(U_i)} \) is continuous. Further, note that
+    \[\begin{tikzcd}
+    	P && Q \\
+    	\\
+    	& U
+    	\arrow["f", from=1-1, to=1-3]
+    	\arrow[from=1-1, to=3-2]
+    	\arrow[from=1-3, to=3-2]
+    \end{tikzcd}\]
+    commutes for all \( i \), so
+    \[\begin{tikzcd}
+    	P && Q \\
+    	\\
+    	& X
+    	\arrow["f", from=1-1, to=1-3]
+    	\arrow[from=1-1, to=3-2]
+    	\arrow[from=1-3, to=3-2]
+    \end{tikzcd}\]
+    commutes. Similarly, \( f \)is \( G \)-equivariant on \( \pi^{-1}(U_i) \) for all \( i \), so \( f \) is \( G \)-equivariant on \( P \).
+    
+    Thus, \( f \) is a principal \( G \)-bundle morphism. By construction \( \rho(f) = (f_i)_i \). Hence \( \rho \) is full.
+    
+    Now, all that is left to show is that \( \rho \) is essentially surjective. Suppose \( (\pi: \P_i \to U_i,\phi_{i,j}) \in \text{Ob}(\Desc(\mathcal{U},F)) \). We want to construct a principal \( G \)-bundle on \( X \) whose local restrictions (to \( U_i \)) recover this descent datum. Define
+    \[ P:= \left( \bigsqcup_i P_i \right)/\sim \]
+    with equivalence relation \( p_i \sim \phi_{i,j}(p_i) \) for \( p_i \in P_i|_{U_{ij}} = \pi_i^{-1}(U_{ij}) \). Define \( \pi: P \to X \) by \( [p_i] \mapsto \pi_i(p_i) \) which is well-defined since if \( p_j = \phi_{i,j}(p_i) \), then \( \pi_j(p_j) = \pi_i(p_i) \) since \( \phi_{i,j} \) is a fiber bundle map over \( U_{ij} \).
+    
+    Now, define a right \( G \)-action on \( P \) by \( [p_i]\cdot g := [p_i \cdot g] \). This is well-defined: suppose \( [p_i] = [p_j] \) so \( p_j = \phi_{i,j}(p_i) \) on \( U_{ij} \). Since \( \phi_{i,j} \) \( G \)-equivariant, \( p_j \cdot g = \phi_{i,j}(p_i) \cdot g = \phi_{i,j}(p_i \cdot g) \). Thus, \( p_i \cdot g \sim p_j \cdot g \), so \( [p_i \cdot g] = [p_j \cdot g] \), so indeed this action is well-defined.
+    
+    For each \( i \), define \( \theta_i: P_i \to \pi^{-1} \) by \( p \mapsto [p] \). \( \theta_i \) preserves projection maps since \( \pi(\theta_i(p)) = \pi([p]) = \pi_i(p) \), and \( \theta_i \) respects the right \( G \)-action becasue for every \( p \in P_i \) and \( g \in G \), \( \theta_i(p\cdot g) = [p\cdot g] = [p] \cdot g = \theta_i(p)\cdot g \), so \( \theta_i \) is a morphism of principal \( G \)-bundles over \( U_i \). Its inverse \( \eta_i: \pi^{-1}(U_i) \to P_i \) given by \( [p_j] \mapsto \phi_{j,i}(p_j) \) is also a morphism of principle \( G \)-bundles over \( U_i \), so
+    \[ \eta_i: \pi^{-1}(U_i) \xrightarrow{\cong} P_i \]
+    in \( \Prin_G(U_i) \).
+    
+    Thus, the restriction of \( \pi:P \to X \) to \( U_i \) is exactly the given bundle \( \pi_i:P_i\to U_i \). Since \( \pi_i \) is a principal \( G \)-bundle, for each \( x\in U_i \), there exists open \( x \in V_x \subseteq U_i \) such that there exists \( \alpha_x: P_i|_{V_x} \xrightarrow{\cong} V_x \times G \) in \( \Prin_G(V_x) \). Thus, we define \( h_x:= \alpha_x \circ \eta_i: P|_{V_x} = \pi^{-1}(V_x) \xrightarrow{\cong} V_x \times G \). Thus, for any \( x \in X \), choose \( U_i \ni x \) and then see there exists open \( x\in V_x \subseteq U_i \subseteq X \) such that \( \pi: P \to X \) looks like \( V_x \times G \) over \( V_x \).
+    
+    On an overlap \( V_x \cap V_y \) with \( x \in U_i \) and \( y \in U_j \), \( h_x h_y^{-1} = \alpha_x \circ \eta_i\theta_j \circ \alpha_y^{-1} = \alpha_x \circ \phi_{j,i} \circ \alpha_y^{-1} \), which is an isomorphism of principal \( G \)-bundles over \( V_x \cap V_y \). Thus, it lies over the identity and commutes with the right \( G \)-action, so it must be of the form \( (u,g) \mapsto (u,g_{xy}(u)g) \) for a continuous \( g_{xy}: V_x \cap V_y \to G \). Thus, \( \pi: P \to X \) is a principal \( G \)-bundle over \( X \), and we have that \( \rho \) is essentially surjective.
+    
+    Thus, we conclude, \( \rho \) is fully faithful and essentially surjective, so it is a equivalence of categories. Hence, \( F \) is a stack as desired.
+\end{proof}
